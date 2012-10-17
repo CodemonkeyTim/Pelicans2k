@@ -5,9 +5,9 @@ Pelicans2k::Application.routes.draw do
 
   get "page/rules"
 
-  get "page/teams"
-
-  get "page/skating_school"
+  match "/luistelukoulu" => "page#skating_school"
+  match "/joukkueet" => "page#teams"
+  match "/seura_info" => "page#club_info"
   
   root :to => "page#index"
 
