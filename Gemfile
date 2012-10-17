@@ -5,8 +5,12 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'mysql2'
 
+#Authentication
+gem 'devise'
+
+gem 'therubyracer'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -20,7 +24,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+#JS and CSS libraries
 gem 'jquery-rails'
+gem 'twitter-bootstrap-rails'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -32,7 +39,7 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 # To use debugger
 # gem 'debugger'
