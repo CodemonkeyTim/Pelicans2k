@@ -8,7 +8,41 @@
 </head>
 <body>
 
-<%= yield %>
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			    <span class="icon-bar"></span>
+			    <span class="icon-bar"></span>
+			    <span class="icon-bar"></span>
+			</a>
+			
+			<a class="brand" href="#">Pelicans 2000</a>
+			
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="active"><a href="#">Etusivu</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<%= yield %>
+	</div>
+	
+	<div class="row">
+		<div class="span12">
+			<h4 class="centered">&copy; HMS Vuoto</h4> 
+		</div>
+	</div>
+</div>
+
 
 </body>
 </html>

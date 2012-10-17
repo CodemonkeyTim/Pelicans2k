@@ -1,4 +1,16 @@
 Pelicans2k::Application.routes.draw do
+  get "page/index"
+
+  get "page/links"
+
+  get "page/rules"
+
+  get "page/teams"
+
+  get "page/skating_school"
+  
+  root :to => "page#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
