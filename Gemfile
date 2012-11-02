@@ -10,7 +10,8 @@ gem 'mysql2'
 #Authentication
 gem 'devise'
 
-gem 'therubyracer', :platform => 'ruby'
+gem 'therubyracer', :platforms => "ruby"
+gem 'execjs'
 
 # Gems used only for assets and not required
 # in production environments by default.
