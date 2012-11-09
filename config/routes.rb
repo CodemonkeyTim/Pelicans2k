@@ -29,6 +29,10 @@ Pelicans2k::Application.routes.draw do
   match "/joukkueiden_hallinta" => "private_pages#manage_teams"
   match "/muokkaa_joukkuetta/:id" => "private_pages#edit_team"
   
+  match "/kayttajien_hallinta" => "private_pages#manage_users"
+  match "/muokkaa_kayttajaa/:id" => "private_pages#edit_user"
+  match "/uusi_salasana/:id" => "private_pages#new_user_password"
+  
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
   match "/get_cal_for_all" => "ajax#get_cal_for_all"
@@ -51,5 +55,7 @@ Pelicans2k::Application.routes.draw do
   match "/update_team" => "ajax#update_team"
   match "/create_team" => "ajax#create_team"
   match "/delete_team/:id" => "ajax#delete_team"
+
+  
 
 end

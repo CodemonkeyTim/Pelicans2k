@@ -264,4 +264,47 @@ class AjaxController < ApplicationController
       render :text => "error"
     end
   end
+  
+  def create_user
+    
+  end
+  
+  def update_user
+    jsonObj = request.body.read
+    
+    user_json = JSON.parse(jsonObj)
+    
+    user = User.find(user_json["id"])
+    
+    if user.role == "admin"
+      render :text => "forbidden"
+      return 
+    end
+    
+    user.email = user_json["email"]
+    user.f_name = user_json["f_name"]
+    user.l_name = user_json["l_name"]
+     
+    if user.save
+      session[:user_update_success] = true
+      render :text => "success"
+    else
+      render :text => "error" 
+    end
+  end
+  
+  def delete_user
+    user = User.find(params[:id])
+    
+    if user.role == "admin"
+      render :text => "forbidden"
+      return
+    end
+    
+    if user.delete
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
 end

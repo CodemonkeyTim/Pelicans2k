@@ -1,0 +1,72 @@
+<h2>Muokkaa k&auml;ytt&auml;j&auml;&auml;</h2>
+
+<table class="table" id="data-table">
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Rooli</th>
+			<th>Etunimi</th>
+			<th>Sukunimi</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="data-row">
+			<td><input type="text" placeholder="email" /></td>
+			<td>
+				<select id="role-selector">
+					<option value="admin">Admin</option>
+					<option value="head_coach">Valmennusp&auml;&auml;llikk&ouml;</option>
+					<option value="team_leader">Joukkueenjohtaja</option>
+				</select>
+			</td>
+			<td><input type="text" placeholder="etunimi" /></td>
+			<td><input type="text" placeholder="sukunimi" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
+<a class="btn btn-large pull-right btn-margin-right" onclick="reset()">Resetoi</a>
+<a href="/toimihenkiloiden_hallinta" class="btn btn-large pull-right btn-margin-right">Peruuta</a>
+<div style="clear:both"></div>
+
+<script>
+	var values = ["<%= @user.email %>", "<%= @user.f_name %>", "<%= @user.l_name %>"];
+	
+	$(document).ready(function () {
+		reset();
+	});
+	
+	function reset () {
+		var i = 0;
+		
+		$("#data-row").find("input").each(function() {
+			$(this).val(values[i]);
+			i++;
+		});
+		
+		$("#role-selector").val("<%= @user.role %>");
+	}
+	
+	function save () {
+		var values = [];
+		
+		$("#data-row").find("input").each(function() {
+			values.push($(this).val());
+		});
+		
+		var role = $("#role-selector").val();
+		
+		var user = {id: "<%= @user.id %>", email: values[0], role: role, f_name: values[1], l_name: values[2]};
+		
+		$.post("/update_user", JSON.stringify(user), function (response) {
+			if (response == "success") {
+				window.location = "/kayttajien_hallinta"
+			} else {
+				show_feedback("Jotain meni pieleen.", "error", false, "data-table")
+			}
+		});
+	}
+	
+	set_private_nav("users");
+</script>

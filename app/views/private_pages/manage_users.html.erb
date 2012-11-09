@@ -1,0 +1,46 @@
+<h2>Hallinnoi k&auml;ytt&auml;j&auml;tunnuksia</h2>
+
+<br/>
+
+<h3>Huomio!</h3>
+<p>Salasanat on kryptattu tietokantaan eik&auml; niit&auml; saa n&auml;kyviin. Jos k&auml;ytt&auml;j&auml; on unohtanut salasanansa, h&auml;nelle pit&auml;&auml; luoda uusi.</p>
+
+<br/>
+
+<table class="table" id="data-table">
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Rooli</th>
+			<th>Etunimi</th>
+			<th>Sukunimi</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% User.where("role != 'admin'").each do |user| %>
+			<tr>
+				<td><%= user.email %></td>
+				<td><%= user.role %></td>
+				<td><%= user.f_name %></td>
+				<td><%= user.l_name %></td>
+				<td>
+					<a class="btn btn-medium" onclick="window.location = '/muokkaa_kayttajaa/<%= user.id %>'">Muokkaa</a>
+					<a class="btn btn-medium" onclick="window.location = '/uusi_salasana/<%= user.id %>'">Uusi salasana</a>
+					<a class="btn btn-medium" onclick="del_user(<%= user.id %>)">Poista</a>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<script>
+	
+	$(document).ready(function () {
+		<% if session[:user_update_success] %>
+			show_feedback("Käyttäjän tiedot tallennettu onnistuneesti", "success", false, "data-table");
+			<% session[:user_update_success] = nil %>
+		<% end %>
+	});
+	
+	set_private_nav("users");
+</script>
