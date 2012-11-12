@@ -4,6 +4,9 @@ set :repository,  ""
 set :scm, :subversion
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
+set :user, "teemu"  # The server's user for deploys
+set :scm_passphrase, "Tvaini0"  # The deploy user's password
+
 role :web, "pelicans2k.ddns.net"                          # Your HTTP server, Apache/etc
 role :app, "pelicans2k.ddns.net"                          # This may be the same as your `Web` server
 role :db,  "pelicans2k.ddns.net", :primary => true # This is where Rails migrations will run
