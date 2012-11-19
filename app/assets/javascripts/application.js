@@ -19,3 +19,7 @@
 function set_navbar(active) {
 	$("#" + active).addClass("active");
 }
+
+function set_inner_nav(active) {
+	$("#teams-list").find("#" + active).addClass("active");
+}

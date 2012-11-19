@@ -18,12 +18,32 @@
 			    <span class="icon-bar"></span>
 			</a>
 			
-			<a class="brand" href="#">Pelicans 2000</a>
-			
-			<div class="nav-collapse">
+			<div class="nav-collapse collapse navbar-responsive-collapse">
 				<ul class="nav">
-					<li id="club"><a href="/">Seura</a></li>
-					<li id="teams"><a href="/joukkueet">Joukkueet</a></li>
+					<li id="index"><a href="/">Etusivu</a></li>
+					<li id="club"><a href="/club">Seura</a></li>
+					<li id="teams" class="dropdown">
+						<a href="/joukkueet?osa=" class="dropdown-toggle" data-toggle="dropdown">Joukkueet <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/joukkueet/?osa=naiset">Naiset</a></li>
+							<li><a href="/joukkueet/?osa=tytot">D-tytöt</a></li>
+							<li class="divider"></li>
+							<li><a href="/joukkueet/?osa=A-juniorit">A-juniorit</a></li>
+							<li><a href="/joukkueet/?osa=B-juniorit">B-juniorit</a></li>
+							<li><a href="/joukkueet/?osa=C2_98">C2 -98</a></li>
+							<li><a href="/joukkueet/?osa=C2_team">C2 team</a></li>
+							<li><a href="/joukkueet/?osa=D1_99_TEHO">D1 -99 TEHO</a></li>
+							<li><a href="/joukkueet/?osa=D2_00">D2 -00</a></li>
+							<li><a href="/joukkueet/?osa=E1_01">E1 -01</a></li>
+							<li><a href="/joukkueet/?osa=E2_02">E2 -02</a></li>
+							<li><a href="/joukkueet/?osa=F1_03">F1 -03</a></li>
+							<li><a href="/joukkueet/?osa=F2_04">F2 -04</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Tyttökiekkokoulu</a></li>
+							<li><a href="#">Luistelukoulu</a></li>
+							<li><a href="#">Leijonakiekkokoulu</a></li>
+						</ul>
+					</li>
 					<li id="equipment school"><a href="/kamaporssi">Kamapörssi</a></li>
 					<li id="gamerules"><a href="/saannot">Pelisäännöt</a></li>
 					<li id="links"><a href="/linkkeja">Linkkejä</a></li>
@@ -47,6 +67,16 @@
 	</div>
 </div>
 
+
+<script>
+	$("#teams").mouseover(function () {
+		$("#teams").addClass("open");
+	});
+	
+	$("#teams").mouseout(function () {
+		$("#teams").removeClass("open");
+	});
+</script>
 
 </body>
 </html>
