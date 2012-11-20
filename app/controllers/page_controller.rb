@@ -10,7 +10,7 @@ class PageController < ApplicationController
   def skating_school
   end
   
-  def club_info
+  def club
     
   end
   

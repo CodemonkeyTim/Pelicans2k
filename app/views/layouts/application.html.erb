@@ -8,7 +8,8 @@
 </head>
 <body>
 
-<div class="navbar navbar-fixed-top">
+<div class="container">
+<div class="navbar">
 	<div class="navbar-inner">
 		<div class="container">
 			
@@ -21,10 +22,10 @@
 			<div class="nav-collapse collapse navbar-responsive-collapse">
 				<ul class="nav">
 					<li id="index"><a href="/">Etusivu</a></li>
-					<li id="club"><a href="/club">Seura</a></li>
+					<li id="club"><a href="/seura">Seura</a></li>
 					<li id="teams" class="dropdown">
 						<a href="/joukkueet?osa=" class="dropdown-toggle" data-toggle="dropdown">Joukkueet <b class="caret"></b></a>
-						<ul class="dropdown-menu">
+						<ul id="teams-dropdown-menu" class="dropdown-menu">
 							<li><a href="/joukkueet/?osa=naiset">Naiset</a></li>
 							<li><a href="/joukkueet/?osa=tytot">D-tytöt</a></li>
 							<li class="divider"></li>
@@ -53,7 +54,7 @@
 	</div>
 	
 </div>
-
+</div>
 
 <div class="container">
 	<div class="row">
@@ -70,11 +71,30 @@
 
 <script>
 	$("#teams").mouseover(function () {
-		$("#teams").addClass("open");
+		//$(this).addClass("open");
+		link_out = false;
+		$(this).find(".dropdown-menu").slideToggle();
 	});
 	
+	var link_out = false;
+	var teams_out = false;
+	
 	$("#teams").mouseout(function () {
-		$("#teams").removeClass("open");
+		//$(this).removeClass("open");
+		link_out = true;
+		
+		if (link_out && teams_out) {
+			$(this).find(".dropdown-menu").slideToggle();
+		}
+		
+	});
+	
+	$("#teams-dropdown-menu").mouseout(function () {
+		teams_out = true;
+	});
+	
+	$("#teams-dropdown-menu").mouseover(function () {
+		teams_out = false;
 	});
 </script>
 
