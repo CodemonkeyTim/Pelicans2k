@@ -1,3 +1,18 @@
 // Place all the styles related to the PrivatePages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#page {
+  width: 220px;
+  margin: auto;
+  
+  border-radius: 5px;
+  
+  background: #FAFAFA;
+  padding: 10px;  
+
+}
+
+.centered-text {
+  text-align: center;
+}

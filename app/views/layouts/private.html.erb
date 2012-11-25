@@ -9,6 +9,26 @@
 <body>
 
 <div class="container">
+	<% unless flash[:notice].nil? %>
+		<div class="row">
+			<div class="alert alert-success">
+				<h3><%= flash[:notice] %></h3>
+			</div>
+		</div>
+	<% end %> 
+	
+	<div class="row">
+		<div class="span12">
+			<img alt="Banner" />
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="span12">
+			<p class="centered-text">Logged in as <%= current_user.name %>. <a href="<%= destroy_user_session_path %>">Kirjaudu ulos.</a></p>
+		</div>
+	</div>
+	
 	<div class="row">
 		<div class="span3">
 			<ul class="nav nav-stacked nav-pills">
