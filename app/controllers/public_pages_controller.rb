@@ -1,4 +1,6 @@
 class PublicPagesController < ApplicationController
+  layout "public"
+  
   def index
     
   end
