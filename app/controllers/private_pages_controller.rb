@@ -7,4 +7,8 @@ class PrivatePagesController < ApplicationController
 
   def landing
   end
+  
+  def manage_news
+    
+  end
 end
