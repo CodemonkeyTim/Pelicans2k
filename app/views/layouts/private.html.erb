@@ -6,45 +6,71 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body style="background-image: url('/assets/ice.jpg')">
 
 <div class="container">
+	<div class="row banner-row">
+		<div class="span12">
+			<div class="section">
+				<!-- <img alt="Banner" src="/assets/banneri.png" /> -->
+				<h1>Pelicans 2000 sivuston hallintapaneeli</h1>
+			</div>
+		</div>
+	</div>
+	
 	<% unless flash[:notice].nil? %>
 		<div class="row">
-			<div class="alert alert-success">
-				<h3><%= flash[:notice] %></h3>
+			<div class="span12">
+				<div class="alert alert-success">
+					<h3><%= flash[:notice] %></h3>
+				</div>
 			</div>
 		</div>
 	<% end %> 
 	
 	<div class="row">
 		<div class="span12">
-			<img alt="Banner" />
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="span12">
-			<p class="centered-text">Logged in as <%= current_user.name %>. <a href="<%= destroy_user_session_path %>">Kirjaudu ulos.</a></p>
+			<div class="login-section section">
+				<p class="centered-text">Hei <%= current_user.name %>. Voit kirjautua ulos <a data-method="DELETE" href="<%= destroy_user_session_path %>">tästä.</a></p>
+			</div>
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="span3">
-			<ul class="nav nav-stacked nav-pills">
-				<li><a href="#">Som stoof</a></li>
-			</ul>
+			<div class="section nav-section">
+				<ul class="nav nav-stacked nav-pills">
+					<% case current_user.role %>
+						<% when "admin" then %>
+							<li class="nav-header">Navigointi</li>
+							<li class="active"><a href="#">Etusivu</a></li>
+							<li class="nav-header">Hallinointisivut</li>
+							<li><a href="#">Uutiset</a></li>
+							<li><a href="#">Pääkalenteri</a></li>
+							<li><a href="#">Tiimikalenterit</a></li>
+							<li><a href="#">Pelaajat</a></li>
+							<li><a href="#">Toimihenkilöt</a></li>
+							<li><a href="#">Käyttäjät</a></li>
+						<% when "team_leader" then %>
+							<li><a href="#">Som other stoof</a></li>
+					<% end %>
+				</ul>
+			</div>
 		</div>
 		
 		<div class="span9">
-			<%= yield %>	
+			<div class="section">
+				<%= yield %>
+			</div>	
 		</div>
 		
 	</div>
 	
 	<div class="row">
 		<div class="span12">
-			<h5 class="centered">&copy; HMS Vuoto</h5> 
+			<div class="section">
+				<h5 class="centered-text">&copy; HMS Vuoto</h5>
+			</div> 
 		</div>
 	</div>
 </div>

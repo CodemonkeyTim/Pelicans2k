@@ -6,15 +6,22 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body style="background-image: url('/assets/ice.jpg')">
 	<div id="page">
 		
 		<% unless flash[:alert].nil? %>
 			<div class="alert alert-error">
 				<h3><%= flash[:alert] %></h3>
 			</div>
+			<br />
 		<% end %>
 		
+		<% unless flash[:notice].nil? %>
+			<div class="alert alert-success">
+				<h3><%= flash[:notice] %></h3>
+			</div>
+			<br />
+		<% end %>
 		
 		<h2>Kirjaudu sisään</h2>
 		

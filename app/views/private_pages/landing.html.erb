@@ -1,2 +1,27 @@
-<h1>PrivatePages#landing_page</h1>
-<p>Find me in app/views/private_pages/landing_page.html.erb</p>
+<% case current_user.role %>
+<% when "admin" then %>
+<div>
+	<h3>Uusimmat uutiset</h3>
+	<br />
+	<div>
+		<span class="news-date">18.10.2012</span>
+		<h4>Uudet nettisivut</h4>
+		<p>Lahden ammattikorkeakoulun oppilaat toteuttivat seuralle uudet nettisivut.</p>
+	</div>
+	
+	<div>
+		<span class="news-date">15.10.2012</span>
+		<h4>Jäähalli paloi poroksi</h4>
+		<p>Jäähalli paloi viime yönä poroksi. Syyksi epäillään pikkupoikien tulitikkuleikkejä.</p>
+	</div>
+	
+	<div>
+		<span class="news-date">12.10.2012</span>
+		<h4>Päävalmentajalta meni hermot</h4>
+		<p>Päävalmentaja irtisanoutui joukkueen uuden nettisivun ulkoasukiistan johdosta.</p>
+	</div>
+	 
+	<a class="btn btn-medium"><i class="icon-edit"></i> Hallinnoi uutisia</a>
+	
+</div>
+<% end %>
