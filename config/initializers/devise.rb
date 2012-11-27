@@ -220,4 +220,11 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
+  
+  require "#{Rails.root}/config/lib/custom_failure.rb"
+  
+  #Configuring the login failure to bounce back to same page instead of the default new_user_session_path
+  config.warden do |manager|
+    manager.failure_app = CustomFailure
+  end
 end

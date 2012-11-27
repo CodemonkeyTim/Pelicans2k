@@ -1,0 +1,94 @@
+<div class="span2">
+	<div class="well" style="max-width: 220px; padding: 8px 0;">
+		
+	<ul id="teams-list" class="nav nav-list">
+		<li class="nav-header">Valitse joukkue</li>
+		<li id="naiset"><a href="#">Naiset</a></li>
+		<li id="tytot"><a href="#">D-tytöt</a></li>
+		<li class="divider"></li>
+		<li id="A-juniorit"><a href="#">A-juniorit</a></li>
+		<li id="B-juniorit"><a href="#">B-juniorit</a></li>
+		<li id="C2_98"><a href="#">C2 -98</a></li>
+		<li><a href="#">C2 team</a></li>
+		<li><a href="#">D1 -99 TEHO</a></li>
+		<li><a href="#">D2 -00</a></li>
+		<li><a href="#">E1 -01</a></li>
+		<li><a href="#">E2 -02</a></li>
+		<li><a href="#">F1 -03</a></li>
+		<li><a href="#">F2 -04</a></li>
+		<li class="divider"></li>
+		<li><a href="#">Tyttökiekkokoulu</a></li>
+		<li><a href="#">Luistelukoulu</a></li>
+		<li><a href="#">Leijonakiekkokoulu</a></li>
+		<li class="divider"></li>
+		<li><a href="#">Valmennustoiminta</a></li>
+	</ul>
+	</div>
+</div>
+
+<div class="span8">
+	<div>
+		<h2><%= unless params[:osa].nil? then params[:osa].capitalize end %></h2>
+		
+		<br />
+		
+		<h3>Pelaajalista</h3>
+		
+		<br />
+		
+		<table class="table no-highlight">
+			<tr>
+				<th>Pelaajan #</th>
+				<th>Nimi</th>
+			</tr>
+			<tr>
+				<td>99</td>
+				<td>Pertti Pelaaja</td>
+			</tr>
+		</table>
+		
+		<h3>Toimihenkilöt</h3>
+		
+		<br />
+		
+		<table class="table no-highlight">
+			<tr>
+				<th>Tehtävä</th>
+				<th>Nimi</th>
+				<th>Puhelin</th>
+				<th>Email</th>
+			</tr>
+			<tr>
+				<td>Valmentaja</td>
+				<td>Erkki Esimerkki</td>
+				<td>044-5553322</td>
+				<td>erkki.esim@esimerkki.fi</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="span2">
+	<h3>Seuran jäät</h3>
+	
+	<img src="/assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" />
+	
+	<br />
+
+	<h3>Joukkueen kalenteri</h3>
+	
+	<img src="/assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" />
+	
+	
+	
+	<a href="http://www.google.com">Joukkueen omat sivut</a>
+	
+	
+</div>
+
+
+
+<script>
+	set_navbar("teams");
+	set_inner_nav("<%= unless params[:osa].nil? then params[:osa] end %>")
+</script>

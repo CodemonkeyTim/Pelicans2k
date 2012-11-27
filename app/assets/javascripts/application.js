@@ -11,10 +11,15 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery.ui.all
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
 
 function set_navbar(active) {
 	$("#" + active).addClass("active");
+}
+
+function set_inner_nav(active) {
+	$("#teams-list").find("#" + active).addClass("active");
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pelicans2k</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body style="background-image: url('/assets/ice.jpg')">
+
+<div class="container">
+	<div class="row banner-row">
+		<div class="span12">
+			<div class="section">
+				<img alt="Banner" src="/assets/banneri.png" /> 
+				<!-- <h1>Pelicans 2000 sivuston hallintapaneeli</h1> -->
+			</div>
+		</div>
+	</div>
+	
+	<% unless flash[:notice].nil? %>
+		<div class="row">
+			<div class="span12">
+				<div class="alert alert-success">
+					<h3><%= flash[:notice] %></h3>
+				</div>
+			</div>
+		</div>
+	<% end %> 
+	
+	<div class="row">
+		<div class="span12">
+			<div class="login-section section">
+				<p class="centered-text">Hei <%= current_user.name %>. Voit kirjautua ulos <a data-method="DELETE" href="<%= destroy_user_session_path %>">tästä.</a></p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="span2">
+			<div class="section nav-section">
+				<ul class="nav nav-stacked nav-pills">
+					<% case current_user.role %>
+						<% when "admin" then %>
+							<li class="nav-header">Navigointi</li>
+							<li class="active"><a href="#">Etusivu</a></li>
+							<li class="nav-header">Hallinointisivut</li>
+							<li><a href="#">Uutiset</a></li>
+							<li><a href="#">Pääkalenteri</a></li>
+							<li><a href="#">Tiimikalenterit</a></li>
+							<li><a href="#">Pelaajat</a></li>
+							<li><a href="#">Toimihenkilöt</a></li>
+							<li><a href="#">Käyttäjät</a></li>
+						<% when "team_leader" then %>
+							<li><a href="#">Som other stoof</a></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="span10">
+			<div class="section">
+				<%= yield %>
+			</div>	
+		</div>
+		
+	</div>
+	
+	<div class="row">
+		<div class="span12">
+			<div class="section">
+				<h5 class="centered-text">&copy; HMS Vuoto</h5>
+			</div> 
+		</div>
+	</div>
+</div>
+</body>
+</html>
