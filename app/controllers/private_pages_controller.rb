@@ -11,4 +11,16 @@ class PrivatePagesController < ApplicationController
   def manage_news
     
   end
+  
+  def manage_main_calendar
+    
+  end
+  
+  def manage_players
+    
+  end
+  
+  def manage_staffs
+    
+  end
 end
