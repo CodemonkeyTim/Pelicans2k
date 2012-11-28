@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20121128162414) do
 
   create_table "reservations", :force => true do |t|
     t.string   "starts_at"
-    t.string   "date"
+    t.date     "date"
     t.integer  "team_id"
     t.string   "activity"
     t.string   "created_by"

@@ -21,4 +21,5 @@ Pelicans2k::Application.routes.draw do
   
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
+  match "/get_cal_for_all" => "ajax#get_cal_for_all"
 end

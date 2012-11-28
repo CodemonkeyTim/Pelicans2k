@@ -17,8 +17,13 @@ Team.create(name: "C2 -98", code: "C2")
 Team.create(name: "C2 Team", code: "C2 Team")
 Team.create(name: "D1 -99 TEHO", code: "D1")
 
-Reservation.create(starts_at: "9:30", team_id: 1, activity: "Ice-time", date: "27.11.2012")
-Reservation.create(starts_at: "10:00", team_id: 1, activity: "Ice-time", date: "27.11.2012")
-Reservation.create(starts_at: "10:30", team_id: 1, activity: "Ice-time", date: "27.11.2012")
+Reservation.create(starts_at: "9:30", team_id: 1, activity: "Ice-time", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "10:00", team_id: 1, activity: "Ice-time", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "10:30", team_id: 1, activity: "Ice-time", date: Date.new(2012, 11, 27))
 
+Reservation.create(starts_at: "11:00", team_id: 2, activity: "Ice-time", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "11:30", team_id: 2, activity: "Ice-time", date: Date.new(2012, 11, 27))
+
+Reservation.create(starts_at: "12:00", team_id: 3, activity: "Ice-time", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "12:30", team_id: 3, activity: "Ice-time", date: Date.new(2012, 11, 27))
 

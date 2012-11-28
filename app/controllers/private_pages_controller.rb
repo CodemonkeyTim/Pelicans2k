@@ -42,9 +42,10 @@ class PrivatePagesController < ApplicationController
     end
     
     @date_strs = []
-    
+    @th_date_strs = []
     dates.each do |date|
-      @date_strs.push(date.strftime("%d.%m.%Y"))
+      @date_strs.push(date.strftime("%Y-%m-%d"))
+      @th_date_strs.push(date.strftime("%d.%m"))
     end  
   end
   

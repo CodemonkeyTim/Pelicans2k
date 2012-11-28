@@ -13,8 +13,8 @@
 					<th>Näytä kalenteri joukkueelle</th>
 					<td>
 						<select id="team-select">
-							<option></option>
-							<option>Kaikki</option>
+							<option value="0"></option>
+							<option value="all">Kaikki</option>
 							<% Team.all.each do |team| %>
 								<option value="<%= team.id %>"><%= team.name %></option>
 							<% end %>
@@ -22,20 +22,20 @@
 					</td>
 				</tr>
 				<tr>
-					<th>Valitse joukkue jolle tunnit varataan</th>
+					<th>Valitse joukkue jolle valitut tunnit varataan</th>
 					<td>
-						<select>
-							<option></option>
-							<option>A-juniorit</option>
-							<option>B-juniorit</option>
-							<option>C2 -98</option>
+						<select id="save-to-team-select">
+							<option value="0"></option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
 						</select>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		
-		<a class="btn btn-large pull-right" href="#">Tallenna varaukset</a>
+		<a class="btn btn-large pull-right" onclick="save()">Tallenna varaukset</a>
 	</div>
 	
 	<br />
@@ -57,7 +57,7 @@
 			<thead>
 				<tr>
 					<th>Klo / pvm</th>
-					<% @date_strs.each_with_index do |date, i| %>
+					<% @th_date_strs.each_with_index do |date, i| %>
 						<th><%= @days[i][0..1] %> <%= date %></th>
 					<% end %>
 				</tr>
@@ -102,28 +102,45 @@
 		});
 		
 		$("#team-select").change(function () {
-			var id = $(this).val();
+			clear_table();
 			
-			$(".reservable").removeClass("reserved");
-			$(".reservable").html("kvak");
-			$(".reservable").attr("has-res", "false");
+			var id = $(this).val();
+			if (id == "0") { return; }
+			
+			var url = "";
+			
+			if (id == "all") {
+				url = "/get_cal_for_all?diff=<%= @diff %>";
+			} else {
+				url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
+			}
 			
 			$.ajax({
-				url: "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>",
+				url: url,
 				cache: false,
 				success: function (resses) {
 					$.each(resses, function(i, res) {
 						var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 						res_el.addClass("reserved");
-						res_el.html(res.activity);
 						res_el.attr("has-res", "true");
+						if (id == "all") {
+							res_el.html(res.team_name);
+							res_el.addClass(res.team_name.replace(' ', ''));
+						} else {
+							res_el.html(res.activity);
+						}
 					});
-					
 				}
 			});
 		});
 	});
-
+	
+	function clear_table () {
+		$(".reservable").attr("class", "reservable");
+		$(".reservable").html("kvak");
+		$(".reservable").attr("has-res", "false");
+	}
+	
 	function next() {
 		var diff = <%= @diff %> + 1;
 		window.location = "/paakalenterin_hallinta?diff=" + diff; 	
@@ -139,7 +156,13 @@
 	}
 	
 	function save () {
-		$()
+		var resses = [];
+		var team_id = $("#save-to-team-select").val();
 		
+		$(".reservable[select='true']").each(function() {			
+			resses.push({date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+		});
+		
+		alert(resses[0].date + " " + resses[0].starts_at);
 	}
 </script>
