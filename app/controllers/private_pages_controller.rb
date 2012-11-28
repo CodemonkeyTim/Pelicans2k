@@ -16,10 +16,20 @@ class PrivatePagesController < ApplicationController
   
   def manage_main_calendar
     @days = ["Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai", "Sunnuntai"]
-    @year = Time.now.strftime("%Y")
     
-    today = DateTime.now
-    mon = today.at_beginning_of_week
+    @real_today = DateTime.now
+    
+    unless params[:diff]
+      @today = @real_today
+      @diff = 0;
+    else
+      @diff = params[:diff]
+      @today = DateTime.now + (params[:diff].to_i * 7)
+    end    
+    
+    @year = @today.year
+    
+    mon = @today.at_beginning_of_week
     
     tue, wed, thu, fri, sat, sun = 0
     

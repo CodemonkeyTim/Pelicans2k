@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body {
+  padding-top: 0px;
+}
+
 #page {
   width: 220px;
   margin: auto;
@@ -21,10 +25,21 @@
   margin-bottom: 0px;
 }
 
+#private-pages-banner {
+  width: 100%;
+}
+
 #main-calendar-table .reservable {
   background-color: grey;
-  width: 90px;
+  width: 110px;
   height: 30px;
   border: solid 1px black;
   text-align: center;
+}
+
+.center-button {
+    position: absolute;
+    width: 50px;
+    left: 50%;
+    margin-left: 25px;
 }
