@@ -12,11 +12,12 @@
 				<tr>
 					<th>Näytä kalenteri joukkueelle</th>
 					<td>
-						<select>
+						<select id="team-select">
 							<option></option>
-							<option>A-juniorit</option>
-							<option>B-juniorit</option>
-							<option>C2 -98</option>
+							<option>Kaikki</option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
 						</select>
 					</td>
 				</tr>
@@ -56,47 +57,70 @@
 			<thead>
 				<tr>
 					<th>Klo / pvm</th>
-					<th>Ma <%= @date_strs.first %></th>
-					<th>Ti <%= @date_strs[1] %> </th>
-					<th>Ke <%= @date_strs[2] %></th>
-					<th>To <%= @date_strs[3] %></th>
-					<th>Pe <%= @date_strs[4] %></th>
-					<th>La <%= @date_strs[5] %></th>
-					<th>Su <%= @date_strs[6] %></th>
+					<% @date_strs.each_with_index do |date, i| %>
+						<th><%= @days[i][0..1] %> <%= date %></th>
+					<% end %>
 				</tr>
 			</thead>
 			<tbody>
-				<% (9..21).each do |i| %>
+				<% (9..20).each do |i| %>
 					<tr>
 						<th><%= i %>:00</th>
 						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" select="false" time="<%= i %>:00">kvak</td>	
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00">kvak</td>	
 						<% end %>
 					</tr>
 					<tr>
 						<th><%= i %>:30</th>
 						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" select="false" time="<%= i %>:30">kvak</td>	
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30">kvak</td>	
 						<% end %>
 					</tr>
 				<% end %>
 			</tbody>
 		</table>
 		
-		<% render :partial => "main_cal_table", :locals => {:date_strs => @date_strs} %>
+		<% render :partial => "main_cal_table", :locals => {:date_strs => @date_strs, :team => @team} %>
 	</div>
 </div>
 
 <script>
 	$(document).ready(function () {
 		$(".reservable").click(function () {
-			if ($(this).css("background-color") == "rgb(0, 128, 0)") {
-				$(this).css("background-color", "grey");
+			if ($(this).hasClass("selected")) {
+				if ($(this).attr("has-res") == "true") {
+					
+				} else {
+					
+				}
+				$(this).removeClass("selected");
 				$(this).attr("select", "false");
 			} else {
-				$(this).css("background-color", "green");
+				$(this).addClass("selected");
 				$(this).attr("select", "true");
 			}
+		});
+		
+		$("#team-select").change(function () {
+			var id = $(this).val();
+			
+			$(".reservable").removeClass("reserved");
+			$(".reservable").html("kvak");
+			$(".reservable").attr("has-res", "false");
+			
+			$.ajax({
+				url: "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>",
+				cache: false,
+				success: function (resses) {
+					$.each(resses, function(i, res) {
+						var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
+						res_el.addClass("reserved");
+						res_el.html(res.activity);
+						res_el.attr("has-res", "true");
+					});
+					
+				}
+			});
 		});
 	});
 
@@ -112,5 +136,10 @@
 	
 	function curr() {
 		window.location = "/paakalenterin_hallinta?diff=0";
+	}
+	
+	function save () {
+		$()
+		
 	}
 </script>

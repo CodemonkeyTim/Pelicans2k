@@ -1,4 +1,6 @@
 Pelicans2k::Application.routes.draw do
+  get "ajax/get_cal_for_team"
+
   devise_for :users
   
   root :to => "public_pages#index"
@@ -16,4 +18,7 @@ Pelicans2k::Application.routes.draw do
   match "/uutisten_hallinta" => "private_pages#manage_news"
   match "/paakalenterin_hallinta" => "private_pages#manage_main_calendar"
   
+  
+  #Ajax calls routing
+  match "/get_cal_for_team" => "ajax#get_cal_for_team"
 end
