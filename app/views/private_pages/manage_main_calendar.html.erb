@@ -1,0 +1,145 @@
+<div>
+	<h2>Pääkalenteri</h2>
+	<h3>Vuosi <span id="year"><%= @year %></span> viikko <span id="week"><%= @today.cweek %></span></h3>
+	
+	<br />
+	<br />
+	
+	<h3>Asetukset</h3>
+	<div>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Näytä kalenteri joukkueelle</th>
+					<td>
+						<select id="team-select">
+							<option></option>
+							<option>Kaikki</option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>Valitse joukkue jolle tunnit varataan</th>
+					<td>
+						<select>
+							<option></option>
+							<option>A-juniorit</option>
+							<option>B-juniorit</option>
+							<option>C2 -98</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<a class="btn btn-large pull-right" href="#">Tallenna varaukset</a>
+	</div>
+	
+	<br />
+	<br />
+	<br />
+	<br />
+	
+	<div>
+		<a class="btn btn-medium pull-left" onclick="prev();"><i class="icon-arrow-left"></i> Edellinen viikko</a>
+		<a class="btn btn-medium center-button" onclick="curr();">Nykyinen</a>
+		<a class="btn btn-medium pull-right" onclick="next();">Seuraava viikko <i class="icon-arrow-right"></i></a>
+	</div>
+	
+	<br />
+	<br />
+	
+	<div id="main-cal-wrapper">
+		<table id="main-calendar-table">
+			<thead>
+				<tr>
+					<th>Klo / pvm</th>
+					<% @date_strs.each_with_index do |date, i| %>
+						<th><%= @days[i][0..1] %> <%= date %></th>
+					<% end %>
+				</tr>
+			</thead>
+			<tbody>
+				<% (9..20).each do |i| %>
+					<tr>
+						<th><%= i %>:00</th>
+						<% @date_strs.each do |date| %>
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00">kvak</td>	
+						<% end %>
+					</tr>
+					<tr>
+						<th><%= i %>:30</th>
+						<% @date_strs.each do |date| %>
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30">kvak</td>	
+						<% end %>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		
+		<% render :partial => "main_cal_table", :locals => {:date_strs => @date_strs, :team => @team} %>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+		$(".reservable").click(function () {
+			if ($(this).hasClass("selected")) {
+				if ($(this).attr("has-res") == "true") {
+					
+				} else {
+					
+				}
+				$(this).removeClass("selected");
+				$(this).attr("select", "false");
+			} else {
+				$(this).addClass("selected");
+				$(this).attr("select", "true");
+			}
+		});
+		
+		$("#team-select").change(function () {
+			var id = $(this).val();
+			
+			$(".reservable").removeClass("reserved");
+			$(".reservable").html("kvak");
+			$(".reservable").attr("has-res", "false");
+			
+			$.ajax({
+				url: "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>",
+				cache: false,
+				success: function (resses) {
+					$.each(resses, function(i, res) {
+						var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
+						res_el.addClass("reserved");
+						res_el.html(res.activity);
+						res_el.attr("has-res", "true");
+					});
+					
+				}
+			});
+		});
+	});
+
+	function next() {
+		var diff = <%= @diff %> + 1;
+		window.location = "/paakalenterin_hallinta?diff=" + diff; 	
+	}
+			
+	function prev() {
+		var diff = <%= @diff %> - 1;
+		window.location = "/paakalenterin_hallinta?diff=" + diff;
+	}
+	
+	function curr() {
+		window.location = "/paakalenterin_hallinta?diff=0";
+	}
+	
+	function save () {
+		$()
+		
+	}
+</script>
