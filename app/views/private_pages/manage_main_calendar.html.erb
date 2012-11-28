@@ -1,0 +1,75 @@
+<div>
+	<h2>Pääkalenteri</h2>
+	<h3>Vuosi <span id="year"><%= @year %></span></h3>
+	<br />
+	
+	<div>
+		<a class="btn btn-medium pull-left" onclick="previous();"><i class="icon-arrow-left"></i> Edellinen viikko</a>
+		<a class="btn btn-medium pull-right" onclick="next();">Seuraava viikko <i class="icon-arrow-right"></i></a>
+	</div>
+	
+	<br />
+	<br />
+	
+	<table id="main-calendar-table">
+		<thead>
+			<tr>
+				<th>Klo</th>
+				<th><%= @days.first %></th>
+				<th><%= @days[1] %></th>
+				<th><%= @days[2] %></th>
+				<th><%= @days[3] %></th>
+				<th><%= @days[4] %></th>
+				<th><%= @days[5] %></th>
+				<th><%= @days[6] %></th>
+			</tr>
+			<% (9..21).each do |i| %>
+				<tr>
+					<th><%= i %>:00</th>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+				</tr>
+				<tr>
+					<th><%= i %>:30</th>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+					<td class="reservable">kvak</td>
+				</tr>
+			<% end %>
+		</thead>
+	</table>
+	
+	<div>
+		<p>Stoof</p>
+	</div>
+	
+</div>
+
+<script>
+	$(document).ready(function () {
+		$(".reservable").click(function () {
+			$(this).css("background-color", "green");
+		});
+	});
+
+	function next() {
+		start_date = $()
+		window.location = "/paakalenterin_hallinta?date=" 	
+	}
+			
+	function prev() {
+		start_date.setDate(start_date.getDate() - 7);
+		end_date.setDate(end_date.getDate() - 7);
+		$("#year").html(end_date.getFullYear());
+		
+	}
+</script>

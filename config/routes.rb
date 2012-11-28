@@ -14,5 +14,6 @@ Pelicans2k::Application.routes.draw do
   match "/kirjaudu_sisaan" => "private_pages#login"
   match "/landing" => "private_pages#landing"
   match "/uutisten_hallinta" => "private_pages#manage_news"
+  match "/paakalenterin_hallinta" => "private_pages#manage_main_calendar"
   
 end
