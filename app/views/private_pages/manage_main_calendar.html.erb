@@ -14,50 +14,41 @@
 	<table id="main-calendar-table">
 		<thead>
 			<tr>
-				<th>Klo</th>
-				<th><%= @days.first %></th>
-				<th><%= @days[1] %></th>
-				<th><%= @days[2] %></th>
-				<th><%= @days[3] %></th>
-				<th><%= @days[4] %></th>
-				<th><%= @days[5] %></th>
-				<th><%= @days[6] %></th>
+				<th>Klo / pvm</th>
+				<th>Ma <%= @date_strs.first %></th>
+				<th>Ti <%= @date_strs[1] %> </th>
+				<th>Ke <%= @date_strs[2] %></th>
+				<th>To <%= @date_strs[3] %></th>
+				<th>Pe <%= @date_strs[4] %></th>
+				<th>La <%= @date_strs[5] %></th>
+				<th>Su <%= @date_strs[6] %></th>
 			</tr>
 			<% (9..21).each do |i| %>
 				<tr>
 					<th><%= i %>:00</th>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
+					<% @date_strs.each do |date| %>
+						<td class="reservable" date-data="<%= date %>" selected="false" time="<%= i %>:00">kvak</td>	
+					<% end %>
 				</tr>
 				<tr>
 					<th><%= i %>:30</th>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
-					<td class="reservable">kvak</td>
+					<% @date_strs.each do |date| %>
+						<td class="reservable" date-data="<%= date %>" selected="false" time="<%= i %>:30">kvak</td>	
+					<% end %>
 				</tr>
 			<% end %>
 		</thead>
 	</table>
-	
-	<div>
-		<p>Stoof</p>
-	</div>
-	
 </div>
 
 <script>
 	$(document).ready(function () {
 		$(".reservable").click(function () {
-			$(this).css("background-color", "green");
+			if ($(this).css("background-color") == "rgb(0, 128, 0)") {
+				$(this).css("background-color", "grey");
+			} else {
+				$(this).css("background-color", "green");
+			}
 		});
 	});
 
