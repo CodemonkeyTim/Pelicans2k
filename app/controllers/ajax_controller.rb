@@ -14,15 +14,21 @@ class AjaxController < ApplicationController
     
     render :json => resses_json
   end
-end
-
-class Res
-  attr_accessor :activity, :starts_at, :team_id, :date, :team
   
-  def initialize(activity, starts_at, date, team_name)
-    @activity = activity
-    @starts_at = starts_at
-    @date = date
-    @team_name = team_name     
+  def save_ice_time
+    jsonArr = request.body.read
+    objArr = JSON.parse(jsonArr)
+    resses = []
+    
+    objArr.each do |o|
+      resses.push(Reservation.new(starts_at: o["starts_at"], date: o["date"], activity: o["activity"], team_id: o["team_id"]))
+    end
+    
+    
+    
+    res = Reservation.find_by_date_and_team_id_and_starts_at(resses.first.date, resses.first.team_id, resses.first.starts_at)
+    team = Team.find(resses.first.team_id)
+    
+    render :text => res.activity
   end
 end

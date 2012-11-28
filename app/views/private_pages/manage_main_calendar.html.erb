@@ -160,9 +160,14 @@
 		var team_id = $("#save-to-team-select").val();
 		
 		$(".reservable[select='true']").each(function() {			
-			resses.push({date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+			resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
 		});
 		
-		alert(resses[0].date + " " + resses[0].starts_at);
+		alert(JSON.stringify(resses));
+		
+		$.post("/save_ice_time", JSON.stringify(resses), function (response) {
+				alert(response);
+			}
+		);
 	}
 </script>
