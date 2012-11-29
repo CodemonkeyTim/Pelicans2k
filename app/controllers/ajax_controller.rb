@@ -24,11 +24,14 @@ class AjaxController < ApplicationController
       resses.push(Reservation.new(starts_at: o["starts_at"], date: o["date"], activity: o["activity"], team_id: o["team_id"]))
     end
     
-    
-    
     res = Reservation.find_by_date_and_team_id_and_starts_at(resses.first.date, resses.first.team_id, resses.first.starts_at)
     team = Team.find(resses.first.team_id)
     
-    render :text => res.activity
+    if res
+      render :text => res.activity
+    else
+      render :text => "Not found"
+    end
+    
   end
 end

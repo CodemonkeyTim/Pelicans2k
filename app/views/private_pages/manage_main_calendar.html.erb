@@ -156,18 +156,35 @@
 	}
 	
 	function save () {
-		var resses = [];
-		var team_id = $("#save-to-team-select").val();
-		
-		$(".reservable[select='true']").each(function() {			
-			resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
-		});
-		
-		alert(JSON.stringify(resses));
-		
-		$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-				alert(response);
-			}
-		);
+		if (data_valid_to_save()) {
+			var resses = [];
+			var team_id = $("#save-to-team-select").val();
+			
+			$(".reservable[select='true']").each(function() {			
+				resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+			});
+			
+			alert(JSON.stringify(resses));
+			
+			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
+					alert(response);
+				}
+			);	
+		} else {
+			alert("Joko joukkue ei ole valittu tai yhtään tuntia ei ole valittu");
+		}
 	}
+	
+	function data_valid_to_save() {
+		if ($("#save-to-team-select").val() == "0") {
+			return false;
+		}
+		
+		if ($(".reservable[select='true']").lenght == 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 </script>
