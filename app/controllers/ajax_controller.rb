@@ -24,14 +24,23 @@ class AjaxController < ApplicationController
       resses.push(Reservation.new(starts_at: o["starts_at"], date: o["date"], activity: o["activity"], team_id: o["team_id"]))
     end
     
-    res = Reservation.find_by_date_and_team_id_and_starts_at(resses.first.date, resses.first.team_id, resses.first.starts_at)
-    team = Team.find(resses.first.team_id)
+    all_new = true;
     
-    if res
-      render :text => res.activity
-    else
-      render :text => "Not found"
+    resses.each do |res|
+      existing_res = Reservation.find_by_date_and_activity_and_starts_at(res.date, "Ice-time", res.starts_at)
+      
+      if existing_res
+        all_new = false;
+        break;
+      else
+        res.save
+      end
     end
     
+    if all_new
+      render :text => "Success"
+    else
+      render :text => "Error"
+    end    
   end
 end
