@@ -17,7 +17,8 @@ Pelicans2k::Application.routes.draw do
   match "/landing" => "private_pages#landing"
   match "/uutisten_hallinta" => "private_pages#manage_news"
   match "/paakalenterin_hallinta" => "private_pages#manage_main_calendar"
-  
+  match "/muuta_uutista" => "private_pages#edit_news"
+    
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
   match "/get_cal_for_all" => "ajax#get_cal_for_all"
