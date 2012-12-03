@@ -1,5 +1,5 @@
 <h2>Uutisen muokkaus</h2>
-<div>
+<div id="edit-news">
 		Otsikko<br />
 		<input type="text" id="title" value="<%= @po_news.title %>"><br>
 		Sisältö<br />
@@ -29,6 +29,19 @@
 		$.post("/update_news", JSON.stringify(po_news), function (response) {
 			alert(response);
 		});
+	}
+	
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#edit-news").before(fb_element);
+		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
 	}
 	
 	set_private_nav("news");
