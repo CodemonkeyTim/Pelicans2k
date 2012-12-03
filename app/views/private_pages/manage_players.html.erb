@@ -1,4 +1,26 @@
-<table class="table">
+<table>
+					<td>
+						<select id="team-select">
+							<option value="0"></option>
+							<option value="all">Kaikki</option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
+						</select>
+					</td>
+					<tr>
+					<th>Valitse joukkue jolle valitut tunnit varataan</th>
+					<td>
+						<select id="save-to-team-select">
+							<option value="0"></option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
+						</select>
+					</td>
+				</tr>
+				</table>
+<!--><table class="table">
 	<tr>
 		<th>Nro.</th>
 		<th>Etunimi</th>
@@ -10,8 +32,14 @@
 		<td>Lasse</td>
 		<td>Vourinen</td>
 		<td>
-  			<a href="#" class="btn btn-medium">Muokkaa</a>
-  			<a href="#" class="btn btn-medium">Poista</a>
+  			<a class="btn btn-medium edit-players-btn" href="/muokkaa_pelajaat<%= players.id %>">Muokkaa</a>
+  			<a class="btn btn-medium delete-players-btn" onclick="delete_players('<%= players.id %>')">Poista</a>
+  			
   		</td>
 	</tr>
 </table>
+<script>
+	function delete_players (id){
+		if (confirm("Haluatko varmasti poistaa tämän pelajaan? Tapahtumaa EI voi peruna.")) {
+	}
+</script>
