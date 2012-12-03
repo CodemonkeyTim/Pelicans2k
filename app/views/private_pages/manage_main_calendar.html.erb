@@ -182,20 +182,22 @@
 				resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
 			});
 			
-			alert(JSON.stringify(resses));
-			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
 					if (response == "Success") {
-						$("#feedback-success").slideToggle();
+						$("#feedback-success").removeClass("hidden");
+						//$("#feedback-success").slideToggle();
 						setTimeout(function() {
-							$("#feedback-success").slideToggle();
+							$("#feedback-success").addClass("hidden");
 						}, 2000);
+						clear_table();
 						get_table_markings("all");
 					} else {
-						$("#feedback-error").slideToggle();
+						$("#feedback-error").removeClass("hidden");
+						//$("#feedback-error").slideToggle();
 						setTimeout(function() {
-							$("#feedback-error").slideToggle();
+							$("#feedback-error").addClass("hidden");
 						}, 2000);
+						clear_table();
 						get_table_markings("all");
 					}
 				}
