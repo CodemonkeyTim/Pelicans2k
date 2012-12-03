@@ -15,7 +15,7 @@ class PrivatePagesController < ApplicationController
   end
   
   def manage_news
-    @news = News.all
+    @news = News.all.reverse
   end
   
   def manage_main_calendar

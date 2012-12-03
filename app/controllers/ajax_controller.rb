@@ -81,4 +81,14 @@ class AjaxController < ApplicationController
       render :text => "error"
     end
   end
+  
+  def delete_news
+    po_news = News.find(params[:id])
+    
+    if po_news.delete
+      render :text => "success"
+    else
+      render :text => "error"  
+    end
+  end
 end
