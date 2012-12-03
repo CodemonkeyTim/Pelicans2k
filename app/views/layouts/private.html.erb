@@ -48,13 +48,13 @@
 							<li><a href="#">Uutiset</a></li>
 							<li><a href="/paakalenterin_hallinta">Pääkalenteri</a></li>
 							<li><a href="#">Tiimikalenterit</a></li>
-							<li><a href="#">Pelaajat</a></li>
-							<li><a href="#">Toimihenkilöt</a></li>
+							<li><a href="/manage_players">Pelaajat</a></li>
+							<li><a href="/manage_staffs">Toimihenkilöt</a></li>
 							<li><a href="#">Käyttäjät</a></li>
 						<% when "team_leader" then %>
-							<li><a href="#">Manage Players</a></li>'
-							<li><a href="#">Manage Staff</a></li>
-							<li><a href="#">Manage Calendar</a></li>
+							<li><a href="manage_players">Manage Players</a></li>'
+							<li><a href="manage_staffs">Manage Staff</a></li>
+							<li><a href="manage_main_calendar">Manage Calendar</a></li>
 						<% when "head_coach" then %>
 							<li><a href="/uutisten_hallinta">Manage News</a></li>
 							<li><a href="#">Manage Calendar</a></li>	
