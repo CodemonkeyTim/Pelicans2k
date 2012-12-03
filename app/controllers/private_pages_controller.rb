@@ -4,14 +4,18 @@ class PrivatePagesController < ApplicationController
   @sid = 86400
   
   def login
-    render :layout => nil
+    unless current_user.nil?
+      redirect_to "/landing"
+    else
+      render :layout => nil
+    end
   end
 
   def landing
   end
   
   def manage_news
-    
+    @news = News.all
   end
   
   def manage_main_calendar
@@ -55,5 +59,9 @@ class PrivatePagesController < ApplicationController
   
   def manage_staffs
     
+  end
+  
+  def update_news
+    @po_news = News.find(params[:id])
   end
 end

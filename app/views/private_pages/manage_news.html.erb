@@ -1,29 +1,87 @@
-  <h2>Luo uusi</h2>
-  <div>
-  	<form action="/add_news" method="post">
-		<input type="text" name="Title" value="Mickey"><br>
-		<textarea rows="5">
-			"blah blah"			
-		</textarea>
-		<br/><input type="submit" value="Submit"><br>
-</form>
-  </div>
-  <h2>Julkaistut uutiset</h2>
-  <table class="table">
-  	<tr>
-  		<th>Päivämäärä</th>
-  		<th>Otsikko</th>
- 		<th>Sisältö</th> 
-  		<td></td>
-  	</tr>
-  	<tr>
-  		<td>18.9.1989</td>
-  		<td>Klassinen vuosi</td>
-  		<td>Lorem ipsum dolor sit amet consecterur etc etc etc</td>
-  		<td>
-  			<a href="#" class="btn btn-medium">Muokkaa</a>
-  			<a href="#" class="btn btn-medium">Poista</a>
-  		</td>
-  	</tr>
-  </table>
+<h2>Julkaise uusi</h2>
+<div>
+	<input type="text" id="title" placeholder="Otsikko"><br>
+	<textarea id="body" class="news-textarea">Sisältö</textarea>
+	<br/>
+	<a class="btn btn-medium" onclick="save()">Julkaise</a>
+</div>
+
+<br />
+
+<h2>Julkaistut uutiset</h2>
+<table class="table" id="news-table">
+	<tr>
+		<th>Julkaistu</th>
+		<th>Muokattu</th>
+		<th>Otsikko</th>
+		<th>Sisältö</th> 
+		<th>Toiminnot</th>
+	</tr>
+	<% @news.each do |news| %>
+	  	<tr class="news-row">
+	  		<td><%= news.published_at.strftime("%d.%m.%Y - %H:%M") %></td>
+	  		<td>
+	  			<% unless news.edited_at.nil? %>
+	  				<%= news.edited_at.strftime("%d.%m.%Y - %H:%M") %>
+	  			<% else %>
+	  				-
+	  			<% end %>
+	  		</td>
+	  		<td><%= news.title %></td>
+	  		<!-- <td><%= truncate(news.body, :length => 45) %></td>-->
+	  		<td><%= news.body %></td>
+	  		<td>
+	  			<a class="btn btn-medium edit-news-btn" href="/muokkaa_uutista/<%= news.id %>">Muokkaa</a>
+	  			<a class="btn btn-medium delete-news-btn" onclick="delete_news('<%= news.id %>')">Poista</a>
+	  		</td>
+	  	</tr>
+	<% end %>
+</table>
   
+
+<script>
+	$(document).ready(function () {
+		$("#body").focus(function () {
+			if ($(this).val() == "Sisältö") {
+				$(this).val("");
+			}
+		});
+		
+		$("#body").blur(function () {
+			if ($(this).val() == "") {
+				$(this).val("Sisältö");
+			}
+		});
+	});
+	
+	
+	function save () {
+		var title = $("#title").val();
+		var body = $("#body").val();
+		
+		var po_news = {title: title, body: body};
+		
+		$.post("/create_news", JSON.stringify(po_news), function (response) {
+			alert(response);
+			if (response == "Error") {
+				
+			} else {
+				var html = "<tr class='news-row'>\
+								<td>joo</td>\
+								<td>ff</td>\
+								<td>ddd</td>\
+							</tr>"
+				$("#news-table").find(".news-row").first().before(html);
+			}
+			
+		});
+	}
+	
+	function delete_news (id) {
+		if (confirm("Haluatko varmasti poistaa tämän uutisen? Tapahtumaa EI voi perua.")) {
+			
+		}
+	}
+	
+	set_private_nav("news");
+</script>

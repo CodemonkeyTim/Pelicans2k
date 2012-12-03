@@ -43,4 +43,42 @@ class AjaxController < ApplicationController
       render :text => "Error"
     end    
   end
+  
+  def create_news
+    jsonObj = request.body.read
+    
+    po_news = JSON.parse(jsonObj)
+    
+    new_news = News.new()
+    
+    new_news.title = po_news["title"]
+    new_news.body = po_news["body"]
+    new_news.published_at = DateTime.now
+    new_news.publisher_id = current_user.id
+    
+    if new_news.save
+      render :json => new_news
+    else
+      render :text => "error"
+    end
+  end
+  
+  def update_news
+    jsonObj = request.body.read
+    
+    po_news = JSON.parse(jsonObj)
+    
+    old_po_news = News.find(po_news["id"])
+    
+    old_po_news.title = po_news["title"]
+    old_po_news.body = po_news["body"]
+    old_po_news.edited_at = DateTime.now
+    old_po_news.edited_by_id = current_user.id
+    
+    if old_po_news.save
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
 end

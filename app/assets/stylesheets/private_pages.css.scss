@@ -59,3 +59,16 @@ body {
 .selected {
   background-color: green !important;
 }
+
+.news-textarea {
+  width: 600px;
+  height: 150px;
+}
+
+.edit-news-btn, .delete-news-btn {
+  width: 55px;
+}
+
+.delete-news-btn {
+  margin-top: 5px;
+}
