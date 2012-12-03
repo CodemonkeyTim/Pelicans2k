@@ -13,6 +13,6 @@ Pelicans2k::Application.routes.draw do
   #Routing for the private pages
   match "/kirjaudu_sisaan" => "private_pages#login"
   match "/landing" => "private_pages#landing"
-  
+  match "/uutisten_hallinta" => "private_pages#manage_news"
   
 end
