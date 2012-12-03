@@ -24,14 +24,61 @@ class AjaxController < ApplicationController
       resses.push(Reservation.new(starts_at: o["starts_at"], date: o["date"], activity: o["activity"], team_id: o["team_id"]))
     end
     
-    res = Reservation.find_by_date_and_team_id_and_starts_at(resses.first.date, resses.first.team_id, resses.first.starts_at)
-    team = Team.find(resses.first.team_id)
+    all_new = true;
     
-    if res
-      render :text => res.activity
-    else
-      render :text => "Not found"
+    resses.each do |res|
+      existing_res = Reservation.find_by_date_and_activity_and_starts_at(res.date, "Ice-time", res.starts_at)
+      
+      if existing_res
+        all_new = false;
+        break;
+      else
+        res.save
+      end
     end
     
+    if all_new
+      render :text => "Success"
+    else
+      render :text => "Error"
+    end    
+  end
+  
+  def create_news
+    jsonObj = request.body.read
+    
+    po_news = JSON.parse(jsonObj)
+    
+    new_news = News.new()
+    
+    new_news.title = po_news["title"]
+    new_news.body = po_news["body"]
+    new_news.published_at = DateTime.now
+    new_news.publisher_id = current_user.id
+    
+    if new_news.save
+      render :json => new_news
+    else
+      render :text => "error"
+    end
+  end
+  
+  def update_news
+    jsonObj = request.body.read
+    
+    po_news = JSON.parse(jsonObj)
+    
+    old_po_news = News.find(po_news["id"])
+    
+    old_po_news.title = po_news["title"]
+    old_po_news.body = po_news["body"]
+    old_po_news.edited_at = DateTime.now
+    old_po_news.edited_by_id = current_user.id
+    
+    if old_po_news.save
+      render :text => "success"
+    else
+      render :text => "error"
+    end
   end
 end

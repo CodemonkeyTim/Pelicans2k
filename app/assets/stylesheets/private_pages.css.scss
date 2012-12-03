@@ -48,14 +48,27 @@ body {
   background-color: red !important;
 }
 
-.selected {
-  background-color: green !important;
-}
-
 .AJunnut {
   background-color: pink !important;
 }
 
 .BJunnut {
   background-color: lime !important;
+}
+
+.selected {
+  background-color: green !important;
+}
+
+.news-textarea {
+  width: 600px;
+  height: 150px;
+}
+
+.edit-news-btn, .delete-news-btn {
+  width: 55px;
+}
+
+.delete-news-btn {
+  margin-top: 5px;
 }

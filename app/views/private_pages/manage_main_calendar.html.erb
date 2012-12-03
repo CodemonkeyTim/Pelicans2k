@@ -52,6 +52,18 @@
 	<br />
 	<br />
 	
+	
+	<div id="feedback-error" class="alert alert-error hidden">
+		Joukkueella on jo kalenterimerkintä valittuina tunteina. Tarkista joukkueen kalenteri.
+	</div>
+	
+	<div id="feedback-success" class="alert alert-success hidden">
+		Varaukset tallennettu onnistuneesti.
+	</div>
+
+	<br />
+	<br />
+	
 	<div id="main-cal-wrapper">
 		<table id="main-calendar-table">
 			<thead>
@@ -107,38 +119,44 @@
 			var id = $(this).val();
 			if (id == "0") { return; }
 			
-			var url = "";
-			
-			if (id == "all") {
-				url = "/get_cal_for_all?diff=<%= @diff %>";
-			} else {
-				url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
-			}
-			
-			$.ajax({
-				url: url,
-				cache: false,
-				success: function (resses) {
-					$.each(resses, function(i, res) {
-						var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
-						res_el.addClass("reserved");
-						res_el.attr("has-res", "true");
-						if (id == "all") {
-							res_el.html(res.team_name);
-							res_el.addClass(res.team_name.replace(' ', ''));
-						} else {
-							res_el.html(res.activity);
-						}
-					});
-				}
-			});
+			get_table_markings(id);
 		});
 	});
 	
+	function get_table_markings(id) {
+		var url = "";
+			
+		if (id == "all") {
+			url = "/get_cal_for_all?diff=<%= @diff %>";
+		} else {
+			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
+		}
+		
+		$.ajax({
+			url: url,
+			cache: false,
+			success: function (resses) {
+				$.each(resses, function(i, res) {
+					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
+					res_el.addClass("reserved");
+					res_el.attr("has-res", "true");
+					if (id == "all") {
+						res_el.html(res.team_name);
+						res_el.addClass(res.team_name.replace(' ', ''));
+					} else {
+						res_el.html(res.activity);
+					}
+				});
+			}
+		});
+	}
+	
 	function clear_table () {
-		$(".reservable").attr("class", "reservable");
-		$(".reservable").html("kvak");
-		$(".reservable").attr("has-res", "false");
+		var res_els = $(".reservable");
+		res_els.attr("class", "reservable");
+		res_els.html("kvak");
+		res_els.attr("has-res", "false");
+		res_els.attr("select", "false");
 	}
 	
 	function next() {
@@ -164,10 +182,24 @@
 				resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
 			});
 			
-			alert(JSON.stringify(resses));
-			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-					alert(response);
+					if (response == "Success") {
+						$("#feedback-success").removeClass("hidden");
+						//$("#feedback-success").slideToggle();
+						setTimeout(function() {
+							$("#feedback-success").addClass("hidden");
+						}, 2000);
+						clear_table();
+						get_table_markings("all");
+					} else {
+						$("#feedback-error").removeClass("hidden");
+						//$("#feedback-error").slideToggle();
+						setTimeout(function() {
+							$("#feedback-error").addClass("hidden");
+						}, 2000);
+						clear_table();
+						get_table_markings("all");
+					}
 				}
 			);	
 		} else {
@@ -187,4 +219,5 @@
 		return true;
 	}
 	
+	set_private_nav("main-cal");
 </script>

@@ -39,25 +39,25 @@
 	<div class="row">
 		<div class="span2">
 			<div class="section nav-section">
-				<ul class="nav nav-stacked nav-pills">
+				<ul class="nav nav-stacked nav-pills" id="private-nav">
+					<li class="nav-header">Navigointi</li>
+					<li id="landing"><a href="/landing">Etusivu</a></li>
+					<li class="nav-header">Hallinointisivut</li>
 					<% case current_user.role %>
 						<% when "admin" then %>
-							<li class="nav-header">Navigointi</li>
-							<li class="active"><a href="#">Etusivu</a></li>
-							<li class="nav-header">Hallinointisivut</li>
-							<li><a href="#">Uutiset</a></li>
-							<li><a href="/paakalenterin_hallinta">Pääkalenteri</a></li>
-							<li><a href="#">Tiimikalenterit</a></li>
-							<li><a href="/manage_players">Pelaajat</a></li>
-							<li><a href="/manage_staffs">Toimihenkilöt</a></li>
-							<li><a href="#">Käyttäjät</a></li>
+							<li id="news"><a href="/uutisten_hallinta">Uutiset</a></li>
+							<li id="main-cal"><a href="/paakalenterin_hallinta">Pääkalenteri</a></li>
+							<li id="team-cal"><a href="#">Tiimikalenterit</a></li>
+							<li id="players"><a href="#">Pelaajat</a></li>
+							<li id="staff"><a href="#">Toimihenkilöt</a></li>
+							<li id="users"><a href="#">Käyttäjät</a></li>
 						<% when "team_leader" then %>
-							<li><a href="manage_players">Manage Players</a></li>'
-							<li><a href="manage_staffs">Manage Staff</a></li>
-							<li><a href="manage_main_calendar">Manage Calendar</a></li>
+							<li id="players"><a href="#">Pelaajat</a></li>
+							<li id="staff"><a href="#">Toimihenkilöt</a></li>
+							<li id="team-cal"><a href="#">Tiimikalenteri</a></li>
 						<% when "head_coach" then %>
-							<li><a href="/uutisten_hallinta">Manage News</a></li>
-							<li><a href="#">Manage Calendar</a></li>	
+							<li id="news"><a href="/uutisten_hallinta">Uutiset</a></li>
+							<li id="main-cal"><a href="/paakalenterin_hallinta">Pääkalenteri</a></li>	
 					<% end %>
 				</ul>
 			</div>
