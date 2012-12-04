@@ -79,13 +79,13 @@
 					<tr>
 						<th><%= i %>:00</th>
 						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00">kvak</td>	
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00"></td>	
 						<% end %>
 					</tr>
 					<tr>
 						<th><%= i %>:30</th>
 						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30">kvak</td>	
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30"></td>	
 						<% end %>
 					</tr>
 				<% end %>
@@ -154,7 +154,7 @@
 	function clear_table () {
 		var res_els = $(".reservable");
 		res_els.attr("class", "reservable");
-		res_els.html("kvak");
+		res_els.html("");
 		res_els.attr("has-res", "false");
 		res_els.attr("select", "false");
 	}
