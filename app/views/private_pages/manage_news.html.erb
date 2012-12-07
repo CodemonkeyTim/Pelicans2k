@@ -1,5 +1,5 @@
 <h2>Julkaise uusi</h2>
-<div>
+<div id="create-news">
 	<input type="text" id="title" placeholder="Otsikko"><br>
 	<textarea id="body" class="news-textarea">Sisältö</textarea>
 	<br/>
@@ -18,7 +18,7 @@
 		<th>Toiminnot</th>
 	</tr>
 	<% @news.each do |news| %>
-	  	<tr class="news-row">
+	  	<tr id="news_<%= news.id %>" class="news-row">
 	  		<td><%= news.published_at.strftime("%d.%m.%Y - %H:%M") %></td>
 	  		<td>
 	  			<% unless news.edited_at.nil? %>
@@ -62,25 +62,69 @@
 		var po_news = {title: title, body: body};
 		
 		$.post("/create_news", JSON.stringify(po_news), function (response) {
-			alert(response);
 			if (response == "Error") {
-				
+				show_feedback("Jotain meni pieleen", "error");
 			} else {
-				var html = "<tr class='news-row'>\
-								<td>joo</td>\
-								<td>ff</td>\
-								<td>ddd</td>\
+				show_feedback("Uutinen julkaistu.", "success");
+				
+				var published_at = convert_date(response.published_at);
+				var edited_at = "-";
+				if (!(response.edited_at == null)) {
+					edited_at = convert_date(response.edited_at);
+				}
+				
+				var html = "<tr id='news_" + response.id + "' class='news-row'>\
+								<td>"+ published_at +"</td>\
+								<td>" + edited_at + "</td>\
+								<td>" + response.title + "</td>\
+								<td>" + response.body + "</td>\
+								<td>\
+						  			<a class='btn btn-medium edit-news-btn' href='/muokkaa_uutista/" + response.id +"'>Muokkaa</a>\
+						  			<a class='btn btn-medium delete-news-btn' onclick='delete_news(\'" + response.id + "\')'>Poista</a>\
+	  							</td>\
 							</tr>"
 				$("#news-table").find(".news-row").first().before(html);
 			}
 			
-		});
+		});	
+	}
+	
+	function convert_date(datestr) {
+		var year = datestr.substring(0, 4);
+		var month = datestr.substring(5, 7);
+		var day = datestr.substring(8, 10);
+		
+		var hour = datestr.substring(11, 13);
+		var minute = datestr.substring(14, 16);
+		
+		var ret_str = day + "." + month + "." + year + " - " + hour + ":" + minute;
+		return ret_str
 	}
 	
 	function delete_news (id) {
-		if (confirm("Haluatko varmasti poistaa tämän uutisen? Tapahtumaa EI voi perua.")) {
-			
+		if (confirm("Haluatko varmasti poistaa tämän uutisen? Poistamista EI voi perua.")) {
+			$.ajax({
+				url: "/delete_news/" + id,
+				cache: false,
+				success: function () {
+					$("#news_"+id).remove();
+					show_feedback("Uutinen poistettu", "success");
+				}
+			});
 		}
+	}
+	
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#create-news").after(fb_element);
+		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
 	}
 	
 	set_private_nav("news");
