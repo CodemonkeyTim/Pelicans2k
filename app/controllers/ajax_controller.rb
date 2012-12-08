@@ -27,7 +27,7 @@ class AjaxController < ApplicationController
     all_new = true;
     
     resses.each do |res|
-      existing_res = Reservation.find_by_date_and_activity_and_starts_at(res.date, "Ice-time", res.starts_at)
+      existing_res = Reservation.find_by_date_and_activity_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
       
       if existing_res
         all_new = false;

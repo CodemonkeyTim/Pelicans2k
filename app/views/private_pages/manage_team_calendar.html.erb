@@ -1,44 +1,34 @@
 <div>
-	<h2>Pääkalenteri</h2>
-	<h3>Vuosi <span id="year"><%= @year %></span> viikko <span id="week"><%= @today.cweek %></span></h3>
+	<h2>Tiimikalenteri</h2>
 	
 	<br />
-	<br />
-	
-	<h3>Asetukset</h3>
 	<div>
+		<h3>Asetukset</h3>
+		
 		<table class="table">
 			<tbody>
+				<% if current_user.role == "admin" %>
+					<tr>
+						<th>Valitse joukkue</th>
+						<td>
+							<select id="show-team-select">
+								<% Team.all.each do |team| %>
+									<option value="<%= team.id %>"><%= team.name %></option>
+								<% end %>
+							</select>
+						</td>
+					</tr>
+				<% end %>
 				<tr>
-					<th>Näytä kalenteri joukkueelle</th>
-					<td>
-						<select id="team-select">
-							<option value="0"></option>
-							<option value="all">Kaikki</option>
-							<% Team.all.each do |team| %>
-								<option value="<%= team.id %>"><%= team.name %></option>
-							<% end %>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>Valitse joukkue jolle valitut tunnit varataan</th>
-					<td>
-						<select id="save-to-team-select">
-							<option value="0"></option>
-							<% Team.all.each do |team| %>
-								<option value="<%= team.id %>"><%= team.name %></option>
-							<% end %>
-						</select>
-					</td>
+					<th>Aktiviteetti</th>
+					<td><input type="text" placeholder="aktiviteetti"></td>
 				</tr>
 			</tbody>
 		</table>
 		
-		<a class="btn btn-large pull-right" onclick="save()">Tallenna varaukset</a>
+		<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
 	</div>
 	
-	<br />
 	<br />
 	<br />
 	<br />
@@ -60,7 +50,7 @@
 	<div id="feedback-success" class="alert alert-success hidden">
 		Varaukset tallennettu onnistuneesti.
 	</div>
-
+	
 	<br />
 	<br />
 	
@@ -111,24 +101,20 @@
 			}
 		});
 		
-		$("#team-select").change(function () {
-			clear_table();
-			
-			var id = $(this).val();
-			if (id == "0") { return; }
-			
-			get_table_markings(id);
-		});
+		<% if current_user.role == "admin" %>
+			$("#show-team-select").change(function () {
+				clear_table();
+				
+				var id = $(this).val();
+				if (id == "0") { return; }
+				
+				get_table_markings(id);
+			});
+		<% end %>
 	});
 	
 	function get_table_markings(id) {
-		var url = "";
-			
-		if (id == "all") {
-			url = "/get_cal_for_all?diff=<%= @diff %>";
-		} else {
-			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
-		}
+		var url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
 		
 		$.ajax({
 			url: url,
@@ -159,25 +145,30 @@
 	
 	function next() {
 		var diff = <%= @diff %> + 1;
-		window.location = "/paakalenterin_hallinta?diff=" + diff; 	
+		window.location = "/tiimikalenterin_hallinta?diff=" + diff; 	
 	}
 			
 	function prev() {
 		var diff = <%= @diff %> - 1;
-		window.location = "/paakalenterin_hallinta?diff=" + diff;
+		window.location = "/tiimikalenterin_hallinta?diff=" + diff;
 	}
 	
 	function curr() {
-		window.location = "/paakalenterin_hallinta?diff=0";
+		window.location = "/tiimikalenterin_hallinta?diff=0";
 	}
 	
 	function save () {
 		if (data_valid_to_save()) {
 			var resses = [];
-			var team_id = $("#save-to-team-select").val();
+			var actvity = $("#activity").val();
+			<% if @team %>
+				var team_id = <%= @team.id %>;
+			<% else %>
+				var team_id = $("#show-team-select").val();
+			<% end %>
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
@@ -206,7 +197,7 @@
 	}
 	
 	function data_valid_to_save() {
-		if ($("#save-to-team-select").val() == "0") {
+		if ($("#activity").val() == "") {
 			return false;
 		}
 		
@@ -217,5 +208,5 @@
 		return true;
 	}
 	
-	set_private_nav("main-cal");
+	set_private_nav("team-cal");
 </script>
