@@ -5,7 +5,9 @@ set :scm, :git
 set :branch, "master"
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-set :user, "teemu"  # The server's user for deploys
+ssh_options[:forward_agent] = true
+
+set :user, "teme"  # The server's user for deploys
 set :scm_passphrase, "Tvaini0"  # The deploy user's password
 
 set :deploy_to, "/home/teme/rails/deployments"
