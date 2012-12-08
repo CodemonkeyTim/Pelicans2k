@@ -14,5 +14,18 @@ Pelicans2k::Application.routes.draw do
   match "/kirjaudu_sisaan" => "private_pages#login"
   match "/landing" => "private_pages#landing"
   match "/uutisten_hallinta" => "private_pages#manage_news"
+  match "/paakalenterin_hallinta" => "private_pages#manage_main_calendar"
+  match "/muokkaa_uutista/:id" => "private_pages#update_news"
+    
+
+  #Ajax calls routing
+  match "/get_cal_for_team" => "ajax#get_cal_for_team"
+  match "/get_cal_for_all" => "ajax#get_cal_for_all"
+  match "/save_ice_time" => "ajax#save_ice_time"
+  
+  match "/create_news" => "ajax#create_news"
+  match "/update_news" => "ajax#update_news"
+  match "/delete_news/:id" => "ajax#delete_news"
+  
   
 end

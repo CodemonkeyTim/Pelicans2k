@@ -24,7 +24,74 @@
 	<a class="btn btn-medium"><i class="icon-edit"></i> Hallinnoi uutisia</a>
 </div>
 <% when "head_coach" then %>
+<div>
+	<h3>Uusimmat uutiset</h3>
+	<br />
+	<div>
+		<span class="news-date">18.10.2012</span>
+		<h4>Uudet nettisivut</h4>
+		<p>Lahden ammattikorkeakoulun oppilaat toteuttivat seuralle uudet nettisivut.</p>
+	</div>
+	
+	<div>
+		<span class="news-date">15.10.2012</span>
+		<h4>Jäähalli paloi poroksi</h4>
+		<p>Jäähalli paloi viime yönä poroksi. Syyksi epäillään pikkupoikien tulitikkuleikkejä.</p>
+	</div>
+	
+	<div>
+		<span class="news-date">12.10.2012</span>
+		<h4>Päävalmentajalta meni hermot</h4>
+		<p>Päävalmentaja irtisanoutui joukkueen uuden nettisivun ulkoasukiistan johdosta.</p>
+	</div>
+	 
+	<a class="btn btn-medium"><i class="icon-edit"></i> Hallinnoi uutisia</a>
+</div>
 
 <% when "team_leader" then %>
-
+<div>
+	<h3>Team Info</h3>
+	
+	<br />
+	
+	<table class="Player_table">
+	  		<tr>
+		  		<th>Pos</th>
+		  		<th>Number</th>
+		  		<th>Name</th> 
+		  		<th>Pos</th>
+		  		<th>Number</th>
+		  		<th>Name</th> 
+	  		</tr>
+	  		<tr>
+		  		<td>mv</td>
+		  		<td>11</td>
+		  		<td>Jari Nieminen</td>
+		  		<td></td>
+		  		<td>1</td>
+		  		<td>Teemu Vainio</td>
+	  		</tr>
+  		</table>
+  	
+  	
+  	  		<h4>Staff Info</h4>
+	 	<table class="Player_table">
+		  	<tr>
+		  		<th>Staff</th>
+		  		<th>Name</th>
+		  		<th>Phone</th>  
+		  		<th>email</th>
+		   	</tr>
+		   	<tr>
+		  		<td>Team Leader</td>
+		  		<td>Mika Huopio</td>
+		  		<td>044521524</td>
+		   		<td>hupoi_Mika@gmail.com</td>
+		  	</tr> 	
+	  	</table>
+  	</div>
 <% end %>
+
+<script>
+	set_private_nav("landing");
+</script>

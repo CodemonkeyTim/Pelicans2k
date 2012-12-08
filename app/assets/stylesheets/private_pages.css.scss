@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body {
+  padding-top: 0px;
+}
+
 #page {
   width: 220px;
   margin: auto;
@@ -19,4 +23,52 @@
 
 .alert {
   margin-bottom: 0px;
+}
+
+#private-pages-banner {
+  width: 100%;
+}
+
+#main-calendar-table .reservable {
+  background-color: grey;
+  width: 110px;
+  height: 30px;
+  border: solid 1px black;
+  text-align: center;
+}
+
+.center-button {
+    position: absolute;
+    width: 50px;
+    left: 50%;
+    margin-left: 25px;
+}
+
+.reserved {
+  background-color: red !important;
+}
+
+.AJunnut {
+  background-color: pink !important;
+}
+
+.BJunnut {
+  background-color: lime !important;
+}
+
+.selected {
+  background-color: green !important;
+}
+
+.news-textarea {
+  width: 600px;
+  height: 150px;
+}
+
+.edit-news-btn, .delete-news-btn {
+  width: 55px;
+}
+
+.delete-news-btn {
+  margin-top: 5px;
 }
