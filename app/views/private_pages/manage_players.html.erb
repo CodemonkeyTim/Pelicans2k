@@ -20,18 +20,23 @@
 		<th>Nro.</th>
 		<th>Etunimi</th>
 		<th>Sukunimi</th>
+		<th>Position</th>
 		<td></td>
 	</tr>
-	<tr id="players" class ="players-row">
-		<td>99</td>
-		<td>Lasse</td>
-		<td>Vourinen</td>
+	<% Player.all.each do |player| %>
+	  	<tr id="player_<%= player.id %>" class="player-row">
+	  	<td><%= player.number %></td>
+		<td><%= player.f_name %></td>
+		<td><%= player.l_name %></td>
+		<td><%= player.position %></td>
 		<td>
   			<a class="btn btn-medium edit-players-btn">Muokkaa</a>
   			<a class="btn btn-medium delete-players-btn" onclick="delete_players('')">Poista</a>
   			
   		</td>
+  	
 	</tr>
+	<% end %>
 </table>
 
 <% when "team_leader" then %>
@@ -49,9 +54,25 @@
 				<td>
 		  			<a class="btn btn-medium edit-players-btn">Muokkaa</a>
 		  			<a class="btn btn-medium delete-players-btn" onclick="delete_players('')">Poista</a>
-		  			
 		  		</td>
 			</tr>
 			</table>
 			
 	<% end %>
+<script>
+$("#team-select").change(function () {
+	var id = $(this).val();
+			if (id == "0") { return; }
+	get_table(id)
+});
+function get_table(id){
+	var url = "";
+			
+	if (id == "0") {
+		
+	}
+	else {
+		url = "/get_players?team_id=" + id";
+	}
+}
+
