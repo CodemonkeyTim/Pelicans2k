@@ -32,18 +32,20 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @team.staff.each do |sm| %>
-			<tr>
-				<td>Valmentaja</td>
-				<td>Antti</td>
-				<td>Halonen</td>
-				<td>antti.halonen@pelicans2k.fi</td>
-				<td>0401568794</td>
-				<td>
-		  			<a href="#" class="btn btn-medium">Muokkaa</a>
-		  			<a href="#" class="btn btn-medium">Poista</a>
-		  		</td>
-			</tr>
+		<% if @team %>
+			<% @team.staff_members.each do |sm| %>
+				<tr>
+					<td>Valmentaja</td>
+					<td>Antti</td>
+					<td>Halonen</td>
+					<td>antti.halonen@pelicans2k.fi</td>
+					<td>0401568794</td>
+					<td>
+			  			<a href="#" class="btn btn-medium">Muokkaa</a>
+			  			<a href="#" class="btn btn-medium">Poista</a>
+			  		</td>
+				</tr>
+			<% end %>
 		<% end %>
 	</tbody>
 </table>
