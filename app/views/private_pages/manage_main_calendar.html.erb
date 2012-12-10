@@ -1,5 +1,5 @@
 <div>
-	<h2>Pääkalenteri</h2>
+	<h2>P&auml;&auml;kalenteri</h2>
 	<h3>Vuosi <span id="year"><%= @year %></span> viikko <span id="week"><%= @today.cweek %></span></h3>
 	
 	<br />
@@ -10,7 +10,7 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<th>Näytä kalenteri joukkueelle</th>
+					<th>N&auml;yt&auml; kalenteri joukkueelle</th>
 					<td>
 						<select id="team-select">
 							<option value="0"></option>
@@ -35,7 +35,8 @@
 			</tbody>
 		</table>
 		
-		<a class="btn btn-large pull-right" onclick="save()">Tallenna varaukset</a>
+		<a class="btn btn-large pull-right" onclick="save()">Tallenna j&auml;&auml;aikavaraukset</a>
+		<a class="btn btn-large pull-right" id="del-icetime-btn" onclick="del()">Poista j&auml;&auml;aikavaraukset</a>
 	</div>
 	
 	<br />
@@ -54,7 +55,7 @@
 	
 	
 	<div id="feedback-error" class="alert alert-error hidden">
-		Joukkueella on jo kalenterimerkintä valittuina tunteina. Tarkista joukkueen kalenteri.
+		Joukkueella on jo kalenterimerkint&auml; valittuina tunteina. Tarkista joukkueen kalenteri.
 	</div>
 	
 	<div id="feedback-success" class="alert alert-success hidden">
@@ -177,7 +178,7 @@
 			var team_id = $("#save-to-team-select").val();
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: "Ice-time", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+				resses.push({activity: "Jääaika", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {

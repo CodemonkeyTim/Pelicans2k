@@ -1,11 +1,29 @@
+# encoding: UTF-8
+
 class AjaxController < ApplicationController
   def get_cal_for_team
-    team = Team.find(params[:team_id])
-    render :json => team.reservations
+    today = DateTime.now + (params[:diff].to_i * 7)
+    
+    mon = today.at_beginning_of_week
+    sun = today.at_end_of_week
+    
+    resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika", :team_id => params[:team_id])
+    
+    render :json => resses
+  end
+  
+  def get_staff_members
+    render :json => Team.find(params[:id]).staff_members
   end
   
   def get_cal_for_all
-    resses = Reservation.all
+    today = DateTime.now + (params[:diff].to_i * 7)
+    
+    mon = today.at_beginning_of_week
+    sun = today.at_end_of_week
+    
+    resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika")
+    
     resses_json = []
     
     resses.each do |res|
@@ -27,7 +45,7 @@ class AjaxController < ApplicationController
     all_new = true;
     
     resses.each do |res|
-      existing_res = Reservation.find_by_date_and_activity_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
+      existing_res = Reservation.find_by_date_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
       
       if existing_res
         all_new = false;
@@ -76,6 +94,7 @@ class AjaxController < ApplicationController
     old_po_news.edited_by_id = current_user.id
     
     if old_po_news.save
+      session[:news_update_success] = true
       render :text => "success"
     else
       render :text => "error"

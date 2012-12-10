@@ -52,6 +52,11 @@
 				$(this).val("Sisältö");
 			}
 		});
+		
+		<% if session[:news_update_success] == true %>
+			show_feedback("Uutinen tallenettu onnistuneesti", "success");
+			<% session[:news_update_success] = false %>
+		<% end %>
 	});
 	
 	

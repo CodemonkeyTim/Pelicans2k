@@ -3,4 +3,5 @@ class Team < ActiveRecord::Base
   
   has_many :players
   has_many :reservations
+  has_many :staff_members
 end
