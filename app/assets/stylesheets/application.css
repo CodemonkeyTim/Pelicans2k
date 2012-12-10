@@ -13,6 +13,10 @@
  *= require jquery.ui.all
  */
 
+body {
+	padding-top: 50px;
+}
+
 .section {
 	border-radius: 5px;
 	padding: 10px;
