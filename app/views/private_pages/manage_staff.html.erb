@@ -23,7 +23,7 @@
 <% end %>
 
 <br />
-<table class="table">
+<table class="table" id="staff-members-table">
 	<thead>
 		<tr id="header-row">
 			<th>Rooli</th>
@@ -65,6 +65,11 @@
 				get_staff_table(team_id);
 			});
 		<% end %>
+		
+		<% if session[:staff_member_update_success] == true %>
+			show_feedback("Toimihenkilön tiedot tallennettu onnistuneesti", "success");
+			<% session[:staff_member_update_success] = false %>
+		<% end %>
 	});
 	
 	function get_staff_table(team_id) {
@@ -98,7 +103,16 @@
 		
 	}
 	
-	function save() {
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#staff-members-table").before(fb_element);
 		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
 	}
 </script>
