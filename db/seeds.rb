@@ -44,3 +44,8 @@ Player.create(f_name: "Antti", l_name: "Jääskeläinen", number: 34, position: 
 Player.create(f_name: "Mara", l_name: "Tuominen", number: 65, position: "puolustaja", team_id: 1)
 Player.create(f_name: "Pentti", l_name: "Tikanoja", number: 23, position: "puolustaja", team_id: 1)
 
+StaffMember.create(f_name: "Olli", l_name: "Orava", role: "valmentaja", email: "oorava@gmail.com", phone: "044-5552244", team_id: 1)
+StaffMember.create(f_name: "Terppi", l_name: "Terävä", role: "kahvittaja", email: "terppitee@gmail.com", phone: " 045-78922312", team_id: 1)
+StaffMember.create(f_name: "Ilkka", l_name: "Ilves", role: "varustevastaava", email: "iilves@gmail.com", phone: "0400-3453451", team_id: 1)
+StaffMember.create(f_name: "Pekka", l_name: "Pakorauta", role: "teroittaja", email: "peepako@gmail.com", phone: "044-1122113", team_id: 1)
+StaffMember.create(f_name: "Timo", l_name: "Tiira", role: "vastaava mestari", email: "mest@ari.fi", phone: "044-9999999", team_id: 1)
