@@ -1,21 +1,49 @@
+<h2>Toimihenkilöiden hallinta</h2>
+<% if current_user.role == "admin" %>
+	<div>
+		<h2>Asetukset</h2>
+		<table>
+			<tbody>
+				<tr>
+					<th>Valitse joukkue</th>
+					<td>
+						<select id="team-staff-select">
+							<option value="0"></option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<% end %>
 
 <table class="table">
-	<tr>
-		<th>Rooli</th>
-		<th>Etunimi</th>
-		<th>Sukunimi</th>
-		<th>Email</th>
-		<th>Puh.</th>
-		<td></td>
-	</tr>
-	<tr>
-		<td>Valmentaja</td>
-		<td>Antti</td>
-		<td>Halonen</td>
-		<td>antti.halonen@pelicans2k.fi</td>
-		<td>0401568794</td>
-		<td>
-  			<a href="#" class="btn btn-medium">Muokkaa</a>
-  			<a href="#" class="btn btn-medium">Poista</a>
-  		</td>
-	</tr>
+	<thead>
+		<tr>
+			<th>Rooli</th>
+			<th>Etunimi</th>
+			<th>Sukunimi</th>
+			<th>Email</th>
+			<th>Puh.</th>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<% @team.staff.each do |sm| %>
+			<tr>
+				<td>Valmentaja</td>
+				<td>Antti</td>
+				<td>Halonen</td>
+				<td>antti.halonen@pelicans2k.fi</td>
+				<td>0401568794</td>
+				<td>
+		  			<a href="#" class="btn btn-medium">Muokkaa</a>
+		  			<a href="#" class="btn btn-medium">Poista</a>
+		  		</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
