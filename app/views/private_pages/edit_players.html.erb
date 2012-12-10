@@ -1,22 +1,71 @@
 <table class="table">
 	<tr>
+		<th>Nro.</th>
 		<th>Etunimi</th>
 		<th>Sukunimi</th>
-		<th>Email</th>
-		<th>Puh.</th>
-		<th>Rooli</th>
+		<th>Position</th>
 		<td></td>
 	</tr>
-	<tr>
-	<form action="/edit_staff" method="post">
-		<td><input type="text" value="Mickey"></td>
-		<td><input type="text" value="Mickey"></td>
-		<td><input type="text" value="Mickey"></td>
-		<td><input type="text" value="Mickey"></td>
-		<td><input type="text" value="Mickey"></td>
+	
+	<tr id="data-row">
+		<td><input type="text" class="input-small" value="<%= @player.number %>" /></td>
+		<td><input type="text" class="input-medium" value="<%= @player.f_name %>" /></td>
+		<td><input type="text" class="input-small" value="<%= @player.l_name %>" /></td>
+		<td><input type="text" class="input-medium" value="<%= @player.position %>" /></td>
+		
+	</tr>
+</table>
 
-		<input type="submit" value="Save">
-		<input type="reset" value="Reset">
-		<a href="#" class="btn btn-medium">Cancel</a>
-		<br>
-</form>
+<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
+<a class="btn btn-large pull-right btn-margin-right" onclick="reset()">Resetoi</a>
+<a href="//pelaajien_hallinta" class="btn btn-large pull-right btn-margin-right">Peruuta</a>
+<div style="clear:both"></div>
+
+
+<script>
+	$(document).ready(function () {
+	});
+	
+	function reset () {
+		var values = ["<%= @player.number %>", "<%= @player.f_name %>", "<%= @player.l_name %>", "<%= @player.position %>"];
+		var i = 0;
+		
+		$("#data-row").find("input").each(function() {
+			$(this).val(values[i]);
+			i++;
+		});
+	}
+	
+	function save () {
+		var values = [];
+		
+		$("#data-row").find("input").each(function() {
+			values.push($(this).val());
+		});
+		
+		var player = {id: "<%= @player.id %>", number: values[0], f_name: values[1], l_name: values[2], position: values[3]};
+		
+		$.post("/update_player", JSON.stringify(player), function (response) {
+			if (response == "success") {
+				window.location = "/pelaajien_hallinta"
+			} else {
+				show_feedback("Jotain meni pieleen.", "error")
+			}
+		});
+	}
+	
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#data-table").after(fb_element);
+		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
+	}
+	
+	set_private_nav("news");
+</script>

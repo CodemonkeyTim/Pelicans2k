@@ -32,13 +32,13 @@ Pelicans2k::Application.routes.draw do
   match "/update_news" => "ajax#update_news"
   match "/delete_news/:id" => "ajax#delete_news"
   
-<<<<<<< .merge_file_1ORBcw
+
   match "/get_playersx/:id" => "ajax#get_players" 
-=======
+
   match "/get_staff_members/:id" => "ajax#get_staff_members"
   match "/update_staff_member" => "ajax#update_staff_member"
   
   match "/get_players/:id" => "ajax#get_players"
-  
->>>>>>> .merge_file_jiflWx
+  match "/update_player" => "ajax#update_player"
+
 end

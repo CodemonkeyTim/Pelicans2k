@@ -24,7 +24,7 @@
 
 <br />
 <table class="table">
-<<<<<<< .merge_file_L0u0xu
+
 	<tr>
 		<th>Nro.</th>
 		<th>Etunimi</th>
@@ -68,50 +68,6 @@
 			</table>
 			
 	<% end %>
-<script>
-$("#team-select").change(function () {
-	var id = $(this).val();
-			if (id == "0") { return; }
-	get_table(id)
-});
-function get_table(id){
-	var url = "";
-			
-	if (id == "0") {
-		
-	}
-	else {
-		url = "/get_players?team_id=" + id";
-	}
-}
-
-=======
-	<thead>
-		<tr id="header-row">
-			<th>Num</th>
-			<th>Etunimi</th>
-			<th>Sukunimi</th>
-			<th>Pos</th>
-			<td></td>
-		</tr>
-	</thead>
-	<tbody>
-		<% if @team %>
-			<% @team.players.each do |player| %>
-				<tr>
-					<td><%= player.number %></td>
-					<td><%= player.f_name %></td>
-					<td><%= player.l_name %></td>
-					<td><%= player.position %></td>
-					<td>
-			  			<a href="/muokkaa_pelajaat/<%= player.id %>" class="btn btn-medium">Muokkaa</a>
-			  			<a onclick="del_player(<%= player.id %>)" class="btn btn-medium">Poista</a>
-			  		</td>
-				</tr>
-			<% end %>
-		<% end %> 
-	</tbody>
-</table>
 
 <script>
 	$(document).ready(function () {
@@ -161,4 +117,4 @@ function get_table(id){
 		
 	}
 </script>
->>>>>>> .merge_file_RINjku
+
