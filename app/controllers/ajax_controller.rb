@@ -1,11 +1,25 @@
+# encoding: UTF-8
+
 class AjaxController < ApplicationController
   def get_cal_for_team
-    team = Team.find(params[:team_id])
-    render :json => team.reservations
+    today = DateTime.now + (params[:diff].to_i * 7)
+    
+    mon = today.at_beginning_of_week
+    sun = today.at_end_of_week
+    
+    resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika", :team_id => params[:team_id])
+    
+    render :json => resses
   end
   
   def get_cal_for_all
-    resses = Reservation.all
+    today = DateTime.now + (params[:diff].to_i * 7)
+    
+    mon = today.at_beginning_of_week
+    sun = today.at_end_of_week
+    
+    resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika")
+    
     resses_json = []
     
     resses.each do |res|
