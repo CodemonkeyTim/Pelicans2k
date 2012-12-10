@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20121210115924) do
     t.string   "f_name",                 :default => "", :null => false
     t.string   "l_name",                 :default => "", :null => false
     t.string   "role",                   :default => "", :null => false
+    t.integer  "team_id",                :default => 0,  :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
