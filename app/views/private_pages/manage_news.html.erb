@@ -52,6 +52,10 @@
 				$(this).val("Sisältö");
 			}
 		});
+		
+		if (location.search.indexOf("success") != -1) {
+			show_feedback("Uutista muokattu onnistuneesti", "success");
+		}
 	});
 	
 	

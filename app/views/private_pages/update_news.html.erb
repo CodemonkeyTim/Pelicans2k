@@ -27,7 +27,9 @@
 		var po_news = {id: "<%= @po_news.id %>", title: title, body: body};
 		
 		$.post("/update_news", JSON.stringify(po_news), function (response) {
-			alert(response);
+			if (response == "success") {
+				window.location = "/uutisten_hallinta?update=success"
+			}
 		});
 	}
 	
