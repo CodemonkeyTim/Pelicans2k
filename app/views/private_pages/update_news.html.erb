@@ -1,0 +1,52 @@
+<h2>Uutisen muokkaus</h2>
+<div id="edit-news">
+		Otsikko<br />
+		<input type="text" id="title" value="<%= @po_news.title %>"><br>
+		Sisältö<br />
+		<textarea id="body" class="news-textarea"><%= @po_news.body %></textarea>
+		<br/>
+		
+		<a class="btn btn-medium" onclick="save()">Tallenna muokkaus</a>
+		<a class="btn btn-medium" onclick="reset()">Resetoi</a>
+		<a class="btn btn-medium" onclick="window.location = '/uutisten_hallinta'">Peruuta</a>
+</div>
+
+<script>
+	function reset () {
+		var title = "<%= escape_javascript @po_news.title %>";
+		var body = "<%= escape_javascript @po_news.body %>";
+		
+		$("#title").val(title);
+		$("#body").val(body);
+	}
+	
+	function save () {
+		var title = $("#title").val();
+		var body = $("#body").val();
+		
+		var po_news = {id: "<%= @po_news.id %>", title: title, body: body};
+		
+		$.post("/update_news", JSON.stringify(po_news), function (response) {
+			if (response == "success") {
+				window.location = "/uutisten_hallinta"
+			} else {
+				show_feedback("Jotain meni pieleen.", "error")
+			}
+		});
+	}
+	
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#edit-news").before(fb_element);
+		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
+	}
+	
+	set_private_nav("news");
+</script>

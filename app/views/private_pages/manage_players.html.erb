@@ -1,0 +1,57 @@
+<% case current_user.role %>
+					<% when "admin" then %>
+					<table class="table" >
+					
+					<tr>
+					<th>Valitse joukkue jolle valitut tunnit varataan</th>
+					<td>
+						<select id="save-to-team-select">
+							<option value="0"></option>
+							<% Team.all.each do |team| %>
+								<option value="<%= team.id %>"><%= team.name %></option>
+							<% end %>
+						</select>
+					</td>
+					</tr>
+					</table>
+				
+<table class="table">
+	<tr>
+		<th>Nro.</th>
+		<th>Etunimi</th>
+		<th>Sukunimi</th>
+		<td></td>
+	</tr>
+	<tr id="players" class ="players-row">
+		<td>99</td>
+		<td>Lasse</td>
+		<td>Vourinen</td>
+		<td>
+  			<a class="btn btn-medium edit-players-btn">Muokkaa</a>
+  			<a class="btn btn-medium delete-players-btn" onclick="delete_players('')">Poista</a>
+  			
+  		</td>
+	</tr>
+</table>
+
+<% when "team_leader" then %>
+		<table class="table">
+			<tr>
+				<th>Nro.</th>
+				<th>Etunimi</th>
+				<th>Sukunimi</th>
+				<td></td>
+			</tr>
+			<tr id="players" class ="players-row">
+				<td>99</td>
+				<td>Lasse</td>
+				<td>Vourinen</td>
+				<td>
+		  			<a class="btn btn-medium edit-players-btn">Muokkaa</a>
+		  			<a class="btn btn-medium delete-players-btn" onclick="delete_players('')">Poista</a>
+		  			
+		  		</td>
+			</tr>
+			</table>
+			
+	<% end %>

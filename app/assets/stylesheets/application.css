@@ -13,6 +13,10 @@
  *= require jquery.ui.all
  */
 
+body {
+	padding-top: 50px;
+}
+
 .section {
 	border-radius: 5px;
 	padding: 10px;
@@ -31,4 +35,8 @@
 .row {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+#del-icetime-btn {
+  margin-right: 10px;
 }

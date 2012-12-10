@@ -2,20 +2,21 @@ set :application, "Pelicans2k"
 set :repository,  "git@github.com:CodemonkeyTim/Pelicans2k.git"
 
 set :scm, :git
+set :branch, "master"
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-set :user, "teemu"  # The server's user for deploys
+ssh_options[:forward_agent] = true
+
+set :user, "teme"  # The server's user for deploys
 set :scm_passphrase, "Tvaini0"  # The deploy user's password
 
-set :deploy_to, "/home/teemu/rails/deployments"
+set :deploy_to, "/home/teme/rails/deployments"
 
 default_run_options[:pty] = true
 
-role :web, "192.168.0.14"                          # Your HTTP server, Apache/etc
-role :app, "192.168.0.14"                          # This may be the same as your `Web` server
-role :db,  "192.168.0.14", :primary => true # This is where Rails migrations will run
-
-
+role :web, "pelicans2k.ddns.net"                          # Your HTTP server, Apache/etc
+role :app, "pelicans2k.ddns.net"                          # This may be the same as your `Web` server
+role :db,  "pelicans2k.ddns.net", :primary => true        # This is where Rails migrations will run
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
