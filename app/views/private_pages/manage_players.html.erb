@@ -1,21 +1,30 @@
-<% case current_user.role %>
-					<% when "admin" then %>
-					<table class="table" >
-					
-					<tr>
-					<th>Valitse joukkue jolle valitut tunnit varataan</th>
+<h2>Pelajaat hallinta</h2>
+<% if current_user.role == "admin" %>
+	<br />
+	
+	<div>
+		<h2>Asetukset</h2>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Valitse joukkue</th>
 					<td>
-						<select id="save-to-team-select">
+						<select id="team-player-select">
 							<option value="0"></option>
 							<% Team.all.each do |team| %>
 								<option value="<%= team.id %>"><%= team.name %></option>
 							<% end %>
 						</select>
 					</td>
-					</tr>
-					</table>
-				
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<% end %>
+
+<br />
 <table class="table">
+<<<<<<< .merge_file_L0u0xu
 	<tr>
 		<th>Nro.</th>
 		<th>Etunimi</th>
@@ -76,3 +85,80 @@ function get_table(id){
 	}
 }
 
+=======
+	<thead>
+		<tr id="header-row">
+			<th>Num</th>
+			<th>Etunimi</th>
+			<th>Sukunimi</th>
+			<th>Pos</th>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		<% if @team %>
+			<% @team.players.each do |player| %>
+				<tr>
+					<td><%= player.number %></td>
+					<td><%= player.f_name %></td>
+					<td><%= player.l_name %></td>
+					<td><%= player.position %></td>
+					<td>
+			  			<a href="/muokkaa_pelajaat/<%= player.id %>" class="btn btn-medium">Muokkaa</a>
+			  			<a onclick="del_player(<%= player.id %>)" class="btn btn-medium">Poista</a>
+			  		</td>
+				</tr>
+			<% end %>
+		<% end %> 
+	</tbody>
+</table>
+
+<script>
+	$(document).ready(function () {
+		<% if current_user.role == "admin" %>
+			$("#team-player-select").change(function () {
+				clear_table();
+				var team_id = $("#team-player-select").val();
+				
+				if (team_id == 0) { return; }
+				
+				get_players_table(team_id);
+			});
+		<% end %>
+	});
+	
+	function get_players_table(team_id) {
+		$.ajax({
+			url: "/get_players/" + team_id,
+			cache: false,
+			success: function(players) {
+				$.each(players, function(i, player) {
+					var html = "<tr class='staff-row' id='staff_" + player.id +"'>\
+									<td>" + player.number + "</td>\
+									<td>" + player.f_name + "</td>\
+									<td>" + player.l_name + "</td>\
+									<td>" + player.position + "</td>\
+									<td>\
+							  			<a href='/muokkaa_pelajaat/" + player.id + "' class='btn btn-medium'>Muokkaa</a>\
+							  			<a onclick='del_player(" + player.id + ")' class='btn btn-medium'>Poista</a>\
+							  		</td>\
+								</tr>";
+					$("#header-row").after(html);
+				});
+			}
+		});
+	}
+	
+	function clear_table() {
+		$(".player-row").remove();
+	}
+	
+	function del_player(id) {
+		
+	}
+	
+	function save() {
+		
+	}
+</script>
+>>>>>>> .merge_file_RINjku
