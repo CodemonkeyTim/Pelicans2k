@@ -37,3 +37,10 @@ News.create(title: "Uutinen 3", body: "Tämä on tekstiosio uutiselle numero 3 j
 News.create(title: "Uutinen 4", body: "Tämä on tekstiosio uutiselle numero 4 jonka jälkeen tulee vielä uutinen 5.", published_at: (DateTime.now - 10), publisher_id: 1)
 News.create(title: "Uutinen 5", body: "Tämä on tekstiosio uutiselle numero 5 joka on viimeinen uutinen.", published_at: (DateTime.now - 12), publisher_id: 2)
 
+Player.create(f_name: "Swostik", l_name: "Shrestra", number: 1, position: "keskushyökkääjä", team_id: 1)
+Player.create(f_name: "Minh", l_name: "Nhat", number: 3, position: "vasen laitahyökkääjä", team_id: 1)
+Player.create(f_name: "Trung", l_name: "Hoang", number: 55, position: "oikea laitahyökkääjä", team_id: 1)
+Player.create(f_name: "Antti", l_name: "Jääskeläinen", number: 34, position: "puolustaja", team_id: 1)
+Player.create(f_name: "Mara", l_name: "Tuominen", number: 65, position: "puolustaja", team_id: 1)
+Player.create(f_name: "Pentti", l_name: "Tikanoja", number: 23, position: "puolustaja", team_id: 1)
+
