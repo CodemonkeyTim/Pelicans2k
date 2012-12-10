@@ -28,7 +28,9 @@
 		
 		$.post("/update_news", JSON.stringify(po_news), function (response) {
 			if (response == "success") {
-				window.location = "/uutisten_hallinta?update=success"
+				window.location = "/uutisten_hallinta"
+			} else {
+				show_feedback("Jotain meni pieleen.", "error")
 			}
 		});
 	}

@@ -53,9 +53,10 @@
 			}
 		});
 		
-		if (location.search.indexOf("success") != -1) {
-			show_feedback("Uutista muokattu onnistuneesti", "success");
-		}
+		<% if session[:news_update_success] == true %>
+			show_feedback("Uutinen tallenettu onnistuneesti", "success");
+			<% session[:news_update_success] = false %>
+		<% end %>
 	});
 	
 	
