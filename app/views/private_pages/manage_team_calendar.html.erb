@@ -21,7 +21,7 @@
 				<% end %>
 				<tr>
 					<th>Aktiviteetti</th>
-					<td><input type="text" placeholder="aktiviteetti"></td>
+					<td><input type="text" id="activity" placeholder="aktiviteetti"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -160,7 +160,7 @@
 	function save () {
 		if (data_valid_to_save()) {
 			var resses = [];
-			var actvity = $("#activity").val();
+			var activity = $("#activity").val();
 			<% if @team %>
 				var team_id = <%= @team.id %>;
 			<% else %>
@@ -168,8 +168,10 @@
 			<% end %>
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
 			});
+			
+			alert(resses[0].activity);
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
 					if (response == "Success") {
@@ -179,7 +181,7 @@
 							$("#feedback-success").addClass("hidden");
 						}, 2000);
 						clear_table();
-						get_table_markings("all");
+						get_table_markings(team_id);
 					} else {
 						$("#feedback-error").removeClass("hidden");
 						//$("#feedback-error").slideToggle();
@@ -187,7 +189,7 @@
 							$("#feedback-error").addClass("hidden");
 						}, 2000);
 						clear_table();
-						get_table_markings("all");
+						get_table_markings(team_id);
 					}
 				}
 			);	
@@ -201,7 +203,7 @@
 			return false;
 		}
 		
-		if ($(".reservable[select='true']").lenght == 0) {
+		if ($(".reservable[select='true']").length == 0) {
 			return false;
 		}
 		

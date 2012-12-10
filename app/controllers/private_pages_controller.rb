@@ -92,7 +92,15 @@ class PrivatePagesController < ApplicationController
     
   end
   
-  def manage_staffs
+  def manage_staff
+    team_id = current_user.team_id
+    
+    unless team_id == 0
+      @team = Team.find(team_id)
+    end 
+  end
+  
+  def edit_staff
     
   end
   

@@ -46,18 +46,18 @@
 					<% case current_user.role %>
 						<% when "admin" then %>
 							<li id="news"><a href="/uutisten_hallinta">Uutiset</a></li>
-							<li id="main-cal"><a href="/paakalenterin_hallinta">Pääkalenteri</a></li>
+							<li id="main-cal"><a href="/paakalenterin_hallinta">P&auml;&auml;kalenteri</a></li>
 							<li id="team-cal"><a href="/tiimikalenterin_hallinta">Tiimikalenterit</a></li>
 							<li id="players"><a href="/pelaajien_hallinta">Pelaajat</a></li>
-							<li id="staff"><a href="#">Toimihenkilöt</a></li>
+							<li id="staff"><a href="/toimihenkiloiden_hallinta">Toimihenkil&ouml;t</a></li>
 							<li id="users"><a href="#">Käyttäjät</a></li>
 						<% when "team_leader" then %>
 							<li id="players"><a href="/pelaajien_hallinta">Pelaajat</a></li>
-							<li id="staff"><a href="#">Toimihenkilöt</a></li>
-							<li id="team-cal"><a href="#">Tiimikalenteri</a></li>
+							<li id="staff"><a href="/toimihenkiloiden_hallinta">Toimihenkil&ouml;t</a></li>
+							<li id="team-cal"><a href="/tiimikalenterin_hallinta">Tiimikalenteri</a></li>
 						<% when "head_coach" then %>
 							<li id="news"><a href="/uutisten_hallinta">Uutiset</a></li>
-							<li id="main-cal"><a href="/paakalenterin_hallinta">Pääkalenteri</a></li>	
+							<li id="main-cal"><a href="/paakalenterin_hallinta">P&auml;&auml;kalenteri</a></li>	
 					<% end %>
 				</ul>
 			</div>
