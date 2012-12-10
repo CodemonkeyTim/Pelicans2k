@@ -42,12 +42,12 @@
 					<td><%= player.l_name %></td>
 					<td><%= player.position %></td>
 					<td>
-			  			<a href="/muokkaa_pelajaat/<%= player. %>" class="btn btn-medium">Muokkaa</a>
+			  			<a href="/muokkaa_pelajaat/<%= player.id %>" class="btn btn-medium">Muokkaa</a>
 			  			<a onclick="del_player(<%= player.id %>)" class="btn btn-medium">Poista</a>
 			  		</td>
 				</tr>
 			<% end %>
-		<% end %>
+		<% end %> 
 	</tbody>
 </table>
 
