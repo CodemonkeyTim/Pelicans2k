@@ -13,6 +13,10 @@
  *= require jquery.ui.all
  */
 
+html {
+	overflow-y: scroll;
+}
+
 body {
 	padding-top: 50px;
 }
