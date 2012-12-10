@@ -90,6 +90,7 @@ class AjaxController < ApplicationController
     old_po_news.edited_by_id = current_user.id
     
     if old_po_news.save
+      session[:news_update_success] = true
       render :text => "success"
     else
       render :text => "error"
