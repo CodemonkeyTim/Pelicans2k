@@ -101,7 +101,7 @@ class PrivatePagesController < ApplicationController
   end
   
   def edit_staff
-    
+    @staff_member = StaffMember.find(params[:id])
   end
   
   def update_news
