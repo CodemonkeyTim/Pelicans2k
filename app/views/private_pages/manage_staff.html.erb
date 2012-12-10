@@ -1,8 +1,10 @@
 <h2>Toimihenkilöiden hallinta</h2>
 <% if current_user.role == "admin" %>
+	<br />
+	
 	<div>
 		<h2>Asetukset</h2>
-		<table>
+		<table class="table">
 			<tbody>
 				<tr>
 					<th>Valitse joukkue</th>
@@ -20,6 +22,7 @@
 	</div>
 <% end %>
 
+<br />
 <table class="table">
 	<thead>
 		<tr id="header-row">
@@ -35,14 +38,14 @@
 		<% if @team %>
 			<% @team.staff_members.each do |sm| %>
 				<tr>
-					<td>Valmentaja</td>
-					<td>Antti</td>
-					<td>Halonen</td>
-					<td>antti.halonen@pelicans2k.fi</td>
-					<td>0401568794</td>
+					<td><%= sm.role %></td>
+					<td><%= sm.f_name %></td>
+					<td><%= sm.l_name %></td>
+					<td><%= sm.email %></td>
+					<td><%= sm.phone %></td>
 					<td>
-			  			<a href="#" class="btn btn-medium">Muokkaa</a>
-			  			<a href="#" class="btn btn-medium">Poista</a>
+			  			<a href="/muokkaa_toimihenkiloa/<%= sm.id %>" class="btn btn-medium">Muokkaa</a>
+			  			<a onclick="del_staff(<%= sm.id %>)" class="btn btn-medium">Poista</a>
 			  		</td>
 				</tr>
 			<% end %>
@@ -54,23 +57,48 @@
 	$(document).ready(function () {
 		<% if current_user.role == "admin" %>
 			$("#team-staff-select").change(function () {
-				$.ajax({
-					url: "/get_staff_members/" + team_id,
-					cache: false,
-					success: function(staff_members) {
-						$.each(staff_members, function(i, sm) {
-							var html = "<tr class='staff-row' id='staff_" + sm.id +"'>\
-											<td>" + sm.role + "</td>\
-											<td>" + sm.f_name + "</td>\
-											<td>" + sm.l_name + "</td>\
-											<td>" + sm.email + "</td>\
-											<td>" + sm.phone + "</td>\
-										</tr>;
-							$("#header-row").after(html);
-						});
-					}
-				});
+				clear_table();
+				var team_id = $("#team-staff-select").val();
+				
+				if (team_id == 0) { return; }
+				
+				get_staff_table(team_id);
 			});
 		<% end %>
 	});
+	
+	function get_staff_table(team_id) {
+		$.ajax({
+			url: "/get_staff_members/" + team_id,
+			cache: false,
+			success: function(staff_members) {
+				$.each(staff_members, function(i, sm) {
+					var html = "<tr class='staff-row' id='staff_" + sm.id +"'>\
+									<td>" + sm.role + "</td>\
+									<td>" + sm.f_name + "</td>\
+									<td>" + sm.l_name + "</td>\
+									<td>" + sm.email + "</td>\
+									<td>" + sm.phone + "</td>\
+									<td>\
+							  			<a href='/muokkaa_toimihenkiloa/" + sm.id + "' class='btn btn-medium'>Muokkaa</a>\
+							  			<a onclick='del_staff(" + sm.id + ")' class='btn btn-medium'>Poista</a>\
+							  		</td>\
+								</tr>";
+					$("#header-row").after(html);
+				});
+			}
+		});
+	}
+	
+	function clear_table() {
+		$(".staff-row").remove();
+	}
+	
+	function del_staff(id) {
+		
+	}
+	
+	function save() {
+		
+	}
 </script>

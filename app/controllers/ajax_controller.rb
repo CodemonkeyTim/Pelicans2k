@@ -13,7 +13,7 @@ class AjaxController < ApplicationController
   end
   
   def get_staff_members
-    render :json => Team.find(params[:id].staff_members)
+    render :json => Team.find(params[:id]).staff_members
   end
   
   def get_cal_for_all

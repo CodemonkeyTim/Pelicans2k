@@ -20,6 +20,7 @@ Pelicans2k::Application.routes.draw do
   match "/muokkaa_pelajaat/:id" => "private_pages#edit_players" 
   match "/pelaajien_hallinta" => "private_pages#manage_players"
   match "/toimihenkiloiden_hallinta" => "private_pages#manage_staff"
+  match "/muokkaa_toimihenkiloa" => "private_pages#edit_staff"
   
   
   #Ajax calls routing

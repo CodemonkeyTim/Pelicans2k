@@ -100,6 +100,10 @@ class PrivatePagesController < ApplicationController
     end 
   end
   
+  def edit_staff
+    
+  end
+  
   def update_news
     @po_news = News.find(params[:id])
   end
