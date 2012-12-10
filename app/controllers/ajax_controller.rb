@@ -12,6 +12,10 @@ class AjaxController < ApplicationController
     render :json => resses
   end
   
+  def get_staff_members
+    render :json => Team.find(params[:id].staff_members)
+  end
+  
   def get_cal_for_all
     today = DateTime.now + (params[:diff].to_i * 7)
     

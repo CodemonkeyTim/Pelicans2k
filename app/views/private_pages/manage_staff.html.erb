@@ -22,7 +22,7 @@
 
 <table class="table">
 	<thead>
-		<tr>
+		<tr id="header-row">
 			<th>Rooli</th>
 			<th>Etunimi</th>
 			<th>Sukunimi</th>
@@ -49,3 +49,28 @@
 		<% end %>
 	</tbody>
 </table>
+
+<script>
+	$(document).ready(function () {
+		<% if current_user.role == "admin" %>
+			$("#team-staff-select").change(function () {
+				$.ajax({
+					url: "/get_staff_members/" + team_id,
+					cache: false,
+					success: function(staff_members) {
+						$.each(staff_members, function(i, sm) {
+							var html = "<tr class='staff-row' id='staff_" + sm.id +"'>\
+											<td>" + sm.role + "</td>\
+											<td>" + sm.f_name + "</td>\
+											<td>" + sm.l_name + "</td>\
+											<td>" + sm.email + "</td>\
+											<td>" + sm.phone + "</td>\
+										</tr>;
+							$("#header-row").after(html);
+						});
+					}
+				});
+			});
+		<% end %>
+	});
+</script>
