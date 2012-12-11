@@ -1,6 +1,6 @@
 <h2>Joukkueiden hallinta</h2>
 
-<table>
+<table class="table">
 	<thead>
 		<tr>
 			<th>Nimi</th>
@@ -9,9 +9,18 @@
 	</thead>
 	<tbody>
 		<% Team.all.each do |team| %>
-		<tr>
-			
-		</tr>
+			<tr id="team_<%= team.id %>">
+				<td><%= team.name %></td>
+				<td><%= team.code %></td>
+				<td>
+					<a class="btn btn-medium" href="/muokkaa_joukkuetta/<%= team.id %>" >Muokkaa</a>
+					<a class="btn btn-medium" onclick="">Poista</a>
+				</td>
+			</tr>
 		<% end %>
 	</tbody>
 </table>
+
+<script>
+	set_private_nav("teams");
+</script>

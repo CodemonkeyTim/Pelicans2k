@@ -1,10 +1,6 @@
 # encoding: UTF-8
 
 class AjaxController < ApplicationController
-  def get_players
-    render :json => Team.find(params[:id]).players
-  end
-  
   def get_cal_for_team
     today = DateTime.now + (params[:diff].to_i * 7)
     
@@ -128,6 +124,14 @@ class AjaxController < ApplicationController
     else
       render :text => "error"
     end
+  end
+  
+  def update_team
+    jsonObj = request.body.read
+    
+    team = JSON.parse(jsonObj)
+    
+    old_team = 
   end
   
   def delete_news
