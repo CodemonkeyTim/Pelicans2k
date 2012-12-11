@@ -104,6 +104,10 @@ class PrivatePagesController < ApplicationController
     @staff_member = StaffMember.find(params[:id])
   end
   
+  def edit_players
+    @player = Player.find(params[:id])
+  end
+  
   def update_news
     @po_news = News.find(params[:id])
   end
