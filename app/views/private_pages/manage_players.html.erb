@@ -24,8 +24,7 @@
 
 <br />
 <table class="table">
-
-	<tr>
+	<tr id="header-row">
 		<th>Nro.</th>
 		<th>Etunimi</th>
 		<th>Sukunimi</th>
@@ -48,7 +47,7 @@
 	<% end %>
 </table>
 
-<% when "team_leader" then %>
+<% if current_user.role ==  "team_leader" %>
 		<table class="table">
 			<tr>
 				<th>Nro.</th>
@@ -89,7 +88,7 @@
 			cache: false,
 			success: function(players) {
 				$.each(players, function(i, player) {
-					var html = "<tr class='staff-row' id='staff_" + player.id +"'>\
+					var html = "<tr class='player-row' id='staff_" + player.id +"'>\
 									<td>" + player.number + "</td>\
 									<td>" + player.f_name + "</td>\
 									<td>" + player.l_name + "</td>\
