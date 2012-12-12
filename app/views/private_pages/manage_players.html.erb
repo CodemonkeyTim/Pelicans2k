@@ -23,7 +23,8 @@
 <% end %>
 
 <br />
-<table class="table">
+<table class="table" id ="player-table">
+	<thead>
 	<tr id="header-row">
 		<th>Nro.</th>
 		<th>Etunimi</th>
@@ -31,19 +32,22 @@
 		<th>Position</th>
 		<td></td>
 	</tr>
-	<% Player.all.each do |player| %>
-	  	<tr id="player_<%= player.id %>" class="player-row">
+	</thead>
+	<% if @team %>
+	<% @team.players.each do |player| %>
+	  	<tr >
 	  	<td><%= player.number %></td>
 		<td><%= player.f_name %></td>
 		<td><%= player.l_name %></td>
 		<td><%= player.position %></td>
 		<td>
-  			<a class="btn btn-medium edit-players-btn">Muokkaa</a>
-  			<a class="btn btn-medium delete-players-btn" onclick="delete_players('')">Poista</a>
+  			<a href="/muokkaa_pelaajaa/<%= player.id %>" class="btn btn-medium ">Muokkaa</a>
+  			<a onclick="del_player(<%= player.id %>)"class="btn btn-medium">Poista</a>
   			
   		</td>
   	
 	</tr>
+	<% end %>
 	<% end %>
 </table>
 
@@ -60,8 +64,8 @@
 				<td>Lasse</td>
 				<td>Vourinen</td>
 				<td>
-		  			<a href="/muokkaa_pelaajaa<%= sm.id %>" class="btn btn-medium ">Muokkaa</a>
-		  			<a onclick="del_staff(<%= sm.id %>)"class="btn btn-medium " >Poista</a>
+		  			<a href="/muokkaa_pelaajaa<%= player.id %>" class="btn btn-medium ">Muokkaa</a>
+		  			<a onclick="del_player(<%= player.id %>)"class="btn btn-medium " >Poista</a>
 		  		</td>
 			</tr>
 			</table>
@@ -88,13 +92,13 @@
 			cache: false,
 			success: function(players) {
 				$.each(players, function(i, player) {
-					var html = "<tr class='player-row' id='staff_" + player.id +"'>\
+					var html = "<tr class='player-row' id='player_" + player.id +"'>\
 									<td>" + player.number + "</td>\
 									<td>" + player.f_name + "</td>\
 									<td>" + player.l_name + "</td>\
 									<td>" + player.position + "</td>\
 									<td>\
-							  			<a href='/muokkaa_pelajaat/" + player.id + "' class='btn btn-medium'>Muokkaa</a>\
+							  			<a href='/muokkaa_pelaajaa/" + player.id + "' class='btn btn-medium'>Muokkaa</a>\
 							  			<a onclick='del_player(" + player.id + ")' class='btn btn-medium'>Poista</a>\
 							  		</td>\
 								</tr>";
