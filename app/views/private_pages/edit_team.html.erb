@@ -1,6 +1,6 @@
 <h2>Muokkaa joukkuetta</h2>
 
-<table class="table">
+<table class="table" id="data-table">
 	<tr>
 		<th>Nimi</th>
 		<th>Koodi</th>
@@ -9,7 +9,7 @@
 	
 	<tr id="data-row">
 		<td><input type="text" class="input-small" value="<%= @team.name %>" /></td>
-		<td><input type="text" class="input-medium" value="<%= @team.number %>" /></td>
+		<td><input type="text" class="input-medium" value="<%= @team.code %>" /></td>
 	</tr>
 </table>
 
@@ -42,7 +42,7 @@
 			if (response == "success") {
 				window.location = "/joukkueiden_hallinta"
 			} else {
-				show_feedback("Jotain meni pieleen.", "error")
+				show_feedback("Jotain meni pieleen.", "error", true, "data-table")
 			}
 		});
 	}

@@ -108,6 +108,10 @@ class PrivatePagesController < ApplicationController
     @player = Player.find(params[:id])
   end
   
+  def edit_team
+    @team = Team.find(params[:id])
+  end
+  
   def update_news
     @po_news = News.find(params[:id])
   end

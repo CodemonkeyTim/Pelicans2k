@@ -13,15 +13,21 @@ Pelicans2k::Application.routes.draw do
   #Routing for the private pages
   match "/kirjaudu_sisaan" => "private_pages#login"
   match "/landing" => "private_pages#landing"
-  match "/uutisten_hallinta" => "private_pages#manage_news"
+
   match "/paakalenterin_hallinta" => "private_pages#manage_main_calendar"
   match "/tiimikalenterin_hallinta" => "private_pages#manage_team_calendar"
+  
+  match "/uutisten_hallinta" => "private_pages#manage_news"
   match "/muokkaa_uutista/:id" => "private_pages#update_news"
-  match "/muokkaa_pelaajaa/:id" => "private_pages#edit_players" 
+   
   match "/pelaajien_hallinta" => "private_pages#manage_players"
+  match "/muokkaa_pelaajaa/:id" => "private_pages#edit_players"
+  
   match "/toimihenkiloiden_hallinta" => "private_pages#manage_staff"
   match "/muokkaa_toimihenkiloa/:id" => "private_pages#edit_staff"
+  
   match "/joukkueiden_hallinta" => "private_pages#manage_teams"
+  match "/muokkaa_joukkuetta/:id" => "private_pages#edit_team"
   
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
@@ -37,5 +43,7 @@ Pelicans2k::Application.routes.draw do
   
   match "/get_players/:id" => "ajax#get_players"
   match "/update_player" => "ajax#update_player"
+
+  match "/update_team" => "ajax#update_team"
 
 end
