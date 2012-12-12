@@ -122,7 +122,7 @@ class AjaxController < ApplicationController
       session[:staff_member_update_success] = true
       render :text => "success"
     else
-      render :text => "error"
+      render :text => "error" 
     end
   end
   
@@ -131,7 +131,17 @@ class AjaxController < ApplicationController
     
     team = JSON.parse(jsonObj)
     
-    old_team = 
+    old_team = Team.find(team["id"])
+    
+    old_team.name = team["name"]
+    old_team.code = team["code"]
+    
+    if old_team.save
+      session[:team_update_success] = true
+      render :text => "success"
+    else
+      render :text => "error" 
+    end
   end
   
   def delete_news

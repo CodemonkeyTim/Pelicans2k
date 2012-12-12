@@ -171,23 +171,13 @@
 				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
 			});
 			
-			alert(resses[0].activity);
-			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
 					if (response == "Success") {
-						$("#feedback-success").removeClass("hidden");
-						//$("#feedback-success").slideToggle();
-						setTimeout(function() {
-							$("#feedback-success").addClass("hidden");
-						}, 2000);
+						show_feedback("Kalenterimerkinnät tallennettu onnistuneesti", "success", false, "main-cal-wrapper");
 						clear_table();
 						get_table_markings(team_id);
 					} else {
-						$("#feedback-error").removeClass("hidden");
-						//$("#feedback-error").slideToggle();
-						setTimeout(function() {
-							$("#feedback-error").addClass("hidden");
-						}, 2000);
+						show_feedback("Tallennettavissa tunneissa päällekäisyyksiä olemassaolevien kanssa.", "error", false, "main-cal-wrapper");
 						clear_table();
 						get_table_markings(team_id);
 					}

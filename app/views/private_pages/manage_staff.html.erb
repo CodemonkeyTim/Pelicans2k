@@ -67,7 +67,7 @@
 		<% end %>
 		
 		<% if session[:staff_member_update_success] == true %>
-			show_feedback("Toimihenkilön tiedot tallennettu onnistuneesti", "success");
+			show_feedback("Toimihenkilön tiedot tallennettu onnistuneesti", "success", false, "staff-members-table");
 			<% session[:staff_member_update_success] = false %>
 		<% end %>
 	});
@@ -93,7 +93,7 @@
 				});
 			}
 		});
-	}
+	}before
 	
 	function clear_table() {
 		$(".staff-row").remove();
@@ -101,19 +101,6 @@
 	
 	function del_staff(id) {
 		
-	}
-	
-	function show_feedback (msg, type) {
-		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
-		$("#staff-members-table").before(fb_element);
-		
-		$("#feedback").html(msg);
-		$("#feedback").addClass("alert-" + type);
-		$("#feedback").removeClass("hidden");
-		
-		setTimeout(function () {
-			$("#feedback").remove();
-		}, 3000)
 	}
 	
 	set_private_nav("staff");

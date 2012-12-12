@@ -27,3 +27,21 @@ function set_inner_nav(active) {
 function set_private_nav(active) {
 	$("#private-nav").find("#" + active).addClass("active");
 }
+
+function show_feedback (msg, type, after, element) {
+	var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+	if (after) {
+		$("#"+element).after(fb_element);
+	} else {
+		$("#"+element).before(fb_element);
+	}
+	
+	
+	$("#feedback").html(msg);
+	$("#feedback").addClass("alert-" + type);
+	$("#feedback").removeClass("hidden");
+	
+	setTimeout(function () {
+		$("#feedback").remove();
+	}, 3000)
+}
