@@ -60,8 +60,8 @@
 				<td>Lasse</td>
 				<td>Vourinen</td>
 				<td>
-		  			<a class="btn btn-medium edit-players-btn">Muokkaa</a>
-		  			<a class="btn btn-medium delete-players-btn" onclick="delete_players('')">Poista</a>
+		  			<a href="/muokkaa_pelaajaa<%= sm.id %>" class="btn btn-medium ">Muokkaa</a>
+		  			<a onclick="del_staff(<%= sm.id %>)"class="btn btn-medium " >Poista</a>
 		  		</td>
 			</tr>
 			</table>
