@@ -12,6 +12,8 @@ class PrivatePagesController < ApplicationController
   end
 
   def landing
+    last_id = News.last.id
+    @latest_news = News.where("id > #{last_id-4}").reverse
   end
   
   def manage_news
@@ -86,10 +88,16 @@ class PrivatePagesController < ApplicationController
       @date_strs.push(date.strftime("%Y-%m-%d"))
       @th_date_strs.push(date.strftime("%d.%m"))
     end
+    
+    if current_user.team_id != 0
+      @team = Team.find(current_user.team_id) 
+    end
   end
   
   def manage_players
-    
+    if (team_id = current_user.team_id) != 0 
+      @team = Team.find(team_id)
+    end 
   end
   
   def manage_staff

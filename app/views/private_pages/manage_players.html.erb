@@ -34,43 +34,21 @@
 	</tr>
 	</thead>
 	<% if @team %>
-	<% @team.players.each do |player| %>
-	  	<tr >
-	  	<td><%= player.number %></td>
-		<td><%= player.f_name %></td>
-		<td><%= player.l_name %></td>
-		<td><%= player.position %></td>
-		<td>
-  			<a href="/muokkaa_pelaajaa/<%= player.id %>" class="btn btn-medium ">Muokkaa</a>
-  			<a onclick="del_player(<%= player.id %>)"class="btn btn-medium">Poista</a>
-  			
-  		</td>
-  	
-	</tr>
-	<% end %>
-	<% end %>
-</table>
-
-<% if current_user.role ==  "team_leader" %>
-		<table class="table">
-			<tr>
-				<th>Nro.</th>
-				<th>Etunimi</th>
-				<th>Sukunimi</th>
-				<td></td>
-			</tr>
-			<tr id="players" class ="players-row">
-				<td>99</td>
-				<td>Lasse</td>
-				<td>Vourinen</td>
+		<% @team.players.each do |player| %>
+		  	<tr>
+			  	<td><%= player.number %></td>
+				<td><%= player.f_name %></td>
+				<td><%= player.l_name %></td>
+				<td><%= player.position %></td>
 				<td>
-		  			<a href="/muokkaa_pelaajaa<%= player.id %>" class="btn btn-medium ">Muokkaa</a>
-		  			<a onclick="del_player(<%= player.id %>)"class="btn btn-medium " >Poista</a>
+		  			<a href="/muokkaa_pelaajaa/<%= player.id %>" class="btn btn-medium ">Muokkaa</a>
+		  			<a onclick="del_player(<%= player.id %>)"class="btn btn-medium">Poista</a>
+		  			
 		  		</td>
 			</tr>
-			</table>
-			
+		<% end %>
 	<% end %>
+</table>
 
 <script>
 	$(document).ready(function () {

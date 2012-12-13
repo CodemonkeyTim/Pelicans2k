@@ -12,6 +12,7 @@
 						<th>Valitse joukkue</th>
 						<td>
 							<select id="show-team-select">
+								<option value="0"></option>
 								<% Team.all.each do |team| %>
 									<option value="<%= team.id %>"><%= team.name %></option>
 								<% end %>
@@ -101,7 +102,7 @@
 			}
 		});
 		
-		<% if current_user.role == "admin" %>
+		<% unless @team %>
 			$("#show-team-select").change(function () {
 				clear_table();
 				
@@ -110,6 +111,8 @@
 				
 				get_table_markings(id);
 			});
+		<% else %>
+			get_table_markings(<%= @team.id %>);
 		<% end %>
 	});
 	
@@ -172,7 +175,7 @@
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-					if (response == "Success") {
+					if (response == "success") {
 						show_feedback("Kalenterimerkinnät tallennettu onnistuneesti", "success", false, "main-cal-wrapper");
 						clear_table();
 						get_table_markings(team_id);

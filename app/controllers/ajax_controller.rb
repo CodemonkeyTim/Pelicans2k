@@ -7,17 +7,19 @@ class AjaxController < ApplicationController
     mon = today.at_beginning_of_week
     sun = today.at_end_of_week
     
-    resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika", :team_id => params[:team_id])
+    resses = nil
+    
+    if params[:ice_time]
+      resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika", :team_id => params[:team_id])
+    else
+      resses = Reservation.where(:date => (mon)..(sun), :team_id => params[:team_id])
+    end
     
     render :json => resses
   end
   
   def get_staff_members
     render :json => Team.find(params[:id]).staff_members
-  end
-  
-  def get_players
-    render :json => Team.find(params[:id]).players
   end
   
   def get_cal_for_all
@@ -60,9 +62,9 @@ class AjaxController < ApplicationController
     end
     
     if all_new
-      render :text => "Success"
+      render :text => "success"
     else
-      render :text => "Error"
+      render :text => "error"
     end    
   end
   
@@ -206,6 +208,30 @@ class AjaxController < ApplicationController
       render :json => team
     else
       render :text => "error"
+    end
+  end
+  
+  
+  def get_players
+    render :json => Team.find(params[:id]).players
+  end
+  
+  def update_player
+    jsonObj = request.body.read
+    
+    player_json = JSON.parse(jsonObj)
+    
+    player = Player.new()
+    
+    player.number = player_json["number"]
+    player.f_name = player_json["f_name"]
+    playermember.l_name = player_json["l_name"]
+    player.team_id = player_json["team_id"]
+     
+    if player.save
+      render :json => player
+    else
+      render :text => "error" 
     end
   end
 end
