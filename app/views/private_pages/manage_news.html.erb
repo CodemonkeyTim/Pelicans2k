@@ -53,9 +53,9 @@
 			}
 		});
 		
-		<% if session[:news_update_success] == true %>
+		<% if session[:news_update_success] %>
 			show_feedback("Uutinen tallenettu onnistuneesti", "success", true, "create-news");
-			<% session[:news_update_success] = false %>
+			<% session[:news_update_success] = nil %>
 		<% end %>
 	});
 	

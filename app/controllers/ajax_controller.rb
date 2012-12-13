@@ -221,15 +221,15 @@ class AjaxController < ApplicationController
     
     player_json = JSON.parse(jsonObj)
     
-    player = Player.new()
+    player = Player.find(player_json["id"])
     
     player.number = player_json["number"]
     player.f_name = player_json["f_name"]
-    playermember.l_name = player_json["l_name"]
-    player.team_id = player_json["team_id"]
+    player.l_name = player_json["l_name"]
      
     if player.save
-      render :json => player
+      session[:player_update_success] = true
+      render :text => "success"
     else
       render :text => "error" 
     end

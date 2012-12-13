@@ -92,9 +92,9 @@
 			});
 		<% end %>
 		
-		<% if session[:staff_member_update_success] == true %>
+		<% if session[:staff_member_update_success] %>
 			show_feedback("Toimihenkilön tiedot tallennettu onnistuneesti", "success", false, "staff-members-table");
-			<% session[:staff_member_update_success] = false %>
+			<% session[:staff_member_update_success] = nil %>
 		<% end %>
 	});
 	

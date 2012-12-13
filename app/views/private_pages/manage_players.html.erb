@@ -23,7 +23,7 @@
 <% end %>
 
 <br />
-<table class="table" id ="player-table">
+<table class="table" id="data-table">
 	<thead>
 	<tr id="header-row">
 		<th>Nro.</th>
@@ -61,6 +61,11 @@
 				
 				get_players_table(team_id);
 			});
+		<% end %>
+		
+		<% if session[:player_update_success] %>
+			<% session[:player_update_success] = nil %>
+			show_feedback("Pelaajan tiedot tallennettu onnistuneesti.", "success", false, "data-table")
 		<% end %>
 	});
 	

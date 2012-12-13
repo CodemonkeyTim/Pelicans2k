@@ -41,6 +41,13 @@
 </div>
 
 <script>
+	$(document).ready(function () {
+		<% if session[:team_update_success] %>
+			show_feedback("Joukkueen tiedot tallennettu onnistuneesti", "success", false, "data-table");
+			<% session[:team_update_success] = nil %>
+		<% end %>
+	});
+
 	function del_team(id) {
 		if (confirm("Oletko varma että haluat poistaa tämän joukkueen? Tapahtumaa EI voi perua ja kaikki siihen linkitetty tieto katoaa!")){
 			$.ajax({

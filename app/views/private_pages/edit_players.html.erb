@@ -47,9 +47,9 @@
 		
 		$.post("/update_player", JSON.stringify(player), function (response) {
 			if (response == "success") {
-				window.location = "/pelaajien_hallinta"
+				window.location = "/pelaajien_hallinta";
 			} else {
-				show_feedback("Jotain meni pieleen.", "error", true, "data-table")
+				show_feedback("Jotain meni pieleen.", "error", true, "data-table");
 			}
 		});
 	}
