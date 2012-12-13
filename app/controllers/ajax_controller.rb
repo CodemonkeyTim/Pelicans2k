@@ -126,6 +126,37 @@ class AjaxController < ApplicationController
     end
   end
   
+  def create_staff_member
+    jsonObj = request.body.read
+    
+    staff_member_json = JSON.parse(jsonObj)
+    
+    staff_member = StaffMember.new()
+    
+    staff_member.role = staff_member_json["role"]
+    staff_member.f_name = staff_member_json["f_name"]
+    staff_member.l_name = staff_member_json["l_name"]
+    staff_member.email = staff_member_json["email"]
+    staff_member.phone = staff_member_json["phone"]
+    staff_member.team_id = staff_member_json["team_id"]
+     
+    if staff_member.save
+      render :json => staff_member
+    else
+      render :text => "error" 
+    end
+  end
+  
+  def delete_staff_member
+    staff_member = StaffMember.find(params[:id])
+    
+    if staff_member.delete
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
+  
   def update_team
     jsonObj = request.body.read
     
