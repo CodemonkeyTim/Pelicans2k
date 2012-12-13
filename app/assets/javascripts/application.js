@@ -29,7 +29,7 @@ function set_private_nav(active) {
 }
 
 function show_feedback (msg, type, after, element) {
-	var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+	var fb_element = "<div id='feedback' class='hidden alert'></div>";
 	if (after) {
 		$("#"+element).after(fb_element);
 	} else {

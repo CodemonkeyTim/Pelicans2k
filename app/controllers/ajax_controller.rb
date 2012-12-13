@@ -153,4 +153,28 @@ class AjaxController < ApplicationController
       render :text => "error"  
     end
   end
+  
+  def delete_team
+    team = Team.find(params[:id])
+    
+    if team.delete
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
+  
+  def create_team
+    jsonObj = request.body.read
+    
+    team_json = JSON.parse(jsonObj)
+    
+    team = Team.new(name: team_json["name"], code: team_json["code"])
+    
+    if team.save
+      render :json => team
+    else
+      render :text => "error"
+    end
+  end
 end

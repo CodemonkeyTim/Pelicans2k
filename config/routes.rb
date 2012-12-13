@@ -45,5 +45,7 @@ Pelicans2k::Application.routes.draw do
   match "/update_player" => "ajax#update_player"
 
   match "/update_team" => "ajax#update_team"
+  match "/create_team" => "ajax#create_team"
+  match "/delete_team/:id" => "ajax#delete_team"
 
 end

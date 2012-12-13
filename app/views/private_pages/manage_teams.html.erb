@@ -1,6 +1,6 @@
 <h2>Joukkueiden hallinta</h2>
 
-<table class="table">
+<table class="table" id="data-table">
 	<thead>
 		<tr>
 			<th>Nimi</th>
@@ -9,18 +9,81 @@
 	</thead>
 	<tbody>
 		<% Team.all.each do |team| %>
-			<tr id="team_<%= team.id %>">
+			<tr id="team_<%= team.id %>" class="team-row">
 				<td><%= team.name %></td>
 				<td><%= team.code %></td>
 				<td>
 					<a class="btn btn-medium" href="/muokkaa_joukkuetta/<%= team.id %>" >Muokkaa</a>
-					<a class="btn btn-medium" onclick="">Poista</a>
+					<a class="btn btn-medium" onclick="del_team('<%= team.id %>')">Poista</a>
 				</td>
 			</tr>
 		<% end %>
 	</tbody>
 </table>
 
+<div>
+	<h3>Luo uusi</h3>
+	<table class="table" id="new-team-table">
+		<thead>
+			<tr>
+				<th>Nimi</th>
+				<th>Koodi</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><input type="text" id="new-team-name" class="input-medium" placeholder="nimi"/></td>
+				<td><input type="text" id="new-team-code" class="input-medium" placeholder="koodi"/></td>
+				<td><a class="btn btn-medium" onclick="create_team()">Tallenna</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <script>
+	function del_team(id) {
+		if (confirm("Oletko varma että haluat poistaa tämän joukkueen? Tapahtumaa EI voi perua ja kaikki siihen linkitetty tieto katoaa!")){
+			$.ajax({
+				url: "/delete_team/"+id,
+				cache: false,
+				success: function (response) {
+					if (response == "success") {
+						$("#team_"+id).remove();
+						show_feedback("Joukkue poistettu.", "success", false, "data-table");
+					} else {
+						show_feedback("Jotain meni pieleen.", "error", false, "data-table");
+					}
+				}
+			});
+		}
+	}
+	
+	function create_team () {
+		var name = $("#new-team-name").val();
+		var code = $("#new-team-code").val();
+		var team = {name: name, code: code}
+		
+		if (name != "" && code != "") {
+			$.post("/create_team", JSON.stringify(team), function (response) {
+				if (response == "error") {
+					show_feedback("Jotain meni pieleen.", "error", false, "data-table");
+				} else {
+					show_feedback("Joukkue luotu.", "success", false, "data-table");
+					var html = "<tr id='team_" + response.id + "' class='team-row'>\
+									<td>" + response.name + "</td>\
+									<td>" + response.code + "</td>\
+									<td>\
+										<a class='btn btn-medium' href='/muokkaa_joukkuetta/" + response.id + "' >Muokkaa</a>\
+										<a class='btn btn-medium' onclick='del_team(" + response.id + ")'>Poista</a>\
+									</td>\
+								</tr>"
+					$(".team-row").last().after(html);
+				}
+			});
+		} else {
+			alert("Joukkueella täytyy olla nimi ja koodi.");
+		}
+	}
+
 	set_private_nav("teams");
 </script>
