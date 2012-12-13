@@ -35,7 +35,7 @@
 	</thead>
 	<% if @team %>
 		<% @team.players.each do |player| %>
-		  	<tr>
+		  	<tr class="player-row" id="player_<%= player.id %>">
 			  	<td><%= player.number %></td>
 				<td><%= player.f_name %></td>
 				<td><%= player.l_name %></td>
@@ -49,6 +49,30 @@
 		<% end %>
 	<% end %>
 </table>
+
+<div>
+	<h3>Luo uusi</h3>
+	
+	<table class="table" id="new-sm-table">
+		<thead>
+			<tr>
+				<th>Numero</th>
+				<th>Etunimi</th>
+				<th>Sukunimi</th>
+				<th>Pelipaikka</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><input type="text" id="new-player-number" class="input-medium" placeholder="numero"/></td>
+				<td><input type="text" id="new-player-f_name" class="input-small" placeholder="etunimi"/></td>
+				<td><input type="text" id="new-player-l_name" class="input-small" placeholder="sukunimi"/></td>
+				<td><input type="text" id="new-player-l_name" class="input-small" placeholder="pelipaikka"/></td>
+				<td><a class="btn btn-medium" onclick="create_player()">Tallenna</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
 <script>
 	$(document).ready(function () {
@@ -96,11 +120,70 @@
 	}
 	
 	function del_player(id) {
-		
+		if (confirm("Haluatko varmasti poistaa tämän pelaajan? Tapahtumaa EI voi perua!")) {
+			$.ajax({
+				url: "/delete_player/" + id,
+				cache: false,
+				success: function (response) {
+					if (response == "success") {
+						show_feedback("Pelaaja luotu onnistuneesti.", "success", false, "data-table")
+						$("#player_"+id).remove();
+					} else {
+						show_feedback("Jotain meni pieleen.", "error", false, "data-table")
+					}
+				}
+			});
+		}
 	}
 	
-	function save() {
+	function create_player () {
+		if (player_data_valid()) {
+			var number = $("#new-player-number").val();
+			var f_name = $("#new-player-f_name").val();
+			var l_name = $("#new-player-l_name").val();
+			var position = $("#new-player-position").val();
+			var team_id;
+			
+			<% unless @team %>
+				team_id = $("#team-player-select").val();
+				if (team_id == 0) {alert("Valitse joukkue ensin."); return;}
+			<% else %>
+				team_id = <%= @team.id %>;
+			<% end %>
+			
+			var player = {number: number, f_name: f_name, l_name: l_name, position: position, team_id: team_id};
+			
+			$.post("/create_player", JSON.stringify(player), function (player) {
+				if (player == "error") {
+					show_feedback("Jotain meni pieleen.", "error", false, "data-table");
+				} else {
+					var html = "<tr class='staff-row' id='staff_" + player.id +"'>\
+										<td>" + player.number + "</td>\
+										<td>" + player.f_name + "</td>\
+										<td>" + player.l_name + "</td>\
+										<td>" + player.position + "</td>\
+										<td>\
+								  			<a href='/muokkaa_pelaajaa/" + player.id + "' class='btn btn-medium'>Muokkaa</a>\
+								  			<a onclick='del_player(" + player.id + ")' class='btn btn-medium'>Poista</a>\
+								  		</td>\
+									</tr>";
+					$(".player-row").first().before(html);
+					show_feedback("Pelaaja luotu onnistuneesti.", "success", false, "data-table");
+				}
+			});	
+		} else {
+			alert("Pelaajan numeron on oltava numeroarvo.");
+		}
+	}
+	
+	function player_data_valid () {
+		var number = $("#new-player-number").val();
 		
+		if (isNaN(parseInt(number))) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	set_private_nav("players");

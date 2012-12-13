@@ -234,4 +234,34 @@ class AjaxController < ApplicationController
       render :text => "error" 
     end
   end
+  
+  def create_player
+    jsonObj = request.body.read
+    
+    player_json = JSON.parse(jsonObj)
+    
+    player = Player.new()
+    
+    player.number = player_json["number"]
+    player.f_name = player_json["f_name"]
+    player.l_name = player_json["l_name"]
+    player.position = player_json["position"]
+    player.team_id = player_json["team_id"]
+     
+    if player.save
+      render :json => player
+    else
+      render :text => "error" 
+    end
+  end
+  
+  def delete_player
+    player = Player.find(params[:id])
+    
+    if player.delete
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
 end
