@@ -12,6 +12,7 @@
 						<th>Valitse joukkue</th>
 						<td>
 							<select id="show-team-select">
+								<option value="0"></option>
 								<% Team.all.each do |team| %>
 									<option value="<%= team.id %>"><%= team.name %></option>
 								<% end %>
@@ -21,7 +22,7 @@
 				<% end %>
 				<tr>
 					<th>Aktiviteetti</th>
-					<td><input type="text" placeholder="aktiviteetti"></td>
+					<td><input type="text" id="activity" placeholder="aktiviteetti"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -101,7 +102,7 @@
 			}
 		});
 		
-		<% if current_user.role == "admin" %>
+		<% unless @team %>
 			$("#show-team-select").change(function () {
 				clear_table();
 				
@@ -110,6 +111,8 @@
 				
 				get_table_markings(id);
 			});
+		<% else %>
+			get_table_markings(<%= @team.id %>);
 		<% end %>
 	});
 	
@@ -160,7 +163,7 @@
 	function save () {
 		if (data_valid_to_save()) {
 			var resses = [];
-			var actvity = $("#activity").val();
+			var activity = $("#activity").val();
 			<% if @team %>
 				var team_id = <%= @team.id %>;
 			<% else %>
@@ -168,26 +171,18 @@
 			<% end %>
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-					if (response == "Success") {
-						$("#feedback-success").removeClass("hidden");
-						//$("#feedback-success").slideToggle();
-						setTimeout(function() {
-							$("#feedback-success").addClass("hidden");
-						}, 2000);
+					if (response == "success") {
+						show_feedback("Kalenterimerkinnät tallennettu onnistuneesti", "success", false, "main-cal-wrapper");
 						clear_table();
-						get_table_markings("all");
+						get_table_markings(team_id);
 					} else {
-						$("#feedback-error").removeClass("hidden");
-						//$("#feedback-error").slideToggle();
-						setTimeout(function() {
-							$("#feedback-error").addClass("hidden");
-						}, 2000);
+						show_feedback("Tallennettavissa tunneissa päällekäisyyksiä olemassaolevien kanssa.", "error", false, "main-cal-wrapper");
 						clear_table();
-						get_table_markings("all");
+						get_table_markings(team_id);
 					}
 				}
 			);	
@@ -201,7 +196,7 @@
 			return false;
 		}
 		
-		if ($(".reservable[select='true']").lenght == 0) {
+		if ($(".reservable[select='true']").length == 0) {
 			return false;
 		}
 		

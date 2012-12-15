@@ -1,0 +1,71 @@
+<h2>Muokkaa toimihenkil&ouml;&auml;</h2>
+
+<table class="table" id="data-table">
+	<tr>
+		<th>Rooli</th>
+		<th>Etunimi</th>
+		<th>Sukunimi</th>
+		<th>Email</th>
+		<th>Puh.</th>
+	</tr>
+	<tr id="data-row">
+		<td><input type="text" class="input-medium" value="<%= @staff_member.role %>" /></td>
+		<td><input type="text" class="input-small" value="<%= @staff_member.f_name %>" /></td>
+		<td><input type="text" class="input-small" value="<%= @staff_member.l_name %>" /></td>
+		<td><input type="text" class="input-medium" value="<%= @staff_member.email %>" /></td>
+		<td><input type="text" class="input-small" value="<%= @staff_member.phone %>" /></td>
+	</tr>
+</table>
+
+<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
+<a class="btn btn-large pull-right btn-margin-right" onclick="reset()">Resetoi</a>
+<a href="/toimihenkiloiden_hallinta" class="btn btn-large pull-right btn-margin-right">Peruuta</a>
+<div style="clear:both"></div>
+
+<script>
+	$(document).ready(function () {
+	});
+	
+	function reset () {
+		var values = ["<%= @staff_member.role %>", "<%= @staff_member.f_name %>", "<%= @staff_member.l_name %>", "<%= @staff_member.email %>", "<%= @staff_member.phone %>"];
+		var i = 0;
+		
+		$("#data-row").find("input").each(function() {
+			$(this).val(values[i]);
+			i++;
+		});
+	}
+	
+	function save () {
+		var values = [];
+		
+		$("#data-row").find("input").each(function() {
+			values.push($(this).val());
+		});
+		
+		var staff_member = {id: "<%= @staff_member.id %>", role: values[0], f_name: values[1], l_name: values[2], email: values[3], phone: values[4]};
+		
+		$.post("/update_staff_member", JSON.stringify(staff_member), function (response) {
+			if (response == "success") {
+				window.location = "/toimihenkiloiden_hallinta"
+			} else {
+				show_feedback("Jotain meni pieleen.", "error")
+			}
+		});
+	}
+	
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#data-table").after(fb_element);
+		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
+	}
+	
+	set_private_nav("staff");
+</script>

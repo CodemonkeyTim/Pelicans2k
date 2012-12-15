@@ -13,6 +13,10 @@
  *= require jquery.ui.all
  */
 
+html {
+	overflow-y: scroll;
+}
+
 body {
 	padding-top: 50px;
 }
@@ -33,6 +37,19 @@ body {
 }
 
 .row {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#del-icetime-btn {
+  margin-right: 10px;
+}
+
+.btn-margin-right {
+	margin-right: 10px;
+}
+
+.fb {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }

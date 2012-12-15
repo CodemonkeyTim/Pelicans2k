@@ -52,6 +52,11 @@
 				$(this).val("Sisältö");
 			}
 		});
+		
+		<% if session[:news_update_success] %>
+			show_feedback("Uutinen tallenettu onnistuneesti", "success", true, "create-news");
+			<% session[:news_update_success] = nil %>
+		<% end %>
 	});
 	
 	
@@ -63,9 +68,9 @@
 		
 		$.post("/create_news", JSON.stringify(po_news), function (response) {
 			if (response == "Error") {
-				show_feedback("Jotain meni pieleen", "error");
+				show_feedback("Jotain meni pieleen", "error", true, "create-news");
 			} else {
-				show_feedback("Uutinen julkaistu.", "success");
+				show_feedback("Uutinen julkaistu.", "success", true, "create-news");
 				
 				var published_at = convert_date(response.published_at);
 				var edited_at = "-";
@@ -108,23 +113,10 @@
 				cache: false,
 				success: function () {
 					$("#news_"+id).remove();
-					show_feedback("Uutinen poistettu", "success");
+					show_feedback("Uutinen poistettu", "success", true, "create-news");
 				}
 			});
 		}
-	}
-	
-	function show_feedback (msg, type) {
-		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
-		$("#create-news").after(fb_element);
-		
-		$("#feedback").html(msg);
-		$("#feedback").addClass("alert-" + type);
-		$("#feedback").removeClass("hidden");
-		
-		setTimeout(function () {
-			$("#feedback").remove();
-		}, 3000)
 	}
 	
 	set_private_nav("news");

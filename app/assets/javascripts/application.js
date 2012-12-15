@@ -27,3 +27,30 @@ function set_inner_nav(active) {
 function set_private_nav(active) {
 	$("#private-nav").find("#" + active).addClass("active");
 }
+
+var fb_id = 0;
+
+function show_feedback (msg, type, after, element) {
+	var el_id = "#feedback_" + fb_id;
+	var fb_element = "<div id='feedback_" + fb_id  + "' class='alert fb'></div>";
+	if (after) {
+		$("#"+element).after(fb_element);
+	} else {
+		$("#"+element).before(fb_element);
+	}
+	
+	$(el_id).html(msg);
+	$(el_id).addClass("alert-" + type);
+	$(el_id).hide();
+	
+	$(el_id).slideToggle();
+	
+	setTimeout(function () {
+		$(el_id).slideToggle();
+		setTimeout(function () {
+			$(el_id).remove();
+		}, 600)
+	}, 3800)
+	
+	fb_id += 1;
+}

@@ -35,7 +35,8 @@
 			</tbody>
 		</table>
 		
-		<a class="btn btn-large pull-right" onclick="save()">Tallenna varaukset</a>
+		<a class="btn btn-large pull-right" onclick="save()">Tallenna j&auml;&auml;aikavaraukset</a>
+		<a class="btn btn-large pull-right" id="del-icetime-btn" onclick="del()">Poista j&auml;&auml;aikavaraukset</a>
 	</div>
 	
 	<br />
@@ -119,6 +120,8 @@
 			
 			get_table_markings(id);
 		});
+		
+		get_table_markings("all");
 	});
 	
 	function get_table_markings(id) {
@@ -127,7 +130,7 @@
 		if (id == "all") {
 			url = "/get_cal_for_all?diff=<%= @diff %>";
 		} else {
-			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
+			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>&ice_time=true";
 		}
 		
 		$.ajax({
@@ -182,19 +185,11 @@
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
 					if (response == "Success") {
-						$("#feedback-success").removeClass("hidden");
-						//$("#feedback-success").slideToggle();
-						setTimeout(function() {
-							$("#feedback-success").addClass("hidden");
-						}, 2000);
+						show_feedback("Varaukset tallennettu onnistuneesti", "success", false, "main-cal-wrapper")
 						clear_table();
 						get_table_markings("all");
 					} else {
-						$("#feedback-error").removeClass("hidden");
-						//$("#feedback-error").slideToggle();
-						setTimeout(function() {
-							$("#feedback-error").addClass("hidden");
-						}, 2000);
+						show_feedback("Joukkueelle on jo kalenterimerkintä valittuina tunteina", "error", false, "main-cal-wrapper")
 						clear_table();
 						get_table_markings("all");
 					}
