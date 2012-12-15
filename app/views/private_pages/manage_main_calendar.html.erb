@@ -130,7 +130,7 @@
 		if (id == "all") {
 			url = "/get_cal_for_all?diff=<%= @diff %>";
 		} else {
-			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>&ice_time=true";
+			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
 		}
 		
 		$.ajax({
@@ -184,7 +184,7 @@
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-					if (response == "Success") {
+					if (response == "success") {
 						show_feedback("Varaukset tallennettu onnistuneesti", "success", false, "main-cal-wrapper")
 						clear_table();
 						get_table_markings("all");
