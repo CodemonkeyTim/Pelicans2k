@@ -130,7 +130,7 @@
 		if (id == "all") {
 			url = "/get_cal_for_all?diff=<%= @diff %>";
 		} else {
-			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>&ice_time=true";
+			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
 		}
 		
 		$.ajax({

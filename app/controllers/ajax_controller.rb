@@ -19,7 +19,7 @@ class AjaxController < ApplicationController
   end
   
   def get_staff_members
-    render :json => Team.find(params[:id]).staff_members
+    render :json => Team.find(params[:id]).staff_members.order("role DESC")
   end
   
   def get_cal_for_all
@@ -282,9 +282,11 @@ class AjaxController < ApplicationController
     end
     
     user.email = user_json["email"]
+    user.role = user_json["role"]
     user.f_name = user_json["f_name"]
     user.l_name = user_json["l_name"]
-     
+    user.team_id = user_json["team_id"]
+    
     if user.save
       session[:user_update_success] = true
       render :text => "success"
