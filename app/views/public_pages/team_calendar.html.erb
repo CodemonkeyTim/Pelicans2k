@@ -1,0 +1,95 @@
+<div class="span12">
+	<h2 class="centered-text">Kalenteri joukkueelle <%= @team.name %></h2>
+	<h3 class="centered-text">Vuosi <span id="year"><%= @year %></span> viikko <span id="week"><%= @today.cweek %></span></h3>
+	
+	<br />
+	<br />
+	
+	<div>
+		<a class="btn btn-medium pull-left" onclick="prev();"><i class="icon-arrow-left"></i> Edellinen viikko</a>
+		<a class="btn btn-medium center-button" onclick="curr();">Nykyinen</a>
+		<a class="btn btn-medium pull-right" onclick="next();">Seuraava viikko <i class="icon-arrow-right"></i></a>
+	</div>
+	
+	<br />
+	<br />
+	<br />
+	
+	<div id="main-cal-wrapper">
+		<table id="main-calendar-table">
+			<thead>
+				<tr>
+					<th>Klo / pvm</th>
+					<% @th_date_strs.each_with_index do |date, i| %>
+						<th><%= @days[i][0..1] %> <%= date %></th>
+					<% end %>
+				</tr>
+			</thead>
+			<tbody>
+				<% (9..21).each do |i| %>
+					<tr>
+						<th><%= i %>:00</th>
+						<% @date_strs.each do |date| %>
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+						<% end %>
+					</tr>
+					<tr>
+						<th><%= i %>:30</th>
+						<% @date_strs.each do |date| %>
+							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30"></td>	
+						<% end %>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+
+	$(document).ready(function () {
+		get_table_markings("<%= @team.id %>");
+	});
+	
+	function get_table_markings(id) {
+		var url = "";
+			
+		if (id == "all") {
+			url = "/get_cal_for_all?diff=<%= @diff %>";
+		} else {
+			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
+		}
+		
+		$.ajax({
+			url: url,
+			cache: false,
+			success: function (resses) {
+				$.each(resses, function(i, res) {
+					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
+					res_el.addClass("reserved");
+					res_el.attr("has-res", "true");
+					if (id == "all") {
+						res_el.html(res.team_name);
+						res_el.addClass(res.team_name.replace(' ', ''));
+					} else {
+						res_el.html(res.activity);
+					}
+				});
+			}
+		});
+	}
+	
+	function next() {
+		var diff = <%= @diff %> + 1;
+		window.location = "/joukkueenkalenteri/<%= @team.id %>?diff=" + diff; 	
+	}
+			
+	function prev() {
+		var diff = <%= @diff %> - 1;
+		window.location = "/joukkueenkalenteri/<%= @team.id %>?diff=" + diff;
+	}
+	
+	function curr() {
+		window.location = "/joukkueenkalenteri/<%= @team.id %>?diff=0";
+	}
+</script>

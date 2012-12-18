@@ -5,3 +5,10 @@
 #calendar-img-link:hover {
   cursor: pointer;
 }
+
+#main-cal-wrapper {
+    position: relative;
+    width: 850px;
+    left: 50%;
+    margin-left: -430px;
+}

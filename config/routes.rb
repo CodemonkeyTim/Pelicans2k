@@ -4,11 +4,15 @@ Pelicans2k::Application.routes.draw do
   root :to => "public_pages#index"
   
   #Routing for the public pages
-  match "/joukkueet" => "public_pages#teams"
+  match "/joukkue/:id" => "public_pages#teams"
   match "/linkkeja" => "public_pages#links"
   match "/seura" => "public_pages#club"
   match "/saannot" => "public_pages#rules"
   match "/kamaporssi" => "public_pages#equipment_market"
+  match "/uutinen/:id" => "public_pages#show_news"
+  match "/uutisarkisto" => "public_pages#news_archive"
+  match "/paakalenteri" => "public_pages#main_calendar"
+  match "/joukkueenkalenteri/:id" => "public_pages#team_calendar"
   
   #Routing for the private pages
   match "/kirjaudu_sisaan" => "private_pages#login"
