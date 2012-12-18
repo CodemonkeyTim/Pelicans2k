@@ -136,6 +136,6 @@ class PrivatePagesController < ApplicationController
   end
   
   def new_user_password
-    
+    @user = User.find(params[:id])
   end
 end

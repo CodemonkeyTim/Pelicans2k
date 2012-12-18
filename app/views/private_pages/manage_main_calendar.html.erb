@@ -120,7 +120,7 @@
 			
 			get_table_markings(id);
 		});
-		
+		$("#team-select").val("all");
 		get_table_markings("all");
 	});
 	
@@ -184,7 +184,7 @@
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-					if (response == "Success") {
+					if (response == "success") {
 						show_feedback("Varaukset tallennettu onnistuneesti", "success", false, "main-cal-wrapper")
 						clear_table();
 						get_table_markings("all");
