@@ -3,17 +3,14 @@
 	
 	<br />
 	
-	<div>
-		<span class="news-date">15.10.2012</span>
-		<h4>Jäähalli paloi poroksi</h4>
-		<p>Jäähalli paloi viime yönä poroksi. Syyksi epäillään pikkupoikien tulitikkuleikkejä. <br /> <a href="http://www.google.com">Lue lisää</a></p>
-	</div>
 	
-	<div>
-		<span class="news-date">12.10.2012</span>
-		<h4>Päävalmentajalta meni hermot</h4>
-		<p>Päävalmentaja irtisanoutui joukkueen uuden nettisivun ulkoasukiistan johdosta <br /> <a href="http://www.google.com">Lue lisää</a></p>
-	</div>
+	<% @semi_latest.each do |news| %>
+		<div>
+			<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
+			<h4><%= news.title %></h4>
+			<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+		</div>
+	<% end %>
 	
 	<br />
 	
@@ -26,18 +23,20 @@
 		
 		<br />
 		
+		<% @latest_news.each do |news| %>
 		<div>
-			<span class="news-date">18.10.2012</span>
-			<h4>Uudet nettisivut</h4>
-			<p>Lahden ammattikorkeakoulun oppilaat toteuttivat seuralle uudet nettisivut. <br /> <a href="http://www.google.com">Lue lisää</a></p>
+			<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
+			<h4><%= news.title %></h4>
+			<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
 		</div>
+	<% end %>
 	</div>
 </div>
 
 <div class="span2">
 	<h3>Seuran jääkalenteri</h3>
 	
-	<img src="assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" />
+	<img src="assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" onclick="window.location='/paakalenteri'" />
 	
 	<h3>Yhteistyössä</h3>
 	

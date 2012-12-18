@@ -266,7 +266,25 @@ class AjaxController < ApplicationController
   end
   
   def create_user
+    jsonObj = request.body.read
     
+    user_json = JSON.parse(jsonObj)
+    
+    user = User.new
+    
+    user.email = user_json["email"]
+    user.role = user_json["role"]
+    user.f_name = user_json["f_name"]
+    user.l_name = user_json["l_name"]
+    user.password = user_json["pw"]
+    user.password_confirmation = user_json["pw"]
+    user.team_id = user_json["team_id"]
+    
+    if user.save
+      render :json => user
+    else
+      render :text => "error" 
+    end
   end
   
   def update_user
@@ -321,11 +339,21 @@ class AjaxController < ApplicationController
     user.password_confirmation = user_json["pw"]
     
     if user.save
-      session[:new_password_success]
+      session[:new_password_success] = true
       render :text => "success"
     else
       render :text => "error"
     end
     
+  end
+  
+  def get_team_name 
+    team = Team.find(params[:id])
+    
+    if team
+      render :json => team
+    else
+      render :text => "not found"
+    end
   end
 end

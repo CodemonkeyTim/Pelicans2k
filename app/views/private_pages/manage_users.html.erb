@@ -19,21 +19,64 @@
 	</thead>
 	<tbody>
 		<% User.where("role != 'admin'").each do |user| %>
-			<tr>
+			<tr class="user-row" id="user_<%= user.id %>">
 				<td><%= user.email %></td>
 				<td><%= translate_role(user.role) %></td>
 				<td><%= user.f_name %></td>
 				<td><%= user.l_name %></td>
 				<td><%= unless user.team_id == 0 then Team.find(user.team_id).name else "-" end %></td>
 				<td>
-					<a class="btn btn-medium" onclick="window.location = '/muokkaa_kayttajaa/<%= user.id %>'">Muokkaa</a>
-					<a class="btn btn-medium" onclick="window.location = '/uusi_salasana/<%= user.id %>'">Uusi salasana</a>
+					<a class="btn btn-medium" href="/muokkaa_kayttajaa/<%= user.id %>">Muokkaa</a>
+					<a class="btn btn-medium" href="/uusi_salasana/<%= user.id %>">Uusi salasana</a>
 					<a class="btn btn-medium" onclick="del_user(<%= user.id %>)">Poista</a>
 				</td>
 			</tr>
 		<% end %>
 	</tbody>
 </table>
+
+<div>
+	<h3>Luo uusi käyttäjä</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Email</th>
+				<th>Rooli</th>
+				<th>Etunimi</th>
+				<th>Sukunimi</th>
+				<th>Salasana</th>
+				<th>Salasanavahvistus</th>
+				<th>Joukkue</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr id="new-user-row">
+				<td><input type="text" placeholder="email" class="input-small" /></td>
+				<td>
+					<select id="role-selector" class="input-medium">
+						<option value="team_leader">Joukkueenjohtaja</option>
+						<option value="admin">Admin</option>
+						<option value="head_coach">Valmennuspäällikkö</option>
+					</select>
+				</td>
+				<td><input type="text" placeholder="etunimi" class="input-small" /></td>
+				<td><input type="text" placeholder="sukunimi" class="input-small" /></td>
+				<td><input type="text" placeholder="salasana" id="password" class="input-small" /></td>
+				<td><input type="text" placeholder="vahvistus" id="password-confirmation" class="input-small" /></td>
+				<td>
+					<select id="team-selector" class="input-medium">
+						<option value="0">-</option>
+						<% Team.all.each do |team| %>
+							<option value="<%= team.id %>"><%= team.name %></option>
+						<% end %>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<a class="btn btn-large pull-right" onclick="save_user()">Tallenna</a>
+	<div style="clear:both"></div>
+</div>
 
 <script>
 	
@@ -47,7 +90,121 @@
 			show_feedback("Uusi salasana luotu onnistuneesti", "success", false, "data-table");
 			<% session[:new_password_success] = nil %>
 		<% end %>
+		
+		$("#role-selector").change(function () {
+			if ($(this).val() != "team_leader") {
+				$("#team-selector").attr("disabled", "true");
+				$("#team-selector").val("0");
+			} else {
+				$("#team-selector").removeAttr("disabled");
+			}
+		});
 	});
+	
+	function save_user () {
+		if (data_valid_to_save()) {
+			var values = [];
+			
+			$("#new-user-row").find("input").each(function () {
+				values.push($(this).val());
+			});
+			
+			var role = $("#role-selector").val();
+			var team_id = $("#team-selector").val();
+			
+			var new_user = {email: values[0], role: role, f_name: values[1], l_name: values[2], pw: values[3], team_id: team_id}
+			
+			$.post("/create_user", JSON.stringify(new_user), function (response) {
+				if (response == "error") {
+					show_feedback("Jotain meni pieleen.", "error", false, "data-table");
+				} else {
+					show_feedback("Käyttäjä lisätty", "success", false, "data-table");
+					var html = "<tr class='user-row' id='user_" + response.id + "'>\
+									<td>" + response.email + "</td>\
+									<td>" + translate_role(response.role) + "</td>\
+									<td>" + response.f_name + "</td>\
+									<td>" + response.l_name + "</td>\
+									<td>" + get_team_name(response.team_id) + "</td>\
+									<td>\
+										<a class='btn btn-medium' href='/muokkaa_pelaajaa/" + response.id + "'>Muokkaa</a>\
+										<a class='btn btn-medium' href='/uusi_salasana/" + response.id + "'>Uusi salasana</a>\
+										<a class='btn btn-medium' onclick='del_user(" + response.id + ")'>Poista</a>\
+									</td>\
+								</tr>";
+					$(".user-row").last().after(html);
+				}
+			});
+			
+			$("#new-user-row").find("input").each(function () {
+				$(this).val("");
+			});
+			
+			$("#role-selector").val("team_leader");
+			$("#team-selector").val("0");
+		}
+	}
+	
+	function data_valid_to_save () {
+		var role = $("#role-selector").val();
+		var team = $("#team-selector").val();
+		
+		if (role == "team_leader" && team == "0") {
+			alert("Joukkueenjohtajalla täytyy olla joukkue valittuna.");
+			return false;
+		}
+		
+		var password = $("#password").val();
+		var password_confirmation = $("#password-confirmation").val();
+		
+		if (password != password_confirmation) {
+			alert("Salasanan ja salasanavahvistuksen täytyy olla samat.");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function translate_role (role) {
+		if (role == "head_coach") {
+			return "Valmennuspäällikkö";
+		} else if (role == "team_leader") {
+			return "Joukkueenjohtaja";
+		} else if (role == "admin") {
+			return "Admin";
+		}
+	}
+	
+	function get_team_name (team_id) {
+		var returnable;
+		
+		$.ajax({
+			url: "/get_team_name/" + team_id,
+			cache: false,
+			async: false,
+			success: function (response) {
+				returnable = response.name;
+			}
+		});
+		
+		return returnable;
+	}
+	
+	function del_user (id) {
+		if (confirm("Haluatko varmasti poistaa tämän käyttäjän? Tapahtumaa EI voi perua.")) {
+			$.ajax({
+				url: "/delete_user/" + id,
+				cache: false,
+				success: function (response) {
+					if (response == "success") {
+						show_feedback("Käyttäjä poistettu", "success", false, "data-table");
+						$("#user_"+id).fadeOut();
+					} else {
+						show_feedback("Jotain meni pieleen", "error", false, "data-table");
+					}
+				}
+			});
+		}
+	}
 	
 	set_private_nav("users");
 </script>

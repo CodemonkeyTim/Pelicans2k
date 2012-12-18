@@ -2,7 +2,8 @@ class PublicPagesController < ApplicationController
   layout "public"
   
   def index
-    
+    @latest_news = News.order("published_at DESC").limit(3)
+    @semi_latest = News.order("published_at DESC").limit(3).offset(3)
   end
   
   def teams
