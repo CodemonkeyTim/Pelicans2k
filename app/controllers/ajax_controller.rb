@@ -309,4 +309,23 @@ class AjaxController < ApplicationController
       render :text => "error"
     end
   end
+  
+  def save_new_password
+    jsonObj = request.body.read
+    
+    user_json = JSON.parse(jsonObj)
+    
+    user = User.find(user_json["id"])
+    
+    user.password = user_json["pw"]
+    user.password_confirmation = user_json["pw"]
+    
+    if user.save
+      session[:new_password_success]
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+    
+  end
 end

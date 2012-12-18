@@ -23,4 +23,17 @@ class PublicPagesController < ApplicationController
   def links
     
   end
+  
+  def main_calendar
+    
+    
+  end
+  
+  def team_calendar
+    
+  end
+  
+  def news
+    
+  end
 end

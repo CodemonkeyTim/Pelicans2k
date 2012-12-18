@@ -42,6 +42,11 @@
 			show_feedback("Käyttäjän tiedot tallennettu onnistuneesti", "success", false, "data-table");
 			<% session[:user_update_success] = nil %>
 		<% end %>
+		
+		<% if session[:new_password_success] %>
+			show_feedback("Uusi salasana luotu onnistuneesti", "success", false, "data-table");
+			<% session[:new_password_success] = nil %>
+		<% end %>
 	});
 	
 	set_private_nav("users");
