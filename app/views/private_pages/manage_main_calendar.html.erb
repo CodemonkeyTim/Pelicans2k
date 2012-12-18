@@ -76,7 +76,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% (9..20).each do |i| %>
+				<% (9..21).each do |i| %>
 					<tr>
 						<th><%= i %>:00</th>
 						<% @date_strs.each do |date| %>
@@ -120,7 +120,7 @@
 			
 			get_table_markings(id);
 		});
-		
+		$("#team-select").val("all");
 		get_table_markings("all");
 	});
 	

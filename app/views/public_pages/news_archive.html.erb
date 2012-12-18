@@ -1,0 +1,24 @@
+<div class="span12">
+	<h2>Kaikki uutiset</h2>
+	
+	<br />
+	
+	<% News.all.each do |news| %>
+		<div>
+			<h4><%= news.title %></h4>
+			
+			<p>
+				Julkaistu: <span class="news-date"><%= news.published_at.strftime("%d.%m.%Y %H:%M") %></span><br />
+				Muokattu viimeksi: 
+				<% if news.edited_at %>
+					<span class="news-date"><%= news.edited_at.strftime("%d.%m.%Y %H:%M") %></span>
+				<% else %>
+					-
+				<% end %>
+			</p>
+			
+			<p><%= news.body %></p>
+		</div>
+		<br />
+	<% end %>
+</div>

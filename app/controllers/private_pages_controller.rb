@@ -123,4 +123,19 @@ class PrivatePagesController < ApplicationController
   def update_news
     @po_news = News.find(params[:id])
   end
+  
+  def manage_users
+    
+  end
+  
+  def edit_user
+    @user = User.find(params[:id])
+    if @user.role == "admin"
+      render :text => "forbidden"
+    end
+  end
+  
+  def new_user_password
+    @user = User.find(params[:id])
+  end
 end

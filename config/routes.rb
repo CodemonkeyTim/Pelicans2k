@@ -4,11 +4,15 @@ Pelicans2k::Application.routes.draw do
   root :to => "public_pages#index"
   
   #Routing for the public pages
-  match "/joukkueet" => "public_pages#teams"
+  match "/joukkue/:id" => "public_pages#teams"
   match "/linkkeja" => "public_pages#links"
   match "/seura" => "public_pages#club"
   match "/saannot" => "public_pages#rules"
   match "/kamaporssi" => "public_pages#equipment_market"
+  match "/uutinen/:id" => "public_pages#show_news"
+  match "/uutisarkisto" => "public_pages#news_archive"
+  match "/paakalenteri" => "public_pages#main_calendar"
+  match "/joukkueenkalenteri/:id" => "public_pages#team_calendar"
   
   #Routing for the private pages
   match "/kirjaudu_sisaan" => "private_pages#login"
@@ -28,6 +32,10 @@ Pelicans2k::Application.routes.draw do
   
   match "/joukkueiden_hallinta" => "private_pages#manage_teams"
   match "/muokkaa_joukkuetta/:id" => "private_pages#edit_team"
+  
+  match "/kayttajien_hallinta" => "private_pages#manage_users"
+  match "/muokkaa_kayttajaa/:id" => "private_pages#edit_user"
+  match "/uusi_salasana/:id" => "private_pages#new_user_password"
   
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
@@ -52,4 +60,11 @@ Pelicans2k::Application.routes.draw do
   match "/create_team" => "ajax#create_team"
   match "/delete_team/:id" => "ajax#delete_team"
 
+  match "/update_user" => "ajax#update_user"
+  match "/create_user" => "ajax#create_user"
+  match "/delete_user/:id" => "ajax#delete_user"
+  match "/save_new_password" => "ajax#save_new_password"
+  
+  match "/get_team_name/:id" => "ajax#get_team_name" 
+  
 end

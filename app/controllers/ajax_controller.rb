@@ -19,7 +19,7 @@ class AjaxController < ApplicationController
   end
   
   def get_staff_members
-    render :json => Team.find(params[:id]).staff_members
+    render :json => Team.find(params[:id]).staff_members.order("role DESC")
   end
   
   def get_cal_for_all
@@ -262,6 +262,98 @@ class AjaxController < ApplicationController
       render :text => "success"
     else
       render :text => "error"
+    end
+  end
+  
+  def create_user
+    jsonObj = request.body.read
+    
+    user_json = JSON.parse(jsonObj)
+    
+    user = User.new
+    
+    user.email = user_json["email"]
+    user.role = user_json["role"]
+    user.f_name = user_json["f_name"]
+    user.l_name = user_json["l_name"]
+    user.password = user_json["pw"]
+    user.password_confirmation = user_json["pw"]
+    user.team_id = user_json["team_id"]
+    
+    if user.save
+      render :json => user
+    else
+      render :text => "error" 
+    end
+  end
+  
+  def update_user
+    jsonObj = request.body.read
+    
+    user_json = JSON.parse(jsonObj)
+    
+    user = User.find(user_json["id"])
+    
+    if user.role == "admin"
+      render :text => "forbidden"
+      return 
+    end
+    
+    user.email = user_json["email"]
+    user.role = user_json["role"]
+    user.f_name = user_json["f_name"]
+    user.l_name = user_json["l_name"]
+    user.team_id = user_json["team_id"]
+    
+    if user.save
+      session[:user_update_success] = true
+      render :text => "success"
+    else
+      render :text => "error" 
+    end
+  end
+  
+  def delete_user
+    user = User.find(params[:id])
+    
+    if user.role == "admin"
+      render :text => "forbidden"
+      return
+    end
+    
+    if user.delete
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
+  
+  def save_new_password
+    jsonObj = request.body.read
+    
+    user_json = JSON.parse(jsonObj)
+    
+    user = User.find(user_json["id"])
+    
+    user.password = user_json["pw"]
+    user.password_confirmation = user_json["pw"]
+    
+    if user.save
+      session[:new_password_success] = true
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+    
+  end
+  
+  def get_team_name 
+    team = Team.find(params[:id])
+    
+    if team
+      render :json => team
+    else
+      render :text => "not found"
     end
   end
 end
