@@ -11,10 +11,11 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery.ui.all
 //= require jquery_ujs
-//= require twitter/bootstrap
 //= require_tree .
+//= require twitter/bootstrap
+
+// require jquery.ui.all
 
 function set_navbar(active) {
 	$("#" + active).addClass("active");
