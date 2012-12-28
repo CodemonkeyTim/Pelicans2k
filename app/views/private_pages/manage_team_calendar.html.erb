@@ -12,6 +12,7 @@
 						<th>Valitse joukkue</th>
 						<td>
 							<select id="show-team-select">
+								<option value="0"></option>
 								<% Team.all.each do |team| %>
 									<option value="<%= team.id %>"><%= team.name %></option>
 								<% end %>
@@ -65,7 +66,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% (9..20).each do |i| %>
+				<% (9..21).each do |i| %>
 					<tr>
 						<th><%= i %>:00</th>
 						<% @date_strs.each do |date| %>
@@ -101,7 +102,7 @@
 			}
 		});
 		
-		<% if current_user.role == "admin" %>
+		<% unless @team %>
 			$("#show-team-select").change(function () {
 				clear_table();
 				
@@ -110,6 +111,8 @@
 				
 				get_table_markings(id);
 			});
+		<% else %>
+			get_table_markings(<%= @team.id %>);
 		<% end %>
 	});
 	
@@ -171,23 +174,13 @@
 				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
 			});
 			
-			alert(resses[0].activity);
-			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
-					if (response == "Success") {
-						$("#feedback-success").removeClass("hidden");
-						//$("#feedback-success").slideToggle();
-						setTimeout(function() {
-							$("#feedback-success").addClass("hidden");
-						}, 2000);
+					if (response == "success") {
+						show_feedback("Kalenterimerkinnät tallennettu onnistuneesti", "success", false, "main-cal-wrapper");
 						clear_table();
 						get_table_markings(team_id);
 					} else {
-						$("#feedback-error").removeClass("hidden");
-						//$("#feedback-error").slideToggle();
-						setTimeout(function() {
-							$("#feedback-error").addClass("hidden");
-						}, 2000);
+						show_feedback("Tallennettavissa tunneissa päällekäisyyksiä olemassaolevien kanssa.", "error", false, "main-cal-wrapper");
 						clear_table();
 						get_table_markings(team_id);
 					}

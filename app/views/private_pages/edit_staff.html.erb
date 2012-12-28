@@ -49,23 +49,10 @@
 			if (response == "success") {
 				window.location = "/toimihenkiloiden_hallinta"
 			} else {
-				show_feedback("Jotain meni pieleen.", "error")
+				show_feedback("Jotain meni pieleen.", "error", false, "data-table")
 			}
 		});
 	}
 	
-	function show_feedback (msg, type) {
-		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
-		$("#data-table").after(fb_element);
-		
-		$("#feedback").html(msg);
-		$("#feedback").addClass("alert-" + type);
-		$("#feedback").removeClass("hidden");
-		
-		setTimeout(function () {
-			$("#feedback").remove();
-		}, 3000)
-	}
-	
-	set_private_nav("news");
+	set_private_nav("staff");
 </script>

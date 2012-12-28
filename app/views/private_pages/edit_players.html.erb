@@ -18,7 +18,7 @@
 
 <a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
 <a class="btn btn-large pull-right btn-margin-right" onclick="reset()">Resetoi</a>
-<a href="//pelaajien_hallinta" class="btn btn-large pull-right btn-margin-right">Peruuta</a>
+<a href="/pelaajien_hallinta" class="btn btn-large pull-right btn-margin-right">Peruuta</a>
 <div style="clear:both"></div>
 
 
@@ -47,25 +47,12 @@
 		
 		$.post("/update_player", JSON.stringify(player), function (response) {
 			if (response == "success") {
-				window.location = "/pelaajien_hallinta"
+				window.location = "/pelaajien_hallinta";
 			} else {
-				show_feedback("Jotain meni pieleen.", "error")
+				show_feedback("Jotain meni pieleen.", "error", true, "data-table");
 			}
 		});
 	}
 	
-	function show_feedback (msg, type) {
-		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
-		$("#data-table").after(fb_element);
-		
-		$("#feedback").html(msg);
-		$("#feedback").addClass("alert-" + type);
-		$("#feedback").removeClass("hidden");
-		
-		setTimeout(function () {
-			$("#feedback").remove();
-		}, 3000)
-	}
-	
-	set_private_nav("news");
+	set_private_nav("players");
 </script>

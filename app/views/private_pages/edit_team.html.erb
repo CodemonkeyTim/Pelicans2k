@@ -1,0 +1,62 @@
+<h2>Muokkaa joukkuetta</h2>
+
+<table class="table" id="data-table">
+	<tr>
+		<th>Nimi</th>
+		<th>Koodi</th>
+		<td></td>
+	</tr>
+	
+	<tr id="data-row">
+		<td><input type="text" class="input-small" value="<%= @team.name %>" /></td>
+		<td><input type="text" class="input-medium" value="<%= @team.code %>" /></td>
+	</tr>
+</table>
+
+<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
+<a class="btn btn-large pull-right btn-margin-right" onclick="reset()">Resetoi</a>
+<a href="/joukkueiden_hallinta" class="btn btn-large pull-right btn-margin-right">Peruuta</a>
+<div style="clear:both"></div>
+
+<script>
+	function reset () {
+		var values = ["<%= @team.name %>", "<%= @team.code %>"];
+		var i = 0;
+		
+		$("#data-row").find("input").each(function() {
+			$(this).val(values[i]);
+			i++;
+		});
+	}
+	
+	function save () {
+		var values = [];
+		
+		$("#data-row").find("input").each(function() {
+			values.push($(this).val());
+		});
+		
+		var player = {id: "<%= @team.id %>", name: values[0], code: values[1]};
+		
+		$.post("/update_team", JSON.stringify(player), function (response) {
+			if (response == "success") {
+				window.location = "/joukkueiden_hallinta"
+			} else {
+				show_feedback("Jotain meni pieleen.", "error", true, "data-table")
+			}
+		});
+	}
+	
+	function show_feedback (msg, type) {
+		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
+		$("#data-table").after(fb_element);
+		
+		$("#feedback").html(msg);
+		$("#feedback").addClass("alert-" + type);
+		$("#feedback").removeClass("hidden");
+		
+		setTimeout(function () {
+			$("#feedback").remove();
+		}, 3000)
+	}
+</script>

@@ -36,8 +36,8 @@
 	</thead>
 	<tbody>
 		<% if @team %>
-			<% @team.staff_members.each do |sm| %>
-				<tr>
+			<% @team.staff_members.reverse.each do |sm| %>
+				<tr class="staff-row" id="staff_<%= sm.id %>">
 					<td><%= sm.role %></td>
 					<td><%= sm.f_name %></td>
 					<td><%= sm.l_name %></td>
@@ -53,6 +53,32 @@
 	</tbody>
 </table>
 
+<div>
+	<h3>Luo uusi</h3>
+	
+	<table class="table" id="new-sm-table">
+		<thead>
+			<tr>
+				<th>Rooli</th>
+				<th>Etunimi</th>
+				<th>Sukunimi</th>
+				<th>Email</th>
+				<th>Puh.</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><input type="text" id="new-sm-role" class="input-medium" placeholder="rooli"/></td>
+				<td><input type="text" id="new-sm-f_name" class="input-small" placeholder="etunimi"/></td>
+				<td><input type="text" id="new-sm-l_name" class="input-small" placeholder="sukunimi"/></td>
+				<td><input type="text" id="new-sm-email" class="input-medium" placeholder="email"/></td>
+				<td><input type="text" id="new-sm-phone" class="input-small" placeholder="puhelin"/></td>
+				<td><a class="btn btn-medium" onclick="create_sm()">Tallenna</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <script>
 	$(document).ready(function () {
 		<% if current_user.role == "admin" %>
@@ -66,9 +92,9 @@
 			});
 		<% end %>
 		
-		<% if session[:staff_member_update_success] == true %>
-			show_feedback("Toimihenkilön tiedot tallennettu onnistuneesti", "success");
-			<% session[:staff_member_update_success] = false %>
+		<% if session[:staff_member_update_success] %>
+			show_feedback("Toimihenkilön tiedot tallennettu onnistuneesti", "success", false, "staff-members-table");
+			<% session[:staff_member_update_success] = nil %>
 		<% end %>
 	});
 	
@@ -100,19 +126,70 @@
 	}
 	
 	function del_staff(id) {
+		if (confirm("Haluatko varmasti poistaa toimihenkilön? Tapahtumaa EI voi perua.")) {
+			$.ajax({
+				url: "delete_staff_member/" + id,
+				cache: false,
+				success: function (response) {
+					if (response == "success") {
+						show_feedback("Toimihenkilö poistettu.", "success", false, "staff-members-table");
+						$("#staff_"+id).remove();
+					} else {
+						show_feedback("Jotain meni pieleen.", "error", false, "staff-members-table");
+					}
+				}
+			})
+		}
 		
 	}
 	
-	function show_feedback (msg, type) {
-		var fb_element = "<br /><div id='feedback' class='hidden alert'></div><br />";
-		$("#staff-members-table").before(fb_element);
+	function create_sm () {
+		var team_id;
 		
-		$("#feedback").html(msg);
-		$("#feedback").addClass("alert-" + type);
-		$("#feedback").removeClass("hidden");
+		<% unless @team %>
+			team_id = $("#team-staff-select").val();
+			if (team_id == 0) {alert("Valitse joukkue ensin."); return;}
+		<% else %>
+			team_id = <%= @team.id %>;
+		<% end %>
 		
-		setTimeout(function () {
-			$("#feedback").remove();
-		}, 3000)
+		var missing = false;
+		values = [];
+		$("#new-sm-table").find("input").each(function () {
+			var val = $(this).val();
+			if (val == "") {
+				alert("Kaikkien kenttien tiedot vaaditaan.");
+				missing = true;
+				return false;
+			} else {
+				values.push(val);
+			}
+		});
+		
+		if (missing) {return;}
+		
+		var sm = {role: values[0], f_name: values[1], l_name: values[2], email: values[3], phone: values[4], team_id: team_id}
+		
+		$.post("/create_staff_member", JSON.stringify(sm), function (sm) {
+			if (sm == "error") {
+				show_feedback("Jotain meni pieleen.", "error", false, "staff-members-table");
+			} else {
+				var html = "<tr class='staff-row' id='staff_" + sm.id +"'>\
+									<td>" + sm.role + "</td>\
+									<td>" + sm.f_name + "</td>\
+									<td>" + sm.l_name + "</td>\
+									<td>" + sm.email + "</td>\
+									<td>" + sm.phone + "</td>\
+									<td>\
+							  			<a href='/muokkaa_toimihenkiloa/" + sm.id + "' class='btn btn-medium'>Muokkaa</a>\
+							  			<a onclick='del_staff(" + sm.id + ")' class='btn btn-medium'>Poista</a>\
+							  		</td>\
+								</tr>";
+				$(".staff-row").first().before(html);
+				show_feedback("Toimihenkilö luotu onnistuneesti.", "success", false, "staff-members-table");
+			}
+		});
 	}
+	
+	set_private_nav("staff");
 </script>
