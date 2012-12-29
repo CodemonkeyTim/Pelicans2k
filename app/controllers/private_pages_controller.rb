@@ -1,4 +1,5 @@
 class PrivatePagesController < ApplicationController
+  
   layout "private"
   
   @sid = 86400

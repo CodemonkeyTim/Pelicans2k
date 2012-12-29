@@ -55,17 +55,20 @@ class AjaxController < ApplicationController
     resses.each do |res|
       if res.activity == "Jääaika"
         existing_res = Reservation.find_by_date_and_starts_at(res.date, res.starts_at)
+      else
+        existing_res = Reservation.find_by_date_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
       end
       
       if existing_res
         all_new = false;
         break;
-      else
-        res.save
       end
     end
     
     if all_new
+      resses.each do |res|
+        res.save
+      end
       render :text => "success"
     else
       render :text => "error"
