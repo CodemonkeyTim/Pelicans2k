@@ -212,5 +212,40 @@
 		return true;
 	}
 	
+	function del () {
+		if (something_selected_to_del()) {
+			if (confirm("Haluatko varmasti poistaa valitut varaukset? Tapahtumaa EI voi perua.")) {
+				var resses = [];
+				
+				$(".reservable[select='true']").each(function() {			
+					resses.push({date: $(this).attr("date-data"), starts_at: $(this).attr("time")})
+				});
+				
+				$.post("/delete_ice_time", JSON.stringify(resses), function (response) {
+						if (response == "success") {
+							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper")
+							clear_table();
+							get_table_markings("all");
+						} else {
+							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper")
+							clear_table();
+							get_table_markings("all");
+						}
+					}
+				);	
+			}
+		} else {
+			alert("Joko joukkue ei ole valittu tai yhtään tuntia ei ole valittu");
+		}
+	}
+	
+	function something_selected_to_del() {
+		if ($(".reservable[select='true']").lenght == 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	set_private_nav("main-cal");
 </script>

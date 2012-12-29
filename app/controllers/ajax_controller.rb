@@ -75,6 +75,30 @@ class AjaxController < ApplicationController
     end    
   end
   
+  def delete_ice_time
+    jsonArr = request.body.read
+    objArr = JSON.parse(jsonArr)
+    resses = []
+    
+    success = true
+    
+    objArr.each do |o|
+      resses.push(Reservation.find_by_date_and_starts_at_and_activity(o["date"], o["starts_at"], "Jääaika"))
+    end
+    
+    resses.each do |res|
+      unless res.delete
+        success = false
+      end
+    end
+    
+    if success 
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
+  
   def create_news
     jsonObj = request.body.read
     
