@@ -1,6 +1,8 @@
 # encoding: UTF-8
 
 class AjaxController < ApplicationController
+  before_filter :authenticate_user!
+  
   def get_cal_for_team
     today = DateTime.now + (params[:diff].to_i * 7)
     
@@ -51,7 +53,9 @@ class AjaxController < ApplicationController
     all_new = true;
     
     resses.each do |res|
-      existing_res = Reservation.find_by_date_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
+      if res.activity == "Jääaika"
+        existing_res = Reservation.find_by_date_and_starts_at(res.date, res.starts_at)
+      end
       
       if existing_res
         all_new = false;
