@@ -1,17 +1,19 @@
-<div class="span12 section">
-	<h2><%= @news.title %></h2>
-	
-	<p>
-		Julkaistu: <span class="news-date"><%= @news.published_at.strftime("%d.%m.%Y %H:%M") %></span><br />
-		Muokattu viimeksi: 
-		<% if @news.edited_at %>
-			<span class="news-date"><%= @news.edited_at.strftime("%d.%m.%Y %H:%M") %></span>
-		<% else %>
-			-
-		<% end %>
-	</p>
-	
-	<p>
-		<%= @news.body %>
-	</p>
+<div class="span12">
+	<div class="section">
+		<h2><%= @news.title %></h2>
+		
+		<p>
+			Julkaistu: <span class="news-date"><%= @news.published_at.strftime("%d.%m.%Y %H:%M") %></span><br />
+			Muokattu viimeksi: 
+			<% if @news.edited_at %>
+				<span class="news-date"><%= @news.edited_at.strftime("%d.%m.%Y %H:%M") %></span>
+			<% else %>
+				-
+			<% end %>
+		</p>
+		
+		<p>
+			<%= @news.body %>
+		</p>
+	</div>
 </div>
