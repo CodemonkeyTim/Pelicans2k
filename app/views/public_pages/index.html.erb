@@ -1,52 +1,57 @@
 <div class="span2">
-	<h3>Tapahtumia</h3>
-	
-	<br />
-	
-	
-	<% @semi_latest.each do |news| %>
-		<div>
-			<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
-			<h4><%= news.title %></h4>
-			<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
-		</div>
-	<% end %>
-	
-	<br />
-	
-	<a class="btn btn-medium"  href="/uutisarkisto"><i class="icon-folder-open"></i> Lisää tapahtumia</a>
-</div>
-
-<div class="span8">	
-	<div class="well" id="news_wrapper">
-		<h3>Uusimmat tapahtumat</h3>
+	<div class="section">
+		<h3>Tapahtumia</h3>	
+		<br />
+		
+		
+		<% @semi_latest.each do |news| %>
+			<div>
+				<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
+				<h4><%= news.title %></h4>
+				<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+			</div>
+		<% end %>
 		
 		<br />
 		
-		<% @latest_news.each do |news| %>
-		<div>
-			<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
-			<h4><%= news.title %></h4>
-			<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+		<a class="btn btn-medium"  href="/uutisarkisto"><i class="icon-folder-open"></i> Lisää tapahtumia</a>
+	</div>
+</div>
+
+<div class="span8">	
+	<div class="section">
+		<div class="well" id="news_wrapper">
+			<h3>Uusimmat tapahtumat</h3>
+			
+			<br />
+			
+			<% @latest_news.each do |news| %>
+			<div>
+				<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
+				<h4><%= news.title %></h4>
+				<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+			</div>
+		<% end %>
 		</div>
-	<% end %>
 	</div>
 </div>
 
 <div class="span2">
-	<h3>Seuran jääkalenteri</h3>
-	
-	<img src="assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" onclick="window.location='/paakalenteri'" />
-	
-	<h3>Yhteistyössä</h3>
-	
-	<br />
-	
-	<img src="assets/if.gif" alt="Sponsored by If gif" id="sponsor-img-if" />
-	
-	<br />
-	
-	<img src="assets/sponssit.gif" alt="Sponsored by Sportia and Lammin OP gif" id="sponsor-img-others" />
+	<div class="section">
+		<h3>Seuran jääkalenteri</h3>
+		
+		<img src="assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" onclick="window.location='/paakalenteri'" />
+		
+		<h3>Yhteistyössä</h3>
+		
+		<br />
+		
+		<img src="assets/if.gif" alt="Sponsored by If gif" id="sponsor-img-if" />
+		
+		<br />
+		
+		<img src="assets/sponssit.gif" alt="Sponsored by Sportia and Lammin OP gif" id="sponsor-img-others" />
+	</div>
 </div>
 
 <script>	
