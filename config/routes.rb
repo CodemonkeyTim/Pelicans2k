@@ -5,6 +5,7 @@ Pelicans2k::Application.routes.draw do
   
   #Routing for the public pages
   match "/joukkue/:id" => "public_pages#teams"
+  match "/joukkueet" => "public_pages#training"
   match "/linkkeja" => "public_pages#links"
   match "/seura" => "public_pages#club"
   match "/saannot" => "public_pages#rules"
