@@ -38,6 +38,8 @@ Pelicans2k::Application.routes.draw do
   match "/muokkaa_kayttajaa/:id" => "private_pages#edit_user"
   match "/uusi_salasana/:id" => "private_pages#new_user_password"
   
+  match "/viikkopohjan_hallinta" => "private_pages#week_base"
+  
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
   match "/get_cal_for_all" => "ajax#get_cal_for_all"

@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class AjaxController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:get_cal_for_all, :get_cal_for_team]
   
   def get_cal_for_team
     today = DateTime.now + (params[:diff].to_i * 7)
