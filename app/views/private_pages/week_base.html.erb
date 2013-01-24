@@ -1,65 +1,32 @@
 <div>
-	<h2>P&auml;&auml;kalenteri</h2>
-	<h3>Vuosi <span id="year"><%= @year %></span> viikko <span id="week"><%= @today.cweek %></span></h3>
+	<h2>Viikkopohja</h2>
 	
 	<br />
 	<br />
 	
 	<h3>Asetukset</h3>
+	
+	<br />
+	
 	<div>
 		<table class="table">
 			<tbody>
 				<tr>
-					<th>N&auml;yt&auml; kalenteri joukkueelle</th>
+					<th>Valitse joukkue</th>
 					<td>
 						<select id="team-select">
 							<option value="0"></option>
-							<option value="all">Kaikki</option>
 							<% Team.all.each do |team| %>
 								<option value="<%= team.id %>"><%= team.name %></option>
 							<% end %>
 						</select>
 					</td>
 				</tr>
-				<tr>
-					<th>Valitse joukkue jolle valitut tunnit varataan</th>
-					<td>
-						<select id="save-to-team-select">
-							<option value="0"></option>
-							<% Team.all.each do |team| %>
-								<option value="<%= team.id %>"><%= team.name %></option>
-							<% end %>
-						</select>
-					</td>
-				</tr>
-			</tbody>
+			</tbody>	
 		</table>
 		
-		<a class="btn btn-large pull-right" onclick="save()">Tallenna j&auml;&auml;aikavaraukset</a>
-		<a class="btn btn-large pull-right" id="del-icetime-btn" onclick="del()">Poista j&auml;&auml;aikavaraukset</a>
-	</div>
-	
-	<br />
-	<br />
-	<br />
-	<br />
-	
-	<div>
-		<a class="btn btn-medium pull-left" onclick="prev();"><i class="icon-arrow-left"></i> Edellinen viikko</a>
-		<a class="btn btn-medium center-button" onclick="curr();">Nykyinen</a>
-		<a class="btn btn-medium pull-right" onclick="next();">Seuraava viikko <i class="icon-arrow-right"></i></a>
-	</div>
-	
-	<br />
-	<br />
-	
-	
-	<div id="feedback-error" class="alert alert-error hidden">
-		Joukkueella on jo kalenterimerkint&auml; valittuina tunteina. Tarkista joukkueen kalenteri.
-	</div>
-	
-	<div id="feedback-success" class="alert alert-success hidden">
-		Varaukset tallennettu onnistuneesti.
+		<a class="btn btn-large pull-right" onclick="save()">Tallenna viikkopohja</a>
+		<a class="btn btn-large pull-right" id="clear-week-base-btn" onclick="clear_table()">Tyhjenn&auml; pohja</a>
 	</div>
 
 	<br />
@@ -69,9 +36,9 @@
 		<table id="main-calendar-table">
 			<thead>
 				<tr>
-					<th>Klo / pvm</th>
+					<th>Klo / pv</th>
 					<% @th_date_strs.each_with_index do |date, i| %>
-						<th><%= @days[i][0..1] %> <%= date %></th>
+						<th><%= @days[i][0..1].downcase %></th>
 					<% end %>
 				</tr>
 			</thead>
@@ -98,40 +65,30 @@
 <script>
 	$(document).ready(function () {
 		$(".reservable").click(function () {
+			if ($("#team-select").val() == "0") {
+				show_feedback("Valitse ensin tiimi", "error", false, "main-cal-wrapper")
+				return;
+			}
+			
 			if ($(this).hasClass("selected")) {
 				if ($(this).attr("has-res") == "true") {
 					
 				} else {
 					
 				}
-				$(this).removeClass("selected");
+				$(this).html("");
 				$(this).attr("select", "false");
 			} else {
-				$(this).addClass("selected");
+				$(this).html($("#team-select option:selected").text());
+				$(this).addClass($("#team-select option:selected").text().replace(' ', ''));
 				$(this).attr("select", "true");
+				$(this).attr("team-id", $("#team-select").val());
 			}
 		});
-		
-		$("#team-select").change(function () {
-			clear_table();
-			
-			var id = $(this).val();
-			if (id == "0") { return; }
-			
-			get_table_markings(id);
-		});
-		$("#team-select").val("all");
-		get_table_markings("all");
 	});
 	
-	function get_table_markings(id) {
-		var url = "";
-			
-		if (id == "all") {
-			url = "/get_cal_for_all?diff=<%= @diff %>";
-		} else {
-			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
-		}
+	function get_curr_week_base_markings(id) {
+		var url = "/get_week_base";
 		
 		$.ajax({
 			url: url,
@@ -141,12 +98,8 @@
 					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 					res_el.addClass("reserved");
 					res_el.attr("has-res", "true");
-					if (id == "all") {
-						res_el.html(res.team_name);
-						res_el.addClass(res.team_name.replace(' ', ''));
-					} else {
-						res_el.html(res.activity);
-					}
+					res_el.html(res.team_name);
+					res_el.addClass(res.team_name.replace(' ', ''));
 				});
 			}
 		});
@@ -160,27 +113,12 @@
 		res_els.attr("select", "false");
 	}
 	
-	function next() {
-		var diff = <%= @diff %> + 1;
-		window.location = "/paakalenterin_hallinta?diff=" + diff; 	
-	}
-			
-	function prev() {
-		var diff = <%= @diff %> - 1;
-		window.location = "/paakalenterin_hallinta?diff=" + diff;
-	}
-	
-	function curr() {
-		window.location = "/paakalenterin_hallinta?diff=0";
-	}
-	
-	function save () {
+	function save_week_base () {
 		if (data_valid_to_save()) {
 			var resses = [];
-			var team_id = $("#save-to-team-select").val();
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: "Jääaika", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+				resses.push({activity: "Jääaika", date: $(this).attr("date-data"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")})
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
@@ -247,5 +185,5 @@
 		return true;
 	}
 	
-	set_private_nav("main-cal");
+	set_private_nav("week-base");
 </script>
