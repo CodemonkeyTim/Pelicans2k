@@ -37,6 +37,7 @@
 		
 		<a class="btn btn-large pull-right" onclick="save()">Tallenna j&auml;&auml;aikavaraukset</a>
 		<a class="btn btn-large pull-right" id="del-icetime-btn" onclick="del()">Poista j&auml;&auml;aikavaraukset</a>
+		<a class="btn btn-large pull-right" id="load-week-base-btn" onclick="load_week_base()">Lataa viikkopohja</a>
 	</div>
 	
 	<br />
@@ -79,14 +80,14 @@
 				<% (9..21).each do |i| %>
 					<tr>
 						<th><%= i %>:00</th>
-						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+						<% @date_strs.each_with_index do |date, j| %>
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
 						<% end %>
 					</tr>
 					<tr>
 						<th><%= i %>:30</th>
-						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30"></td>	
+						<% @date_strs.each_with_index do |date, j| %>
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
 						<% end %>
 					</tr>
 				<% end %>
@@ -196,7 +197,7 @@
 				}
 			);	
 		} else {
-			alert("Joko joukkue ei ole valittu tai yhtään tuntia ei ole valittu");
+			show_feedback("Joko yhtään tuntia tai joukkuetta ei ole valittu", "error", false, "main-cal-wrapper");
 		}
 	}
 	
@@ -212,6 +213,26 @@
 		return true;
 	}
 	
+	function load_week_base() {
+		$.ajax({
+			url: "/load_week_base",
+			cache: false,
+			success: function (resses) {
+				$(".selected").removeClass("selected");
+				$.each(resses, function(i, res) {
+					var res_el = $(".reservable[week-day='" + res.day +  "'][time='" + res.starts_at + "']");
+					res_el.addClass("reserved");
+					res_el.attr("has-res", "true");
+					res_el.attr("team-id", res.id);
+					res_el.html(res.team_name);
+					res_el.addClass(res.team_name.replace(' ', ''));
+				});
+				show_feedback("Viikkopohja ladattu. Tallenna varaukset painamalla \"Tallenna jääaikavaraukset\".", "success", false, "main-cal-wrapper");
+			}
+		});
+	}
+	
+	
 	function del () {
 		if (something_selected_to_del()) {
 			if (confirm("Haluatko varmasti poistaa valitut varaukset? Tapahtumaa EI voi perua.")) {
@@ -223,11 +244,11 @@
 				
 				$.post("/delete_ice_time", JSON.stringify(resses), function (response) {
 						if (response == "success") {
-							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper")
+							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
 							clear_table();
 							get_table_markings("all");
 						} else {
-							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper")
+							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper");
 							clear_table();
 							get_table_markings("all");
 						}

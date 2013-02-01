@@ -38,7 +38,7 @@ Pelicans2k::Application.routes.draw do
   match "/muokkaa_kayttajaa/:id" => "private_pages#edit_user"
   match "/uusi_salasana/:id" => "private_pages#new_user_password"
   
-  match "/viikkopohjan_hallinta" => "private_pages#week_base"
+  match "/viikkopohjan_hallinta" => "private_pages#manage_week_base"
   
   #Ajax calls routing
   match "/get_cal_for_team" => "ajax#get_cal_for_team"
@@ -71,4 +71,6 @@ Pelicans2k::Application.routes.draw do
   
   match "/get_team_name/:id" => "ajax#get_team_name" 
   
+  match "/save_week_base" => "ajax#save_week_base"
+  match "/load_week_base" => "ajax#load_week_base"
 end
