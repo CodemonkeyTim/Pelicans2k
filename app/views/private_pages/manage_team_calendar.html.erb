@@ -69,14 +69,14 @@
 				<% (9..21).each do |i| %>
 					<tr>
 						<th><%= i %>:00</th>
-						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+						<% @date_strs.each_with_index do |date, j| %>
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
 						<% end %>
 					</tr>
 					<tr>
 						<th><%= i %>:30</th>
-						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30"></td>	
+						<% @date_strs.each_with_index do |date, j| %>
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
 						<% end %>
 					</tr>
 				<% end %>
@@ -88,16 +88,18 @@
 <script>
 	$(document).ready(function () {
 		$(".reservable").click(function () {
-			if ($(this).hasClass("selected")) {
-				if ($(this).attr("has-res") == "true") {
-					
-				} else {
-					
-				}
-				$(this).removeClass("selected");
+			$(this).attr("class", "reservable");
+			
+			if ($(this).attr("select") == "true") {
 				$(this).attr("select", "false");
+				$(this).html("");
 			} else {
-				$(this).addClass("selected");
+				if ($("#activity").val() == "") {
+					show_feedback("Aktiviteetti ei voi olla tyhjä.", "error", false, "main-cal-wrapper");
+					return;
+				}
+				$(this).addClass("reserved");
+				$(this).html($("#activity").val());
 				$(this).attr("select", "true");
 			}
 		});
