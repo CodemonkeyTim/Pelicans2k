@@ -37,6 +37,7 @@
 		
 		<a class="btn btn-large pull-right" onclick="save()">Tallenna j&auml;&auml;aikavaraukset</a>
 		<a class="btn btn-large pull-right" id="del-icetime-btn" onclick="del()">Poista j&auml;&auml;aikavaraukset</a>
+		<a class="btn btn-large pull-right" id="load-week-base-btn" onclick="load_week_base()">Lataa viikkopohja</a>
 	</div>
 	
 	<br />
@@ -79,14 +80,14 @@
 				<% (9..21).each do |i| %>
 					<tr>
 						<th><%= i %>:00</th>
-						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+						<% @date_strs.each_with_index do |date, j| %>
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
 						<% end %>
 					</tr>
 					<tr>
 						<th><%= i %>:30</th>
-						<% @date_strs.each do |date| %>
-							<td class="reservable" date-data="<%= date %>" has-res="false" select="false" time="<%= i %>:30"></td>	
+						<% @date_strs.each_with_index do |date, j| %>
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
 						<% end %>
 					</tr>
 				<% end %>
@@ -96,24 +97,28 @@
 </div>
 
 <script>
+	
 	$(document).ready(function () {
 		$(".reservable").click(function () {
+			if ($("#save-to-team-select").val() == "0") {
+				show_feedback("Valitse ensin tiimi", "error", false, "main-cal-wrapper")
+				return;
+			}
+				
 			if ($(this).hasClass("selected")) {
-				if ($(this).attr("has-res") == "true") {
-					
-				} else {
-					
-				}
-				$(this).removeClass("selected");
+				$(this).html("");
 				$(this).attr("select", "false");
 			} else {
-				$(this).addClass("selected");
+				$(this).attr("class", "reservable");
+				$(this).html($("#save-to-team-select option:selected").text());
+				$(this).addClass($("#save-to-team-select option:selected").text().replace(' ', ''));
+				$(this).attr("select", "true");
+				$(this).attr("team-id", $("#save-to-team-select").val());
 				$(this).attr("select", "true");
 			}
 		});
 		
 		$("#team-select").change(function () {
-			clear_table();
 			
 			var id = $(this).val();
 			if (id == "0") { return; }
@@ -137,6 +142,7 @@
 			url: url,
 			cache: false,
 			success: function (resses) {
+				clear_table();
 				$.each(resses, function(i, res) {
 					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 					res_el.addClass("reserved");
@@ -177,10 +183,9 @@
 	function save () {
 		if (data_valid_to_save()) {
 			var resses = [];
-			var team_id = $("#save-to-team-select").val();
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: "Jääaika", date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")})
+				resses.push({activity: "Jääaika", date: $(this).attr("date-data"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")})
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
@@ -189,28 +194,46 @@
 						clear_table();
 						get_table_markings("all");
 					} else {
-						show_feedback("Joukkueelle on jo kalenterimerkintä valittuina tunteina tai jääajoissa on päällekkäisyyksiä", "error", false, "main-cal-wrapper")
+						show_feedback("Tallennettavissa varauksissa päällekkäisyyksiä olemassaolevien kanssa.", "error", false, "main-cal-wrapper")
 						clear_table();
 						get_table_markings("all");
 					}
 				}
 			);	
 		} else {
-			alert("Joko joukkue ei ole valittu tai yhtään tuntia ei ole valittu");
+			show_feedback("Ei mitään tallennettavaa...", "error", false, "main-cal-wrapper");
 		}
 	}
 	
 	function data_valid_to_save() {
-		if ($("#save-to-team-select").val() == "0") {
-			return false;
-		}
-		
 		if ($(".reservable[select='true']").lenght == 0) {
 			return false;
 		}
 		
 		return true;
 	}
+	
+	function load_week_base() {
+		$.ajax({
+			url: "/load_week_base",
+			cache: false,
+			success: function (resses) {
+				clear_table();
+				
+				$.each(resses, function(i, res) {
+					var res_el = $(".reservable[week-day='" + res.day +  "'][time='" + res.starts_at + "']");
+					res_el.addClass("reserved");
+					res_el.attr("select", "true");
+					res_el.attr("has-res", "true");
+					res_el.attr("team-id", res.team_id);
+					res_el.html(res.team_name);
+					res_el.addClass(res.team_name.replace(' ', ''));
+				});
+				show_feedback("Viikkopohja ladattu. Tallenna varaukset painamalla \"Tallenna jääaikavaraukset\".", "success", false, "main-cal-wrapper");
+			}
+		});
+	}
+	
 	
 	function del () {
 		if (something_selected_to_del()) {
@@ -223,11 +246,11 @@
 				
 				$.post("/delete_ice_time", JSON.stringify(resses), function (response) {
 						if (response == "success") {
-							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper")
+							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
 							clear_table();
 							get_table_markings("all");
 						} else {
-							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper")
+							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper");
 							clear_table();
 							get_table_markings("all");
 						}

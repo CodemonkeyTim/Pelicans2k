@@ -44,7 +44,11 @@ body {
 }
 
 #del-icetime-btn {
-  margin-right: 10px;
+  	margin-right: 10px;
+}
+
+#load-week-base-btn {
+	margin-right: 10px;
 }
 
 .btn-margin-right {

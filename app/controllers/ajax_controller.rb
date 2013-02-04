@@ -27,8 +27,8 @@ class AjaxController < ApplicationController
   def get_cal_for_all
     today = DateTime.now + (params[:diff].to_i * 7)
     
-    mon = today.at_beginning_of_week
-    sun = today.at_end_of_week
+    mon = today.at_beginning_of_week - 1 
+    sun = today.at_end_of_week + 1
     
     resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika")
     
@@ -386,5 +386,35 @@ class AjaxController < ApplicationController
     else
       render :text => "not found"
     end
+  end
+  
+  def save_week_base
+    jsonArr = request.body.read
+    objArr = JSON.parse(jsonArr)
+    base_resses = []
+    
+    objArr.each do |o|
+      existing_res = BaseReservation.find_by_day_and_starts_at(o["day"], o["starts_at"])
+      if existing_res
+        existing_res.team_id = res.team_id
+        existing_res.save
+      else
+        BaseReservation.create(day: o["day"], starts_at: o["starts_at"], team_id: o["team_id"], activity: "Jääaika")
+      end
+    end
+    
+    render :text => "success"
+  end
+  
+  def load_week_base
+    resses = BaseReservation.where(:activity => "Jääaika")
+    
+    resses_json = []
+    
+    resses.each do |res|
+      resses_json.push({activity: res.activity, starts_at: res.starts_at, day: res.day, team_id: res.team_id, team_name: Team.find(res.team_id).name})
+    end
+    
+    render :json => resses_json
   end
 end

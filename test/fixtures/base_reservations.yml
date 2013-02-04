@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  starts_at: MyString
+  day: MyString
+  team_id: 1
+  activity: MyString
+  created_by: MyString
+
+two:
+  starts_at: MyString
+  day: MyString
+  team_id: 1
+  activity: MyString
+  created_by: MyString

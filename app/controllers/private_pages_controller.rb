@@ -95,7 +95,7 @@ class PrivatePagesController < ApplicationController
     end
   end
   
-  def week_base
+  def manage_week_base
     @days = ["Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai", "Sunnuntai"]
     
     @real_today = DateTime.now

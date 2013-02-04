@@ -21,15 +21,15 @@ Team.create(name: "C2 -98", code: "C2")
 Team.create(name: "C2 Team", code: "C2 Team")
 Team.create(name: "D1 -99 TEHO", code: "D1")
 
-Reservation.create(starts_at: "9:30", team_id: 1, activity: "Jääaika", date: Date.new(2012, 11, 27))
-Reservation.create(starts_at: "10:00", team_id: 1, activity: "Jääaika", date: Date.new(2012, 11, 27))
-Reservation.create(starts_at: "10:30", team_id: 1, activity: "Jääaika", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "9:30", team_id: 1, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "10:00", team_id: 1, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "10:30", team_id: 1, activity: "Jääaika", date: Date.new(2013, 2, 2))
 
-Reservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", date: Date.new(2012, 11, 27))
-Reservation.create(starts_at: "11:30", team_id: 2, activity: "Jääaika", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "11:30", team_id: 2, activity: "Jääaika", date: Date.new(2013, 2, 2))
 
-Reservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", date: Date.new(2012, 11, 27))
-Reservation.create(starts_at: "12:30", team_id: 3, activity: "Jääaika", date: Date.new(2012, 11, 27))
+Reservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "12:30", team_id: 3, activity: "Jääaika", date: Date.new(2013, 2, 2))
 
 News.create(title: "Uutinen 1", body: "Tämä on tekstiosio uutiselle numero 1.", published_at: (DateTime.now - 5), publisher_id: 1)
 News.create(title: "Uutinen 2", body: "Tämä on tekstiosio uutiselle numero 2 ja vähän erilainen kuin uutinen 1.", published_at: (DateTime.now - 7), publisher_id: 2)
@@ -49,3 +49,11 @@ StaffMember.create(f_name: "Terppi", l_name: "Terävä", role: "kahvittaja", ema
 StaffMember.create(f_name: "Ilkka", l_name: "Ilves", role: "varustevastaava", email: "iilves@gmail.com", phone: "0400-3453451", team_id: 1)
 StaffMember.create(f_name: "Pekka", l_name: "Pakorauta", role: "teroittaja", email: "peepako@gmail.com", phone: "044-1122113", team_id: 1)
 StaffMember.create(f_name: "Timo", l_name: "Tiira", role: "vastaava mestari", email: "mest@ari.fi", phone: "044-9999999", team_id: 1)
+
+BaseReservation.create(starts_at: "9:30", team_id: 1, activity: "Jääaika", day: "ma")
+BaseReservation.create(starts_at: "10:00", team_id: 1, activity: "Jääaika", day: "ma")
+BaseReservation.create(starts_at: "10:30", team_id: 2, activity: "Jääaika", day: "ma")
+BaseReservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", day: "ma")
+BaseReservation.create(starts_at: "11:30", team_id: 3, activity: "Jääaika", day: "ma")
+BaseReservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", day: "ma")
+
