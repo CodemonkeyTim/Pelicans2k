@@ -27,8 +27,8 @@ class AjaxController < ApplicationController
   def get_cal_for_all
     today = DateTime.now + (params[:diff].to_i * 7)
     
-    mon = today.at_beginning_of_week
-    sun = today.at_end_of_week
+    mon = today.at_beginning_of_week - 1 
+    sun = today.at_end_of_week + 1
     
     resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika")
     
@@ -412,7 +412,7 @@ class AjaxController < ApplicationController
     resses_json = []
     
     resses.each do |res|
-      resses_json.push({activity: res.activity, starts_at: res.starts_at, day: res.day, team_name: Team.find(res.team_id).name})
+      resses_json.push({activity: res.activity, starts_at: res.starts_at, day: res.day, team_id: res.team_id, team_name: Team.find(res.team_id).name})
     end
     
     render :json => resses_json
