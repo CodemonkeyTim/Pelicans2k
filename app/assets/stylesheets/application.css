@@ -43,11 +43,7 @@ body {
 	margin-bottom: 10px;
 }
 
-#del-icetime-btn {
-  	margin-right: 10px;
-}
-
-#load-week-base-btn {
+.action-btn {
 	margin-right: 10px;
 }
 
@@ -87,4 +83,13 @@ body {
 
 .selected {
   background-color: green !important;
+}
+
+.tb_removed {
+  background-color: black !important;
+  color: white;
+}
+
+.new-res {
+	opacity: 0.6;
 }

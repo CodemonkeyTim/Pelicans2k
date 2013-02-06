@@ -28,6 +28,7 @@
 		</table>
 		
 		<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
+		<a class="btn btn-large pull-right action-btn" onclick="del_mode()">Poista varauksia</a>
 	</div>
 	
 	<br />
@@ -76,7 +77,7 @@
 					<tr>
 						<th><%= i %>:30</th>
 						<% @date_strs.each_with_index do |date, j| %>
-							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
 						<% end %>
 					</tr>
 				<% end %>
@@ -98,6 +99,11 @@
 					show_feedback("Aktiviteetti ei voi olla tyhjä.", "error", false, "main-cal-wrapper");
 					return;
 				}
+				if ($("#show-team-select").val() == "0") {
+					show_feedback("Valitse joukkue.", "error", false, "main-cal-wrapper");
+					return;
+				}
+				
 				$(this).addClass("reserved");
 				$(this).html($("#activity").val());
 				$(this).attr("select", "true");
@@ -173,7 +179,7 @@
 			<% end %>
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: activity, date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
+				resses.push({activity: $(this).html(), date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
@@ -194,15 +200,15 @@
 	}
 	
 	function data_valid_to_save() {
-		if ($("#activity").val() == "") {
-			return false;
-		}
-		
 		if ($(".reservable[select='true']").length == 0) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	function del_mode() {
+		
 	}
 	
 	set_private_nav("team-cal");
