@@ -1,0 +1,26 @@
+<table id="main-calendar-table">
+	<thead>
+		<tr>
+			<th class="wb-table-header-row-item">Klo</th>
+			<% th_date_strs.each_with_index do |date, i| %>
+				<th class="wb-table-header-row-item"><%= days[i][0..1].downcase %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		<% (9..21).each do |i| %>
+			<tr>
+				<th><div class="time-headers"><%= i %>:00</div></th>
+				<% date_strs.each_with_index do |date, j| %>
+					<td class="reservable" date-data="<%= date %>" week-day="<%= days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+				<% end %>
+			</tr>
+			<tr>
+				<th><div class="time-headers"><%= i %>:30</div></th>
+				<% date_strs.each_with_index do |date, j| %>
+					<td class="reservable" date-data="<%= date %>" week-day="<%= days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

@@ -57,32 +57,7 @@
 	<br />
 	
 	<div id="main-cal-wrapper">
-		<table id="main-calendar-table">
-			<thead>
-				<tr>
-					<th>Klo / pvm</th>
-					<% @th_date_strs.each_with_index do |date, i| %>
-						<th><%= @days[i][0..1] %> <%= date %></th>
-					<% end %>
-				</tr>
-			</thead>
-			<tbody>
-				<% (9..21).each do |i| %>
-					<tr>
-						<th><%= i %>:00</th>
-						<% @date_strs.each_with_index do |date, j| %>
-							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
-						<% end %>
-					</tr>
-					<tr>
-						<th><%= i %>:30</th>
-						<% @date_strs.each_with_index do |date, j| %>
-							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
-						<% end %>
-					</tr>
-				<% end %>
-			</tbody>
-		</table>
+		<%= render :partial => "cal_table", :locals => {:th_date_strs => @th_date_strs, :date_strs => @date_strs, :days => @days}%>
 	</div>
 </div>
 
