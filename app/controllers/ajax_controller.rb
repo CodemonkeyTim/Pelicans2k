@@ -417,4 +417,38 @@ class AjaxController < ApplicationController
     
     render :json => resses_json
   end
+  
+  def clear_week_base
+    resses = BaseReservation.where(:activity => "Jääaika")
+    
+    resses.each do |res|
+      res.delete
+    end
+    
+    render :text => "success"
+  end
+  
+  def delete_week_base_markings
+    jsonArr = request.body.read
+    objArr = JSON.parse(jsonArr)
+    resses = []
+    
+    success = true
+    
+    objArr.each do |o|
+      resses.push(BaseReservation.find_by_day_and_starts_at_and_activity(o["day"], o["starts_at"], "Jääaika"))
+    end
+    
+    resses.each do |res|
+      unless res.delete
+        success = false
+      end
+    end
+    
+    if success 
+      render :text => "success"
+    else
+      render :text => "error"
+    end
+  end
 end

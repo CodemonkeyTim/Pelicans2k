@@ -36,8 +36,8 @@
 		</table>
 		
 		<a class="btn btn-large pull-right" onclick="save()">Tallenna j&auml;&auml;aikavaraukset</a>
-		<a class="btn btn-large pull-right" id="del-icetime-btn" onclick="del()">Poista j&auml;&auml;aikavaraukset</a>
-		<a class="btn btn-large pull-right" id="load-week-base-btn" onclick="load_week_base()">Lataa viikkopohja</a>
+		<a class="btn btn-large pull-right action-btn" id="del-resses-btn" onclick="del_mode()">Poista j&auml;&auml;aikavarauksia</a>
+		<a class="btn btn-large pull-right action-btn" onclick="load_week_base()">Lataa viikkopohja</a>
 	</div>
 	
 	<br />
@@ -67,38 +67,23 @@
 	<br />
 	
 	<div id="main-cal-wrapper">
-		<table id="main-calendar-table">
-			<thead>
-				<tr>
-					<th>Klo / pvm</th>
-					<% @th_date_strs.each_with_index do |date, i| %>
-						<th><%= @days[i][0..1] %> <%= date %></th>
-					<% end %>
-				</tr>
-			</thead>
-			<tbody>
-				<% (9..21).each do |i| %>
-					<tr>
-						<th><%= i %>:00</th>
-						<% @date_strs.each_with_index do |date, j| %>
-							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
-						<% end %>
-					</tr>
-					<tr>
-						<th><%= i %>:30</th>
-						<% @date_strs.each_with_index do |date, j| %>
-							<td class="reservable" date-data="<%= date %>" week-day="<%= @days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
-						<% end %>
-					</tr>
-				<% end %>
-			</tbody>
-		</table>
+		<%= render :partial => "cal_table", :locals => {:th_date_strs => @th_date_strs, :date_strs => @date_strs, :days => @days}%>
 	</div>
 </div>
 
 <script>
+	del_mode_is_on = false;
 	
 	$(document).ready(function () {
+		reserve_mode();
+		team_select_binding();
+		
+		$("#team-select").val("all");
+		get_table_markings("all");
+	});
+	
+	function reserve_mode() {
+		$(".reservable").unbind("click");
 		$(".reservable").click(function () {
 			if ($("#save-to-team-select").val() == "0") {
 				show_feedback("Valitse ensin tiimi", "error", false, "main-cal-wrapper")
@@ -108,26 +93,29 @@
 			if ($(this).hasClass("selected")) {
 				$(this).html("");
 				$(this).attr("select", "false");
+				$(this).atrr("class", "reservable");
 			} else {
-				$(this).attr("class", "reservable");
-				$(this).html($("#save-to-team-select option:selected").text());
-				$(this).addClass($("#save-to-team-select option:selected").text().replace(' ', ''));
-				$(this).attr("select", "true");
-				$(this).attr("team-id", $("#save-to-team-select").val());
-				$(this).attr("select", "true");
+				if ($(this).attr("has-res") == "false") {
+					$(this).attr("class", "reservable");
+					$(this).html($("#save-to-team-select option:selected").text());
+					$(this).addClass($("#save-to-team-select option:selected").text().replace(' ', ''));
+					$(this).addClass("new-res");
+					$(this).attr("team-id", $("#save-to-team-select").val());
+					$(this).attr("select", "true");
+				}
 			}
 		});
-		
+	}
+	
+	function team_select_binding() {
 		$("#team-select").change(function () {
-			
 			var id = $(this).val();
-			if (id == "0") { return; }
 			
+			if (id == "0") { return; }
+		
 			get_table_markings(id);
 		});
-		$("#team-select").val("all");
-		get_table_markings("all");
-	});
+	}
 	
 	function get_table_markings(id) {
 		var url = "";
@@ -197,6 +185,7 @@
 						show_feedback("Tallennettavissa varauksissa päällekkäisyyksiä olemassaolevien kanssa.", "error", false, "main-cal-wrapper")
 						clear_table();
 						get_table_markings("all");
+						$("#team-select").val("all");
 					}
 				}
 			);	
@@ -238,24 +227,7 @@
 	function del () {
 		if (something_selected_to_del()) {
 			if (confirm("Haluatko varmasti poistaa valitut varaukset? Tapahtumaa EI voi perua.")) {
-				var resses = [];
-				
-				$(".reservable[select='true']").each(function() {			
-					resses.push({date: $(this).attr("date-data"), starts_at: $(this).attr("time")})
-				});
-				
-				$.post("/delete_ice_time", JSON.stringify(resses), function (response) {
-						if (response == "success") {
-							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
-							clear_table();
-							get_table_markings("all");
-						} else {
-							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper");
-							clear_table();
-							get_table_markings("all");
-						}
-					}
-				);	
+					
 			}
 		} else {
 			alert("Joko joukkue ei ole valittu tai yhtään tuntia ei ole valittu");
@@ -263,11 +235,71 @@
 	}
 	
 	function something_selected_to_del() {
-		if ($(".reservable[select='true']").lenght == 0) {
+		if ($(".reservable[select='true']").length == 0) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	function del_mode() {
+		toggle_buttons("disabled");
+		
+		$(".reservable").unbind("click");
+		
+		$(".reservable").click(function () {
+			if ($(this).attr("has-res") == "true") {
+				if ($(this).attr("select") == "false") {
+					$(this).addClass("tb_removed");
+					$(this).attr("select", "true");
+				} else {
+					$(this).removeClass("tb_removed");
+					$(this).attr("select", "false");
+				}
+			}
+			
+		});
+	}
+	
+	function toggle_buttons(mode) {
+		if (mode == "disabled") {
+			$("#team-select").attr("disabled", "true");
+			$("#save-to-team-select").attr("disabled", "true");
+			$(".btn").attr("disabled", "true");
+			$("#del-resses-btn").removeAttr("disabled");
+			$("#del-resses-btn").attr("onclick", "confirm_del();");
+			$("#del-resses-btn").html("Vahvista poistot");
+		} else if (mode == "enabled") {
+			$("#team-select").removeAttr("disabled");
+			$("#save-to-team-select").removeAttr("disabled");
+			$(".btn").removeAttr("disabled");
+			$("#del-resses-btn").attr("onclick", "del_mode();");
+			$("#del-resses-btn").html("Poista jääaikavarauksia");
+		}
+	}
+	
+	function confirm_del() {
+		var resses = [];
+				
+		$(".tb_removed").each(function () {
+			resses.push({date: $(this).attr("date-data"), starts_at: $(this).attr("time")})
+		});
+		
+		$.post("/delete_ice_time", JSON.stringify(resses), function (response) {
+				if (response == "success") {
+					show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
+					clear_table();
+					get_table_markings("all");
+				} else {
+					show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper");
+					clear_table();
+					get_table_markings("all");
+				}
+			}
+		);
+		
+		toggle_buttons("enabled");
+		reserve_mode();
 	}
 	
 	set_private_nav("main-cal");

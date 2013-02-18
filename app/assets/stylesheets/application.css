@@ -43,11 +43,7 @@ body {
 	margin-bottom: 10px;
 }
 
-#del-icetime-btn {
-  	margin-right: 10px;
-}
-
-#load-week-base-btn {
+.action-btn {
 	margin-right: 10px;
 }
 
@@ -88,3 +84,42 @@ body {
 .selected {
   background-color: green !important;
 }
+
+.tb_removed {
+  background-color: black !important;
+  color: white;
+}
+
+.new-res {
+	opacity: 0.6;
+}
+
+.time-headers {
+	position: relative;
+	bottom: 16px;
+}
+
+.wb-table-header-row-item {
+	padding-bottom: 15px;
+	font-size: 150%;
+}
+
+#main-cal-wrapper table {
+	margin-left: 5%;
+	margin-right: 8%;
+	table-layout: fixed;
+	width: 87%;
+}
+
+#main-cal-wrapper table td {
+	word-wrap: break-word;
+}
+
+#main-cal-wrapper {
+	
+}
+
+#calendar-img-link:hover {
+  cursor: pointer;
+}
+

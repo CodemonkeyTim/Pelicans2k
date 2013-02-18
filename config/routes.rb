@@ -73,4 +73,6 @@ Pelicans2k::Application.routes.draw do
   
   match "/save_week_base" => "ajax#save_week_base"
   match "/load_week_base" => "ajax#load_week_base"
+  match "/clear_week_base" => "ajax#clear_week_base"
+  match "/delete_week_base_markings" => "ajax#delete_week_base_markings"
 end
