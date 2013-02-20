@@ -38,5 +38,6 @@ production:
   database: pelicans2k_production
   pool: 5
   username: deployer
-  password: vainmiiMWO
+  #password: vainmiiMWO
+  password: KjplHatjv2010
   socket: /var/run/mysqld/mysqld.sock
