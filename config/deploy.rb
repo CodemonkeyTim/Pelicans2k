@@ -25,9 +25,12 @@ role :db,  "178.251.154.93", :primary => true        # This is where Rails migra
 #role :app, "pelicans2k.ddns.net"                          # This may be the same as your `Web` server
 #role :db,  "pelicans2k.ddns.net", :primary => true        # This is where Rails migrations will run
 
+# Uncomment if you are using Rails' asset pipeline
+load 'deploy/assets'
+
 
 # if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
+after "deploy:restart", "deploy:cleanup"
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
