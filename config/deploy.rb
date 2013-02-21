@@ -7,23 +7,23 @@ set :branch, "master"
 
 ssh_options[:forward_agent] = true
 
-#set :user, "pelicans"  # The server's user for deploys
-#set :scm_passphrase, "C-98RadePe"  # The deploy user's password
-set :user, "teme"  # The server's user for deploys
-set :scm_passphrase, "Tvaini0"  # The deploy user's password
+set :user, "pelicans"  # The server's user for deploys
+set :scm_passphrase, "C-98RadePe"  # The deploy user's password
+#set :user, "teme"  # The server's user for deploys
+#set :scm_passphrase, "Tvaini0"  # The deploy user's password
 
-#set :deploy_to, "/home/pelicans/rails"
-set :deploy_to, "/home/teme/rails/deployments"
+set :deploy_to, "/home/pelicans/rails"
+#set :deploy_to, "/home/teme/rails/deployments"
 
 default_run_options[:pty] = true
 
-#role :web, "178.251.154.93"                          # Your HTTP server, Apache/etc
-#role :app, "178.251.154.93"                          # This may be the same as your `Web` server
-#role :db,  "178.251.154.93", :primary => true        # This is where Rails migrations will run
+role :web, "178.251.154.93"                          # Your HTTP server, Apache/etc
+role :app, "178.251.154.93"                          # This may be the same as your `Web` server
+role :db,  "178.251.154.93", :primary => true        # This is where Rails migrations will run
 
-role :web, "pelicans2k.ddns.net"                          # Your HTTP server, Apache/etc
-role :app, "pelicans2k.ddns.net"                          # This may be the same as your `Web` server
-role :db,  "pelicans2k.ddns.net", :primary => true        # This is where Rails migrations will run
+#role :web, "pelicans2k.ddns.net"                          # Your HTTP server, Apache/etc
+#role :app, "pelicans2k.ddns.net"                          # This may be the same as your `Web` server
+#role :db,  "pelicans2k.ddns.net", :primary => true        # This is where Rails migrations will run
 
 
 # if you want to clean up old releases on each deploy uncomment this:
