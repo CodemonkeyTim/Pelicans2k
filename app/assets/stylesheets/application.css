@@ -97,6 +97,7 @@ body {
 .time-headers {
 	position: relative;
 	bottom: 16px;
+	padding-left: 25px;
 }
 
 .wb-table-header-row-item {

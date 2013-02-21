@@ -10,9 +10,9 @@
 	<tbody>
 		<% (9..21).each do |i| %>
 			<tr>
-				<th><div class="time-headers"><%= i %>:00</div></th>
+				<th><div class="time-headers"><%= i %>:00 -------</div></th>
 				<% date_strs.each_with_index do |date, j| %>
-					<td class="reservable" date-data="<%= date %>" week-day="<%= days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
+					<td class="reservable row-even" date-data="<%= date %>" week-day="<%= days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:00"></td>	
 				<% end %>
 			</tr>
 			<tr>
