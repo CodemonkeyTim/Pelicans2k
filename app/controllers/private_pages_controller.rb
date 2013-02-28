@@ -13,8 +13,12 @@ class PrivatePagesController < ApplicationController
   end
 
   def landing
-    last_id = News.last.id
-    @latest_news = News.where("id > #{last_id-4}").reverse
+    begin
+      last_id = News.last.id
+      @latest_news = News.where("id > #{last_id-4}").reverse
+    rescue
+      @latest_news = []
+    end
   end
   
   def manage_news
