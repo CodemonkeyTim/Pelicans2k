@@ -98,7 +98,20 @@ class PublicPagesController < ApplicationController
   end
   
   def news_archive
-    
+    begin
+      last_id = News.last.id
+      first_id = 0
+      
+      if last_id <= 31
+        first_id = 1;
+      else 
+        first_id = last_id - 30
+      end
+      
+      @news = News.where("id >= #{first_id}").reverse
+    rescue
+      @news = []
+    end
   end
   
   def show_news
