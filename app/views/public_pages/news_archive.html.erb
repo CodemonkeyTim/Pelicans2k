@@ -6,8 +6,8 @@
 		
 		<table class="table no-highlight news-table">
 			<tbody>
-				<% @news.each do |news| %>
-					<tr news_id="<%= news.id %>">
+				<% @news.each_with_index do |news, i| %>
+					<tr news_id="<%= news.id %>" <%= (i%2 == 0)? "" : "class=dark-row" %>>
 						<td>
 						<h4><%= news.title %></h4>
 						

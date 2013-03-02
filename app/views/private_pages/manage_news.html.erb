@@ -72,6 +72,9 @@
 			} else {
 				show_feedback("Uutinen julkaistu.", "success", true, "create-news");
 				
+				$("#title").val("");
+				$("#body").val("");
+				
 				var published_at = convert_date(response.published_at);
 				var edited_at = "-";
 				if (!(response.edited_at == null)) {
