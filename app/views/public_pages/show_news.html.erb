@@ -16,5 +16,14 @@
 		<p>
 			<%= @news.body %>
 		</p>
+		
+		<% unless @news.attachments.length == 0 %>
+			<h3>Liitteet</h3>
+			<p>
+				<% @news.attachments.each do |att| %>
+					<a href="<%= att.path %>"><%= att.display_name %></a>
+				<% end %>
+			</p>
+		<% end %>
 	</div>
 </div>

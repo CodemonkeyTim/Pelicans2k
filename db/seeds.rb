@@ -37,7 +37,6 @@ News.create(title: "Uutinen 3", body: "Tämä on tekstiosio uutiselle numero 3 j
 News.create(title: "Uutinen 2", body: "Tämä on tekstiosio uutiselle numero 2 ja vähän erilainen kuin uutinen 1.", published_at: (DateTime.now - 7), publisher_id: 2)
 News.create(title: "Uutinen 1", body: "Tämä on tekstiosio uutiselle numero 1.", published_at: (DateTime.now - 5), publisher_id: 1)
 
-
 Player.create(f_name: "Swostik", l_name: "Shrestra", number: 1, position: "keskushyökkääjä", team_id: 1)
 Player.create(f_name: "Minh", l_name: "Nhat", number: 3, position: "vasen laitahyökkääjä", team_id: 1)
 Player.create(f_name: "Trung", l_name: "Hoang", number: 55, position: "oikea laitahyökkääjä", team_id: 1)
@@ -58,3 +57,4 @@ BaseReservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", da
 BaseReservation.create(starts_at: "11:30", team_id: 3, activity: "Jääaika", day: "ma")
 BaseReservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", day: "ma")
 
+Attachment.create(news_id: 1, display_name: "Joku", path: "/doc/jotain.pdf", file_type: "pdf")
