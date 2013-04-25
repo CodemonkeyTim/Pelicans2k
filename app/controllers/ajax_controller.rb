@@ -257,6 +257,7 @@ class AjaxController < ApplicationController
     player.number = player_json["number"]
     player.f_name = player_json["f_name"]
     player.l_name = player_json["l_name"]
+    player.position = player_json["position"]
      
     if player.save
       session[:player_update_success] = true
