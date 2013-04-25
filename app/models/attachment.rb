@@ -1,15 +1,19 @@
 class Attachment < ActiveRecord::Base
-  attr_accessible :path, :file_type, :display_name
+  attr_accessible :path
   
   has_and_belongs_to_many :news
   
-  def self.save(upload)
+  def save(upload)
     name = sanitize_filename(upload['datafile'].original_filename)
     directory = "#{Rails.root}/doc"
     
     path = File.join(directory, name)
     
     File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
+  end
+  
+  def filename
+    self.path[(self.path.index('/') + 1), self.path.length]
   end
   
   def sanitize_filename(file_name)

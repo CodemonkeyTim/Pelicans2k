@@ -6,7 +6,7 @@
 	<select class="att-selector">
 		<option value="0">Ei liitteit&auml;</option>
 		<% Attachment.all.each do |att| %>
-			<option value="<%= att.id%>"><%= att.display_name %></option>
+			<option value="<%= att.id %>"><%= att.filename %></option>
 		<% end %>
 	</select>
 	<br />
@@ -40,7 +40,13 @@
 	  		</td>
 	  		<td><%= news.title %></td>
 	  		<!-- <td><%= truncate(news.body, :length => 45) %></td>-->
-	  		<td><%= news.body %></td>
+	  		<td>
+	  			<%= news.body %> 
+	  			Liitteet: 
+	  			<% news.attachments.each do |att| %>
+	  				att.filename,
+	  			<% end %>
+	  		</td>
 	  		<td>
 	  			<a class="btn btn-medium edit-news-btn" href="/muokkaa_uutista/<%= news.id %>">Muokkaa</a>
 	  			<a class="btn btn-medium delete-news-btn" onclick="delete_news('<%= news.id %>')">Poista</a>
@@ -132,6 +138,26 @@
 			});
 		}
 	}
+	
+	$("#add-attachment-btn").click(function () {
+		var node = $(".att-selector").first().clone();
+		
+		$(".att-selector").last().after(node);
+		
+		if ($(".att-selector").lenght == 1) {
+			$(".att-selector").first().after("<br />");
+		} else {
+			$(".att-selector").last().before("<br />");
+		}
+	});
+	
+	$("#del-attachment-btn").click(function () {
+		if ($(".att-selector").length == 1) {
+			return;
+		} 
+		$(".att-selector").last().next().remove();
+		$(".att-selector").last().remove();
+	});
 	
 	set_private_nav("news");
 </script>

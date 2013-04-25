@@ -11,15 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130313001302) do
+ActiveRecord::Schema.define(:version => 20130425211020) do
 
   create_table "attachments", :force => true do |t|
-    t.integer  "news_id"
-    t.string   "display_name"
     t.string   "path"
-    t.string   "file_type"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "attachments_news", :force => true do |t|
+    t.integer "attachment_id"
+    t.integer "news_id"
   end
 
   create_table "base_reservations", :force => true do |t|

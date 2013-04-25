@@ -56,5 +56,3 @@ BaseReservation.create(starts_at: "10:30", team_id: 2, activity: "Jääaika", da
 BaseReservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", day: "ma")
 BaseReservation.create(starts_at: "11:30", team_id: 3, activity: "Jääaika", day: "ma")
 BaseReservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", day: "ma")
-
-Attachment.create(news_id: 1, display_name: "Joku", path: "/doc/jotain.pdf", file_type: "pdf")
