@@ -1,15 +1,22 @@
 class Attachment < ActiveRecord::Base
-  attr_accessible :news_id, :path, :file_type, :display_name
+  attr_accessible :path, :file_type, :display_name
   
-  belongs_to :news
+  has_and_belongs_to_many :news
   
   def self.save(upload)
-    name =  upload['datafile'].original_filename
-    directory = "public/data"
-    # create the file path
+    name = sanitize_filename(upload['datafile'].original_filename)
+    directory = "#{Rails.root}/doc"
+    
     path = File.join(directory, name)
-    # write the file
+    
     File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
   end
   
+  def sanitize_filename(file_name)
+    # get only the filename, not the whole path (from IE)
+    just_filename = File.basename(file_name) 
+    # replace all none alphanumeric, underscore or perioids
+    # with underscore
+    just_filename.sub(/[^\w\.\-]/,'_') 
+  end
 end
