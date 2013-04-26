@@ -3,9 +3,9 @@ class Attachment < ActiveRecord::Base
   
   has_and_belongs_to_many :news
   
-  def save(upload)
+  def save_file(upload)
     name = sanitize_filename(upload['datafile'].original_filename)
-    directory = "#{Rails.root}/doc"
+    directory = "#{Rails.root}/public/docs"
     
     path = File.join(directory, name)
     
@@ -13,7 +13,8 @@ class Attachment < ActiveRecord::Base
   end
   
   def filename
-    self.path[(self.path.index('/') + 1), self.path.length]
+    path = self.path[1, self.path.length] 
+    path[(path.index('/') + 1), path.length]
   end
   
   def sanitize_filename(file_name)

@@ -21,7 +21,7 @@
 			<h3>Liitteet</h3>
 			<p>
 				<% @news.attachments.each do |att| %>
-					<a href="<%= att.path %>"><%= att.display_name %></a>
+					<a href="<%= att.path %>"><%= att.filename %></a>
 				<% end %>
 			</p>
 		<% end %>
