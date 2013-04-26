@@ -7,6 +7,8 @@ class Attachment < ActiveRecord::Base
     name = sanitize_filename(upload['datafile'].original_filename)
     directory = "#{Rails.root}/public/docs"
     
+    self.path = "/docs/#{name}"
+    
     path = File.join(directory, name)
     
     File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
