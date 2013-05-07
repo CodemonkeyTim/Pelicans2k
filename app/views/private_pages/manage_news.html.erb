@@ -4,7 +4,12 @@
 	<textarea id="body" class="news-textarea">Sisältö</textarea>
 	<h3>Liitteet</h3>
 	<select class="att-selector">
-		<option value="0">Ei liitteit&auml;</option>
+		<% if Attachment.all.length == 0 %>
+			<option value="0">Ei liitteit&auml;</option>
+		<% end %>
+		
+		<option value="0">Valitse liite</option>
+		
 		<% Attachment.all.each do |att| %>
 			<option value="<%= att.id %>"><%= att.filename %></option>
 		<% end %>
@@ -12,7 +17,7 @@
 	<br />
 	<a class="btn btn-medium" id="add-attachment-btn">Lis&auml;&auml; liitevalinta</a>
 	<a class="btn btn-medium" id="del-attachment-btn">Poista liitevalinta</a>
-	<a class="btn btn-medium" href="/hallitse_liitteita">Lisää liite</a>
+	<a class="btn btn-medium" href="/hallitse_liitteita">Hallitse liitteit&auml;</a>
 	<br/>
 	<br/>
 	<a class="btn btn-medium" onclick="save()">Julkaise</a>
