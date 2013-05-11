@@ -6,6 +6,7 @@
 
 <form action="/add_attachment" method="post" enctype="multipart/form-data">
 	<input type="file" name="upload[datafile]" placeholder="Liite" /> <br />
+	<%= token_tag nil %>
 	<input type="submit" value="Lisää" class="btn btn-medium" />
 </form>
 

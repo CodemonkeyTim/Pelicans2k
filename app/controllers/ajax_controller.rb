@@ -111,8 +111,14 @@ class AjaxController < ApplicationController
     new_news.published_at = DateTime.now
     new_news.publisher_id = current_user.id
     
+    po_news["attachment_ids"].each do |att|
+      unless att.to_i == 0
+        new_news.attachments.push(Attachment.find(att.to_i))
+      end
+    end
+    
     if new_news.save
-      render :json => new_news
+      render :json => new_news.to_json(:include => :attachments)
     else
       render :text => "error"
     end

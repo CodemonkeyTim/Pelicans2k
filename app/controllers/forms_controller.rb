@@ -7,7 +7,7 @@ class FormsController < ApplicationController
     if att.save
       redirect_to "/uutisten_hallinta"
     else
-      render :text => "Jotain meni vikaan "
+      render :text => "Jotain meni vikaan"
     end
   end
   
