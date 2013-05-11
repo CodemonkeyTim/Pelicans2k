@@ -111,7 +111,7 @@ class AjaxController < ApplicationController
     new_news.published_at = DateTime.now
     new_news.publisher_id = current_user.id
     
-    po_news["attachment_ids"].each do |att|
+    po_news["attachment_ids"].to_a.uniq.each do |att|
       unless att.to_i == 0
         new_news.attachments.push(Attachment.find(att.to_i))
       end

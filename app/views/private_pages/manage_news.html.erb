@@ -96,7 +96,7 @@
 			attachment_ids.push($(this).val());
 		});
 		
-		var po_news = {title: title, body: body, attachments_ids: attachment_ids};
+		var po_news = {title: title, body: body, attachment_ids: attachment_ids};
 		
 		$.post("/create_news", JSON.stringify(po_news), function (response) {
 			if (response == "Error") {
