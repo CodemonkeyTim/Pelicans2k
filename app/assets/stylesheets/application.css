@@ -23,6 +23,10 @@ body {
 	padding-top: 50px;
 }
 
+img {
+	width: 100%;
+}
+
 .section {
 	border-radius: 5px;
 	padding: 10px;
@@ -123,4 +127,17 @@ body {
 #calendar-img-link:hover {
   cursor: pointer;
 }
+
+.news-table {	
+	cursor: pointer;
+}
+
+#attachments-th {
+}
+
+#header-th {
+
+}
+
+
 

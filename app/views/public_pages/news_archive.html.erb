@@ -4,10 +4,10 @@
 		
 		<br />
 		
-		<table class="table no-highlight">
+		<table class="table no-highlight news-table">
 			<tbody>
-				<% News.all.each do |news| %>
-					<tr>
+				<% @news.each_with_index do |news, i| %>
+					<tr news_id="<%= news.id %>" <%= (i%2 == 0)? "" : "class=dark-row" %>>
 						<td>
 						<h4><%= news.title %></h4>
 						
@@ -29,3 +29,13 @@
 		</table>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$(".news-table tr").click(function () {
+			var id = $(this).attr("news_id");
+			
+			window.location = "/uutinen/" + id;
+		});
+	});
+</script>

@@ -1,0 +1,36 @@
+<h2>Hallitse liitteitä</h2>
+
+<br />
+
+<h3>Lisää liite</h3>
+
+<form action="/add_attachment" method="post" enctype="multipart/form-data">
+	<input type="file" name="upload[datafile]" placeholder="Liite" /> <br />
+	<%= token_tag nil %>
+	<input type="submit" value="Lisää" class="btn btn-medium" />
+</form>
+
+<br />
+
+<h3>Olemassa olevat liitteet</h3>
+
+<br />
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nimi</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @atts.each do |att| %>
+			<tr>
+				<td><%= att.filename %></td>
+				<td>
+					<a class="btn btn-medium" onclick="del_att(<%= att.id %>)">Poista</a>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

@@ -2,6 +2,25 @@
 <div id="create-news">
 	<input type="text" id="title" placeholder="Otsikko"><br>
 	<textarea id="body" class="news-textarea">Sisältö</textarea>
+	<h3>Liitteet</h3>
+	<select class="att-selector">
+		<% if Attachment.first.nil? %>
+			<option value="0">Ei liitteit&auml;</option>
+		<% else %>
+			<option value="0">Valitse liite</option>
+		<% end %>
+		
+		<% Attachment.all.each do |att| %>
+			<option value="<%= att.id %>"><%= att.filename %></option>
+		<% end %>
+	</select>
+	<br />
+	<% unless Attachment.first.nil? %>
+		<a class="btn btn-medium" id="add-attachment-btn">Lis&auml;&auml; liitevalinta</a>
+		<a class="btn btn-medium" id="del-attachment-btn">Poista liitevalinta</a>
+	<% end %>
+	<a class="btn btn-medium" href="/hallitse_liitteita">Hallitse liitteit&auml;</a>
+	<br/>
 	<br/>
 	<a class="btn btn-medium" onclick="save()">Julkaise</a>
 </div>
@@ -13,8 +32,9 @@
 	<tr>
 		<th>Julkaistu</th>
 		<th>Muokattu</th>
-		<th>Otsikko</th>
+		<th id="header-th">Otsikko</th>
 		<th>Sisältö</th> 
+		<th id="attachments-th">Liitteet</th> 
 		<th>Toiminnot</th>
 	</tr>
 	<% @news.each do |news| %>
@@ -29,7 +49,14 @@
 	  		</td>
 	  		<td><%= news.title %></td>
 	  		<!-- <td><%= truncate(news.body, :length => 45) %></td>-->
-	  		<td><%= news.body %></td>
+	  		<td>
+	  			<%= news.body %> 
+	  		</td>
+	  		<td>
+	  			<% news.attachments.each do |att| %>
+		  			<%= att.filename %> <br /> 
+	  			<% end %>
+	  		</td>
 	  		<td>
 	  			<a class="btn btn-medium edit-news-btn" href="/muokkaa_uutista/<%= news.id %>">Muokkaa</a>
 	  			<a class="btn btn-medium delete-news-btn" onclick="delete_news('<%= news.id %>')">Poista</a>
@@ -63,8 +90,13 @@
 	function save () {
 		var title = $("#title").val();
 		var body = $("#body").val();
+		var attachment_ids = [];
 		
-		var po_news = {title: title, body: body};
+		$(".att-selector").each(function() {
+			attachment_ids.push($(this).val());
+		});
+		
+		var po_news = {title: title, body: body, attachment_ids: attachment_ids};
 		
 		$.post("/create_news", JSON.stringify(po_news), function (response) {
 			if (response == "Error") {
@@ -72,17 +104,28 @@
 			} else {
 				show_feedback("Uutinen julkaistu.", "success", true, "create-news");
 				
+				$("#title").val("");
+				$("#body").val("");
+				
 				var published_at = convert_date(response.published_at);
 				var edited_at = "-";
+				
 				if (!(response.edited_at == null)) {
 					edited_at = convert_date(response.edited_at);
 				}
+				
+				var attachments_string = "";
+				
+				$.each(response.attachments, function (index, value) {
+					attachments_string = attachments_string + value.path.substring(6, value.lenght) + "<br />";
+				});
 				
 				var html = "<tr id='news_" + response.id + "' class='news-row'>\
 								<td>"+ published_at +"</td>\
 								<td>" + edited_at + "</td>\
 								<td>" + response.title + "</td>\
 								<td>" + response.body + "</td>\
+								<td>" + attachments_string + "</td>\
 								<td>\
 						  			<a class='btn btn-medium edit-news-btn' href='/muokkaa_uutista/" + response.id +"'>Muokkaa</a>\
 						  			<a class='btn btn-medium delete-news-btn' onclick='delete_news(\'" + response.id + "\')'>Poista</a>\
@@ -118,6 +161,26 @@
 			});
 		}
 	}
+	
+	$("#add-attachment-btn").click(function () {
+		var node = $(".att-selector").first().clone();
+		
+		$(".att-selector").last().after(node);
+		
+		if ($(".att-selector").lenght == 1) {
+			$(".att-selector").first().after("<br />");
+		} else {
+			$(".att-selector").last().before("<br />");
+		}
+	});
+	
+	$("#del-attachment-btn").click(function () {
+		if ($(".att-selector").length == 1) {
+			return;
+		} 
+		$(".att-selector").last().next().remove();
+		$(".att-selector").last().remove();
+	});
 	
 	set_private_nav("news");
 </script>

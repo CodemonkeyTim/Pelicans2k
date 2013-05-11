@@ -26,7 +26,7 @@ role :db,  "178.251.154.93", :primary => true        # This is where Rails migra
 #role :db,  "pelicans2k.ddns.net", :primary => true        # This is where Rails migrations will run
 
 # Uncomment if you are using Rails' asset pipeline
-load 'deploy/assets'
+#load 'deploy/assets'
 
 
 # if you want to clean up old releases on each deploy uncomment this:

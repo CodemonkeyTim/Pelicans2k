@@ -178,4 +178,8 @@ class PrivatePagesController < ApplicationController
   def new_user_password
     @user = User.find(params[:id])
   end
+  
+  def manage_attachments
+    @atts = Attachment.all
+  end
 end

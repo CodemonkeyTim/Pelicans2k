@@ -84,16 +84,17 @@
 	
 	function reserve_mode() {
 		$(".reservable").unbind("click");
+		
 		$(".reservable").click(function () {
 			if ($("#save-to-team-select").val() == "0") {
 				show_feedback("Valitse ensin tiimi", "error", false, "main-cal-wrapper")
 				return;
 			}
 				
-			if ($(this).hasClass("selected")) {
+			if ($(this).attr("select") == "true" && $(this).attr("has-res") == "false") {
 				$(this).html("");
 				$(this).attr("select", "false");
-				$(this).atrr("class", "reservable");
+				$(this).attr("class", "reservable");
 			} else {
 				if ($(this).attr("has-res") == "false") {
 					$(this).attr("class", "reservable");
