@@ -34,6 +34,20 @@ var fb_id = 0;
 function show_feedback (msg, type, after, element) {
 	var el_id = "#feedback_" + fb_id;
 	var fb_element = "<div id='feedback_" + fb_id  + "' class='alert fb'></div>";
+	
+	var msg_exists = false;
+	
+	$(".fb").each(function () {
+		if ($(this).html() == msg) {
+			msg_exists = true;
+			return true;
+		}
+	});
+	
+	if (msg_exists) {
+		return;
+	}
+	
 	if (after) {
 		$("#"+element).after(fb_element);
 	} else {

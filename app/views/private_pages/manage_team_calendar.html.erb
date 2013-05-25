@@ -28,7 +28,7 @@
 		</table>
 		
 		<a class="btn btn-large pull-right" onclick="save()">Tallenna</a>
-		<a class="btn btn-large pull-right action-btn" onclick="del_mode()">Poista varauksia</a>
+		<a class="btn btn-large pull-right action-btn" id="del-resses-btn" onclick="del_mode()">Poista varauksia</a>
 	</div>
 	
 	<br />
@@ -66,22 +66,28 @@
 		$(".reservable").click(function () {
 			$(this).attr("class", "reservable");
 			
-			if ($(this).attr("select") == "true") {
-				$(this).attr("select", "false");
-				$(this).html("");
+			if ($(this).attr("has-res") == "false") {
+				if ($(this).attr("select") == "true") {
+					$(this).attr("select", "false");
+					$(this).html("");
+				} else {
+					if ($("#show-team-select").val() == "0") {
+						show_feedback("Valitse joukkue.", "error", false, "main-cal-wrapper");
+						return;
+					}
+					
+					if ($("#activity").val() == "") {
+						show_feedback("Aktiviteetti ei voi olla tyhjä.", "error", false, "main-cal-wrapper");
+						return;
+					}
+					
+					$(this).addClass("reserved");
+					$(this).html($("#activity").val());
+					$(this).addClass("new-res");
+					$(this).attr("select", "true");
+				}
 			} else {
-				if ($("#activity").val() == "") {
-					show_feedback("Aktiviteetti ei voi olla tyhjä.", "error", false, "main-cal-wrapper");
-					return;
-				}
-				if ($("#show-team-select").val() == "0") {
-					show_feedback("Valitse joukkue.", "error", false, "main-cal-wrapper");
-					return;
-				}
 				
-				$(this).addClass("reserved");
-				$(this).html($("#activity").val());
-				$(this).attr("select", "true");
 			}
 		});
 		
@@ -98,6 +104,136 @@
 			get_table_markings(<%= @team.id %>);
 		<% end %>
 	});
+	
+	var del_mode_is_on = false;
+	
+	$(document).ready(function () {
+		reserve_mode();
+	});
+	
+	function reserve_mode() {
+		$(".reservable").unbind("click");
+		
+		$(".reservable").click(function () {
+			if ($(this).attr("select") == "true" && $(this).attr("has-res") == "false") {
+				$(this).html("");
+				$(this).attr("select", "false");
+				$(this).attr("class", "reservable");
+			} else {
+				if ($(this).attr("has-res") == "false") {
+					if ($("#show-team-select").val() == "0") {
+						show_feedback("Valitse joukkue.", "error", false, "main-cal-wrapper");
+						return;
+					}
+					
+					if ($("#activity").val() == "") {
+						show_feedback("Aktiviteetti ei voi olla tyhjä.", "error", false, "main-cal-wrapper");
+						return;
+					}
+					
+					$(this).attr("class", "reservable");
+					$(this).html($("#activity").val());
+					$(this).addClass("new-res");
+					$(this).attr("select", "true");
+				} else {
+					if ($("#activity").val() == "") {
+						show_feedback("Ei voi varata olemassaolevan päälle.", "error", false, "main-cal-wrapper");
+						return;
+					}
+				}
+			}
+		});
+	}
+	
+	function del_mode() {
+		if (no_data_to_delete()) {
+			show_feedback("Ei poistettavia varauksia.", "error", false, "main-cal-wrapper");
+			return;
+		}
+		
+		toggle_buttons("disabled");
+		
+		clear_selections();
+		
+		$(".reservable").unbind("click");
+		
+		$(".reservable").click(function () {
+			if ($(this).attr("has-res") == "true") {
+				if ($(this).html() == "Jääaika") {
+					return;
+				}
+				
+				if ($(this).attr("select") == "false") {
+					$(this).addClass("tb_removed");
+					$(this).attr("select", "true");
+				} else {
+					$(this).removeClass("tb_removed");
+					$(this).attr("select", "false");
+				}
+			}
+			
+		});
+	}
+	
+	function confirm_del() {
+		var resses = [];
+		<% if @team %>
+			var team_id = <%= @team.id %>
+		<% else %>
+			var team_id = $("#show-team-select").val();
+		<% end %>
+		 
+		$(".tb_removed").each(function () {
+			resses.push({date: $(this).attr("date-data"), starts_at: $(this).attr("time"), activity: $(this).html(), team_id: team_id})
+		});
+		
+		$.post("/delete_team_resses", JSON.stringify(resses), function (response) {
+				if (response == "success") {
+					show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
+				} else {
+					show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper");
+				}
+			}
+		);
+		
+		clear_table();
+		get_table_markings(team_id);
+		
+		toggle_buttons("enabled");
+		reserve_mode();
+	}
+	
+	function clear_selections() {
+		$(".new-res").each(function() {
+			 $(this).removeClass("new-res")
+			 $(this).attr("select", "false");
+			 $(this).html("");
+		});
+	}
+	
+	function no_data_to_delete() {
+		if ($(".reservable[has-res=true]").length == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	function toggle_buttons(mode) {
+		if (mode == "disabled") {
+			$("#show-team-select").attr("disabled", "true");
+			$(".btn").attr("disabled", "true");
+			$("#del-resses-btn").removeAttr("disabled");
+			$("#del-resses-btn").attr("onclick", "confirm_del();");
+			$("#del-resses-btn").html("Vahvista poistot");
+		} else if (mode == "enabled") {
+			$("#show-team-select").removeAttr("disabled");
+			$(".btn").removeAttr("disabled");
+			$("#del-resses-btn").attr("onclick", "del_mode();");
+			$("#del-resses-btn").html("Poista jääaikavarauksia");
+		}
+	}
+	
 	
 	function get_table_markings(id) {
 		var url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
@@ -180,10 +316,6 @@
 		}
 		
 		return true;
-	}
-	
-	function del_mode() {
-		
 	}
 	
 	set_private_nav("team-cal");

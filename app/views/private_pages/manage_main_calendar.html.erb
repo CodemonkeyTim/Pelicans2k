@@ -108,6 +108,35 @@
 		});
 	}
 	
+	function del_mode() {
+		toggle_buttons("disabled");
+		
+		clear_selections();
+		
+		$(".reservable").unbind("click");
+		
+		$(".reservable").click(function () {
+			if ($(this).attr("has-res") == "true") {
+				if ($(this).attr("select") == "false") {
+					$(this).addClass("tb_removed");
+					$(this).attr("select", "true");
+				} else {
+					$(this).removeClass("tb_removed");
+					$(this).attr("select", "false");
+				}
+			}
+			
+		});
+	}
+	
+	function no_data_to_delete() {
+		if ($(".reservable[has-res=true]").length == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	function team_select_binding() {
 		$("#team-select").change(function () {
 			var id = $(this).val();
@@ -191,7 +220,7 @@
 				}
 			);	
 		} else {
-			show_feedback("Ei mitään tallennettavaa...", "error", false, "main-cal-wrapper");
+			show_feedback("Ei mitään tallennettavaa.", "error", false, "main-cal-wrapper");
 		}
 	}
 	
@@ -243,25 +272,6 @@
 		return true;
 	}
 	
-	function del_mode() {
-		toggle_buttons("disabled");
-		
-		$(".reservable").unbind("click");
-		
-		$(".reservable").click(function () {
-			if ($(this).attr("has-res") == "true") {
-				if ($(this).attr("select") == "false") {
-					$(this).addClass("tb_removed");
-					$(this).attr("select", "true");
-				} else {
-					$(this).removeClass("tb_removed");
-					$(this).attr("select", "false");
-				}
-			}
-			
-		});
-	}
-	
 	function toggle_buttons(mode) {
 		if (mode == "disabled") {
 			$("#team-select").attr("disabled", "true");
@@ -301,6 +311,14 @@
 		
 		toggle_buttons("enabled");
 		reserve_mode();
+	}
+	
+	function clear_selections() {
+		$(".new-res").each(function() {
+			 $(this).removeClass("new-res")
+			 $(this).attr("select", "false");
+			 $(this).html("");
+		});
 	}
 	
 	set_private_nav("main-cal");

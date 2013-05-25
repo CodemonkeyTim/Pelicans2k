@@ -45,6 +45,7 @@ Pelicans2k::Application.routes.draw do
   match "/get_cal_for_all" => "ajax#get_cal_for_all"
   match "/save_ice_time" => "ajax#save_ice_time"
   match "/delete_ice_time" => "ajax#delete_ice_time"
+  match "/delete_team_resses" => "ajax#delete_team_resses"
   
   match "/create_news" => "ajax#create_news"
   match "/update_news" => "ajax#update_news"
