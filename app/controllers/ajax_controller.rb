@@ -35,7 +35,7 @@ class AjaxController < ApplicationController
     resses_json = []
     
     resses.each do |res|
-      resses_json.push({activity: res.activity, starts_at: res.starts_at, date: res.date, team_name: Team.find(res.team_id).name})
+      resses_json.push({id: res.id, activity: res.activity, starts_at: res.starts_at, date: res.date, team_name: Team.find(res.team_id).name})
     end
     
     render :json => resses_json
@@ -75,7 +75,7 @@ class AjaxController < ApplicationController
     end    
   end
   
-  def delete_ice_time
+  def delete_resses
     jsonArr = request.body.read
     objArr = JSON.parse(jsonArr)
     resses = []
@@ -83,7 +83,7 @@ class AjaxController < ApplicationController
     success = true
     
     objArr.each do |o|
-      resses.push(Reservation.find_by_date_and_starts_at_and_activity(o["date"], o["starts_at"], "Jääaika"))
+      resses.push(Reservation.find(o["id"]))
     end
     
     resses.each do |res|
@@ -457,29 +457,5 @@ class AjaxController < ApplicationController
     else
       render :text => "error"
     end
-  end
-  
-  def delete_team_resses
-    jsonArr = request.body.read
-    objArr = JSON.parse(jsonArr)
-    resses = []
-    
-    success = true
-    
-    objArr.each do |o|
-      resses.push(Reservation.find_by_date_and_starts_at_and_activity_and_team_id(o["date"], o["starts_at"], o["activity"], o['team_id']))
-    end
-    
-    resses.each do |res|
-      unless res.delete
-        success = false
-      end
-    end
-    
-    if success 
-      render :text => "success"
-    else
-      render :text => "error"
-    end 
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425211020) do
+ActiveRecord::Schema.define(:version => 20130527192430) do
 
   create_table "attachments", :force => true do |t|
     t.string   "path"
@@ -61,8 +61,9 @@ ActiveRecord::Schema.define(:version => 20130425211020) do
     t.integer  "team_id"
     t.string   "activity"
     t.string   "created_by"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "display_text"
   end
 
   create_table "staff_members", :force => true do |t|

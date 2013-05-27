@@ -1,6 +1,8 @@
 <div>
 	<h2>Tiimikalenteri</h2>
+	<h3>Vuosi <span id="year"><%= @year %></span> viikko <span id="week"><%= @today.cweek %></span></h3>
 	
+	<br />
 	<br />
 	<div>
 		<h3>Asetukset</h3>
@@ -184,10 +186,10 @@
 		<% end %>
 		 
 		$(".tb_removed").each(function () {
-			resses.push({date: $(this).attr("date-data"), starts_at: $(this).attr("time"), activity: $(this).html(), team_id: team_id})
+			resses.push({id: $(this).data("id")})
 		});
 		
-		$.post("/delete_team_resses", JSON.stringify(resses), function (response) {
+		$.post("/delete_resses", JSON.stringify(resses), function (response) {
 				if (response == "success") {
 					show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
 				} else {
@@ -245,6 +247,7 @@
 				$.each(resses, function(i, res) {
 					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 					res_el.addClass("reserved");
+					res_el.attr("data-id", res.id);
 					res_el.attr("has-res", "true");
 					if (id == "all") {
 						res_el.html(res.team_name);

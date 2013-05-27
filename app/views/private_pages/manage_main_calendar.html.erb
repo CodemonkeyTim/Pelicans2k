@@ -95,6 +95,7 @@
 				$(this).html("");
 				$(this).attr("select", "false");
 				$(this).attr("class", "reservable");
+				$(this).attr("team-id", "");
 			} else {
 				if ($(this).attr("has-res") == "false") {
 					$(this).attr("class", "reservable");
@@ -164,6 +165,7 @@
 				$.each(resses, function(i, res) {
 					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 					res_el.addClass("reserved");
+					res_el.attr("data-id", res.id);
 					res_el.attr("has-res", "true");
 					if (id == "all") {
 						res_el.html(res.team_name);
@@ -180,6 +182,8 @@
 		var res_els = $(".reservable");
 		res_els.attr("class", "reservable");
 		res_els.html("");
+		res_els.attr("data-id", "");
+		res_els.attr("team-id", "");
 		res_els.attr("has-res", "false");
 		res_els.attr("select", "false");
 	}
@@ -293,10 +297,10 @@
 		var resses = [];
 				
 		$(".tb_removed").each(function () {
-			resses.push({date: $(this).attr("date-data"), starts_at: $(this).attr("time")})
+			resses.push({id: $(this).data("id")});
 		});
 		
-		$.post("/delete_ice_time", JSON.stringify(resses), function (response) {
+		$.post("/delete_resses", JSON.stringify(resses), function (response) {
 				if (response == "success") {
 					show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper");
 					clear_table();
