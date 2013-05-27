@@ -6,8 +6,8 @@ class AjaxController < ApplicationController
   def get_cal_for_team
     today = DateTime.now + (params[:diff].to_i * 7)
     
-    mon = today.at_beginning_of_week
-    sun = today.at_end_of_week
+    mon = today.at_beginning_of_week - 1
+    sun = today.at_end_of_week + 1 
     
     resses = nil
     
@@ -111,8 +111,14 @@ class AjaxController < ApplicationController
     new_news.published_at = DateTime.now
     new_news.publisher_id = current_user.id
     
+    po_news["attachment_ids"].to_a.uniq.each do |att|
+      unless att.to_i == 0
+        new_news.attachments.push(Attachment.find(att.to_i))
+      end
+    end
+    
     if new_news.save
-      render :json => new_news
+      render :json => new_news.to_json(:include => :attachments)
     else
       render :text => "error"
     end
@@ -451,5 +457,29 @@ class AjaxController < ApplicationController
     else
       render :text => "error"
     end
+  end
+  
+  def delete_team_resses
+    jsonArr = request.body.read
+    objArr = JSON.parse(jsonArr)
+    resses = []
+    
+    success = true
+    
+    objArr.each do |o|
+      resses.push(Reservation.find_by_date_and_starts_at_and_activity_and_team_id(o["date"], o["starts_at"], o["activity"], o['team_id']))
+    end
+    
+    resses.each do |res|
+      unless res.delete
+        success = false
+      end
+    end
+    
+    if success 
+      render :text => "success"
+    else
+      render :text => "error"
+    end 
   end
 end
