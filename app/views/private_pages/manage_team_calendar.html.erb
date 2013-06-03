@@ -246,12 +246,7 @@
 					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 					res_el.addClass("reserved");
 					res_el.attr("has-res", "true");
-					if (id == "all") {
-						res_el.html(res.team_name);
-						res_el.addClass(res.team_name.replace(' ', ''));
-					} else {
-						res_el.html(res.activity);
-					}
+					res_el.html(res.display_activity);
 				});
 			}
 		});
@@ -290,7 +285,7 @@
 			<% end %>
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: $(this).html(), date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
+				resses.push({activity_type: "custom", display_activity: $(this).html(), date: $(this).attr("date-data"), team_id: team_id, starts_at: $(this).attr("time")});
 			});
 			
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {

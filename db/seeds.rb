@@ -2,13 +2,6 @@
 
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
-
 
 User.create(f_name: "Teemu", l_name: "Vainio", email: "vaintee1@lpt.fi", password: "Tvaini0", password_confirmation: "Tvaini0", role: "admin", team_id: 0)
 User.create(f_name: "Tauno", l_name: "Liuksiala", email: "tliuksiala@lpt.fi", password: "tilukset", password_confirmation: "tilukset", role: "head_coach", team_id: 0)
@@ -21,15 +14,15 @@ Team.create(name: "C2 -98", code: "C2")
 Team.create(name: "C2 Team", code: "C2 Team")
 Team.create(name: "D1 -99 TEHO", code: "D1")
 
-Reservation.create(starts_at: "9:30", team_id: 1, activity: "Jääaika", date: Date.new(2013, 2, 2))
-Reservation.create(starts_at: "10:00", team_id: 1, activity: "Jääaika", date: Date.new(2013, 2, 2))
-Reservation.create(starts_at: "10:30", team_id: 1, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "9:30", team_id: 1, activity_type: "icetime", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "10:00", team_id: 1, activity_type: "icetime", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "10:30", team_id: 1, activity_type: "icetime", date: Date.new(2013, 2, 2))
 
-Reservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", date: Date.new(2013, 2, 2))
-Reservation.create(starts_at: "11:30", team_id: 2, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "11:00", team_id: 2, activity_type: "icetime", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "11:30", team_id: 2, activity_type: "icetime", date: Date.new(2013, 2, 2))
 
-Reservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", date: Date.new(2013, 2, 2))
-Reservation.create(starts_at: "12:30", team_id: 3, activity: "Jääaika", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "12:00", team_id: 3, activity_type: "icetime", date: Date.new(2013, 2, 2))
+Reservation.create(starts_at: "12:30", team_id: 3, activity_type: "icetime", date: Date.new(2013, 2, 2))
 
 News.create(title: "Uutinen 5", body: "Tämä on tekstiosio uutiselle numero 5 joka on viimeinen uutinen.", published_at: (DateTime.now - 12), publisher_id: 2)
 News.create(title: "Uutinen 4", body: "Tämä on tekstiosio uutiselle numero 4 jonka jälkeen tulee vielä uutinen 5.", published_at: (DateTime.now - 10), publisher_id: 1)
@@ -50,9 +43,9 @@ StaffMember.create(f_name: "Ilkka", l_name: "Ilves", role: "varustevastaava", em
 StaffMember.create(f_name: "Pekka", l_name: "Pakorauta", role: "teroittaja", email: "peepako@gmail.com", phone: "044-1122113", team_id: 1)
 StaffMember.create(f_name: "Timo", l_name: "Tiira", role: "vastaava mestari", email: "mest@ari.fi", phone: "044-9999999", team_id: 1)
 
-BaseReservation.create(starts_at: "9:30", team_id: 1, activity: "Jääaika", day: "ma")
-BaseReservation.create(starts_at: "10:00", team_id: 1, activity: "Jääaika", day: "ma")
-BaseReservation.create(starts_at: "10:30", team_id: 2, activity: "Jääaika", day: "ma")
-BaseReservation.create(starts_at: "11:00", team_id: 2, activity: "Jääaika", day: "ma")
-BaseReservation.create(starts_at: "11:30", team_id: 3, activity: "Jääaika", day: "ma")
-BaseReservation.create(starts_at: "12:00", team_id: 3, activity: "Jääaika", day: "ma")
+BaseReservation.create(starts_at: "9:30", team_id: 1, activity_type: "icetime", day: "ma")
+BaseReservation.create(starts_at: "10:00", team_id: 1, activity_type: "icetime", day: "ma")
+BaseReservation.create(starts_at: "10:30", team_id: 2, activity_type: "icetime", day: "ma")
+BaseReservation.create(starts_at: "11:00", team_id: 2, activity_type: "icetime", day: "ma")
+BaseReservation.create(starts_at: "11:30", team_id: 3, activity_type: "icetime", day: "ma")
+BaseReservation.create(starts_at: "12:00", team_id: 3, activity_type: "icetime", day: "ma")
