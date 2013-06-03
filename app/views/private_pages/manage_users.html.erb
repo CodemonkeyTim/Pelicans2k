@@ -57,6 +57,7 @@
 						<option value="team_leader">Joukkueenjohtaja</option>
 						<option value="admin">Admin</option>
 						<option value="head_coach">Valmennuspäällikkö</option>
+						<option value="coach">Valmentaja</option>
 					</select>
 				</td>
 				<td><input type="text" placeholder="etunimi" class="input-small" /></td>
@@ -92,7 +93,7 @@
 		<% end %>
 		
 		$("#role-selector").change(function () {
-			if ($(this).val() != "team_leader") {
+			if ($(this).val() != "team_leader" && $(this).val() != "coach") {
 				$("#team-selector").attr("disabled", "true");
 				$("#team-selector").val("0");
 			} else {
