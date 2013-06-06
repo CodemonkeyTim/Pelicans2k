@@ -6,13 +6,13 @@ class AjaxController < ApplicationController
   def get_cal_for_team
     today = DateTime.now + (params[:diff].to_i * 7)
     
-    mon = today.at_beginning_of_week
-    sun = today.at_end_of_week
+    mon = today.at_beginning_of_week - 1
+    sun = today.at_end_of_week + 1 
     
     resses = nil
     
     if params[:ice_time]
-      resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika", :team_id => params[:team_id])
+      resses = Reservation.where(:date => (mon)..(sun), :activity_type => "icetime", :team_id => params[:team_id])
     else
       resses = Reservation.where(:date => (mon)..(sun), :team_id => params[:team_id])
     end
@@ -30,12 +30,17 @@ class AjaxController < ApplicationController
     mon = today.at_beginning_of_week - 1 
     sun = today.at_end_of_week + 1
     
-    resses = Reservation.where(:date => (mon)..(sun), :activity => "Jääaika")
-    
+    resses = Reservation.where(:date => (mon)..(sun), :activity_type => "icetime")
+    resses = resses + Reservation.where(:date => (mon)..(sun), :activity_type => "game")
     resses_json = []
     
     resses.each do |res|
-      resses_json.push({activity: res.activity, starts_at: res.starts_at, date: res.date, team_name: Team.find(res.team_id).name})
+      if res.activity_type == "game"
+        resses_json.push({id: res.id, display_activity: res.display_activity, starts_at: res.starts_at, date: res.date, activity_type: res.activity_type})
+      else
+        resses_json.push({id: res.id, display_activity: res.display_activity, starts_at: res.starts_at, date: res.date, team_name: Team.find(res.team_id).name, activity_type: res.activity_type})  
+      end
+      
     end
     
     render :json => resses_json
@@ -47,13 +52,13 @@ class AjaxController < ApplicationController
     resses = []
     
     objArr.each do |o|
-      resses.push(Reservation.new(starts_at: o["starts_at"], date: o["date"], activity: o["activity"], team_id: o["team_id"]))
+      resses.push(Reservation.new(starts_at: o["starts_at"], date: o["date"], activity_type: o["activity_type"], display_activity: o["display_activity"], team_id: o["team_id"]))
     end
     
     all_new = true;
     
     resses.each do |res|
-      if res.activity == "Jääaika"
+      if res.activity_type == "icetime" || res.activity_type == "game"
         existing_res = Reservation.find_by_date_and_starts_at(res.date, res.starts_at)
       else
         existing_res = Reservation.find_by_date_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
@@ -75,7 +80,7 @@ class AjaxController < ApplicationController
     end    
   end
   
-  def delete_ice_time
+  def delete_resses
     jsonArr = request.body.read
     objArr = JSON.parse(jsonArr)
     resses = []
@@ -83,7 +88,7 @@ class AjaxController < ApplicationController
     success = true
     
     objArr.each do |o|
-      resses.push(Reservation.find_by_date_and_starts_at_and_activity(o["date"], o["starts_at"], "Jääaika"))
+      resses.push(Reservation.find(o["id"]))
     end
     
     resses.each do |res|
@@ -402,11 +407,12 @@ class AjaxController < ApplicationController
     
     objArr.each do |o|
       existing_res = BaseReservation.find_by_day_and_starts_at(o["day"], o["starts_at"])
+      
       if existing_res
         existing_res.team_id = res.team_id
         existing_res.save
       else
-        BaseReservation.create(day: o["day"], starts_at: o["starts_at"], team_id: o["team_id"], activity: "Jääaika")
+        BaseReservation.create(day: o["day"], starts_at: o["starts_at"], team_id: o["team_id"], activity_type: "icetime")
       end
     end
     
@@ -414,19 +420,20 @@ class AjaxController < ApplicationController
   end
   
   def load_week_base
-    resses = BaseReservation.where(:activity => "Jääaika")
+    resses = BaseReservation.where(:activity_type => "icetime")
     
     resses_json = []
     
     resses.each do |res|
-      resses_json.push({activity: res.activity, starts_at: res.starts_at, day: res.day, team_id: res.team_id, team_name: Team.find(res.team_id).name})
+      resses_json.push({activity_type: res.activity_type, starts_at: res.starts_at, day: res.day, team_id: res.team_id, team_name: Team.find(res.team_id).name})
     end
     
     render :json => resses_json
   end
   
   def clear_week_base
-    resses = BaseReservation.where(:activity => "Jääaika")
+    #Where clause was left in case teams could make their weekbases, too.
+    resses = BaseReservation.where(:activity_type => "icetime")
     
     resses.each do |res|
       res.delete
@@ -443,7 +450,7 @@ class AjaxController < ApplicationController
     success = true
     
     objArr.each do |o|
-      resses.push(BaseReservation.find_by_day_and_starts_at_and_activity(o["day"], o["starts_at"], "Jääaika"))
+      resses.push(BaseReservation.find_by_day_and_starts_at_and_activity_type(o["day"], o["starts_at"], "icetime"))
     end
     
     resses.each do |res|

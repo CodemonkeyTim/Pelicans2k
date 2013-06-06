@@ -85,6 +85,11 @@ img {
   color: white !important;
 }
 
+.custom-res {
+	background-color: cyan !important;
+  	color: black !important;
+}
+
 .selected {
   background-color: green !important;
 }

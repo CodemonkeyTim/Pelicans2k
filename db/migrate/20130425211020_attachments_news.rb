@@ -7,5 +7,6 @@ class AttachmentsNews < ActiveRecord::Migration
   end
 
   def down
+    drop_table :attachments_news
   end
 end

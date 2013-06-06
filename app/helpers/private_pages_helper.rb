@@ -8,6 +8,8 @@ module PrivatePagesHelper
         return "Valmennuspäällikkö"
       when "team_leader" 
         return "Joukkueenjohtaja"
+      when "coach" 
+        return "Valmentaja"
       end
   end
 end

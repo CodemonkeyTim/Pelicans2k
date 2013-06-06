@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425211020) do
+ActiveRecord::Schema.define(:version => 20130603181011) do
 
   create_table "attachments", :force => true do |t|
     t.string   "path"
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(:version => 20130425211020) do
     t.string   "starts_at"
     t.string   "day"
     t.integer  "team_id"
-    t.string   "activity"
     t.string   "created_by"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "activity_type"
   end
 
   create_table "news", :force => true do |t|
@@ -59,10 +59,12 @@ ActiveRecord::Schema.define(:version => 20130425211020) do
     t.string   "starts_at"
     t.date     "date"
     t.integer  "team_id"
-    t.string   "activity"
     t.string   "created_by"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "display_text"
+    t.string   "display_activity"
+    t.string   "activity_type"
   end
 
   create_table "staff_members", :force => true do |t|
