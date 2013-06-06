@@ -210,6 +210,7 @@ class AjaxController < ApplicationController
     
     old_team.name = team["name"]
     old_team.code = team["code"]
+    old_team.homepage = team["homepage"]
     
     if old_team.save
       session[:team_update_success] = true
@@ -244,7 +245,7 @@ class AjaxController < ApplicationController
     
     team_json = JSON.parse(jsonObj)
     
-    team = Team.new(name: team_json["name"], code: team_json["code"])
+    team = Team.new(name: team_json["name"], code: team_json["code"], homepage: team_json["homepage"])
     
     if team.save
       render :json => team

@@ -8,11 +8,11 @@ User.create(f_name: "Tauno", l_name: "Liuksiala", email: "tliuksiala@lpt.fi", pa
 User.create(f_name: "Minh", l_name: "Swostik", email: "minho@lpt.fi", password: "english", password_confirmation: "english", role: "team_leader", team_id: 1)
 
 
-Team.create(name: "A Junnut", code: "A-juniorit")
-Team.create(name: "B Junnut", code: "B-juniorit")
-Team.create(name: "C2 -98", code: "C2")
-Team.create(name: "C2 Team", code: "C2 Team")
-Team.create(name: "D1 -99 TEHO", code: "D1")
+Team.create(name: "A Junnut", code: "A-juniorit", homepage: "http://www.yle.fi")
+Team.create(name: "B Junnut", code: "B-juniorit", homepage: "http://www.yle.fi")
+Team.create(name: "C2 -98", code: "C2", homepage: "http://www.yle.fi")
+Team.create(name: "C2 Team", code: "C2 Team", homepage: "http://www.yle.fi")
+Team.create(name: "D1 -99 TEHO", code: "D1", homepage: "http://www.yle.fi")
 
 Reservation.create(starts_at: "9:30", team_id: 1, activity_type: "icetime", date: Date.new(2013, 2, 2))
 Reservation.create(starts_at: "10:00", team_id: 1, activity_type: "icetime", date: Date.new(2013, 2, 2))

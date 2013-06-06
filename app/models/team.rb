@@ -1,5 +1,5 @@
 class Team < ActiveRecord::Base
-  attr_accessible :code, :name
+  attr_accessible :code, :name, :homepage
   
   has_many :players
   has_many :reservations
