@@ -11,6 +11,19 @@ class PublicPagesController < ApplicationController
   end
   
   def skating_school
+    
+  end
+  
+  def lion_skating_school
+    
+  end
+  
+  def coaching
+    
+  end
+    
+  def girl_hockey
+    
   end
   
   def club

@@ -5,7 +5,6 @@ Pelicans2k::Application.routes.draw do
   
   #Routing for the public pages
   match "/joukkue/:id" => "public_pages#teams"
-  match "/joukkueet" => "public_pages#training"
   match "/linkkeja" => "public_pages#links"
   match "/seura" => "public_pages#club"
   match "/saannot" => "public_pages#rules"
@@ -14,6 +13,10 @@ Pelicans2k::Application.routes.draw do
   match "/uutisarkisto" => "public_pages#news_archive"
   match "/paakalenteri" => "public_pages#main_calendar"
   match "/joukkueenkalenteri/:id" => "public_pages#team_calendar"
+  match "/tyttokiekko" => "public_pages#girl_hockey"
+  match "/kiekkokoulu" => "public_pages#skating_school"
+  match "/leijonakiekkokoulu" => "public_pages#lion_skating_school"
+  match "/valmennus" => "public_pages#coaching"
   
   #Routing for the private pages
   match "/kirjaudu_sisaan" => "private_pages#login"
