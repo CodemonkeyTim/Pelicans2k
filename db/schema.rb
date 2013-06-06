@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130527192430) do
+ActiveRecord::Schema.define(:version => 20130603181011) do
 
   create_table "attachments", :force => true do |t|
     t.string   "path"
@@ -60,16 +60,11 @@ ActiveRecord::Schema.define(:version => 20130527192430) do
     t.date     "date"
     t.integer  "team_id"
     t.string   "created_by"
-<<<<<<< .merge_file_yGNCBy
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.string   "display_text"
-=======
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "display_text"
     t.string   "display_activity"
     t.string   "activity_type"
->>>>>>> .merge_file_b516Xy
   end
 
   create_table "staff_members", :force => true do |t|

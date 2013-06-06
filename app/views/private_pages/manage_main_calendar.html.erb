@@ -20,6 +20,7 @@
 							<% end %>
 						</select>
 					</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th>Valitse joukkue jolle valitut tunnit varataan</th>
@@ -30,6 +31,16 @@
 								<option value="<%= team.id %>"><%= team.name %></option>
 							<% end %>
 						</select>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>Mukautetun varauksen teksti</th>
+					<td>
+						<input type="text" class="input-large" id="custom-text" placeholder="Teksti" />
+					</td>
+					<td style="width: 100px;">
+						<a class="btn btn-medium" id="custom-res-toggle-btn" onclick="toggle_custom_res('on');">Päälle</a>
 					</td>
 				</tr>
 			</tbody>
@@ -72,7 +83,8 @@
 </div>
 
 <script>
-	del_mode_is_on = false;
+	var del_mode_is_on = false;
+	var custom_res_is_on = false;
 	
 	$(document).ready(function () {
 		reserve_mode();
@@ -86,7 +98,7 @@
 		$(".reservable").unbind("click");
 		
 		$(".reservable").click(function () {
-			if ($("#save-to-team-select").val() == "0") {
+			if ($("#save-to-team-select").val() == "0" && !custom_res_is_on) {
 				show_feedback("Valitse ensin tiimi", "error", false, "main-cal-wrapper")
 				return;
 			}
@@ -99,14 +111,39 @@
 			} else {
 				if ($(this).attr("has-res") == "false") {
 					$(this).attr("class", "reservable");
-					$(this).html($("#save-to-team-select option:selected").text());
-					$(this).addClass($("#save-to-team-select option:selected").text().replace(' ', ''));
 					$(this).addClass("new-res");
-					$(this).attr("team-id", $("#save-to-team-select").val());
 					$(this).attr("select", "true");
+					
+					if (custom_res_is_on) {
+						$(this).html($("#custom-text").val());
+						$(this).addClass("custom-res");
+						$(this).attr("custom-res", "true");
+					} else {
+						$(this).html($("#save-to-team-select option:selected").text());
+						$(this).addClass($("#save-to-team-select option:selected").text().replace(' ', ''));
+						$(this).attr("team-id", $("#save-to-team-select").val());
+					}
 				}
 			}
 		});
+	}
+	
+	function toggle_custom_res(onoroff) {
+		if (onoroff == "on") {
+			custom_res_is_on = true;
+		
+			$("#custom-res-toggle-btn").html("Pois päältä");
+			$("#custom-res-toggle-btn").attr("onclick", "toggle_custom_res('off')");
+		} else if (onoroff == "off") {
+			custom_res_is_on = false;
+			
+			$("#custom-res-toggle-btn").html("Päälle");
+			$("#custom-res-toggle-btn").attr("onclick", "toggle_custom_res('on')");
+		}
+	}
+	
+	function custom_res_off() {
+		
 	}
 	
 	function del_mode() {
@@ -168,7 +205,7 @@
 					res_el.attr("data-id", res.id);
 					res_el.attr("has-res", "true");
 					
-					if (res.acticity_type == "game") {
+					if (res.activity_type == "game") {
 						res_el.html(res.display_activity);
 					} else {
 						if (id == "all") {
@@ -212,7 +249,11 @@
 			var resses = [];
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity_type: "icetime", display_activity: "Jääaika", date: $(this).attr("date-data"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")})
+				if ($(this).attr("custom-res") == undefined) {
+					resses.push({activity_type: "icetime", display_activity: "Jääaika", date: $(this).attr("date-data"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")})
+				} else {
+					resses.push({activity_type: "game", display_activity: $(this).html(), date: $(this).attr("date-data"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")})
+				}
 			});
 			 
 			$.post("/save_ice_time", JSON.stringify(resses), function (response) {
