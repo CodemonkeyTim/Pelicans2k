@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(:version => 20130527192430) do
     t.string   "starts_at"
     t.string   "day"
     t.integer  "team_id"
-    t.string   "activity"
     t.string   "created_by"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "activity_type"
   end
 
   create_table "news", :force => true do |t|
@@ -59,11 +59,17 @@ ActiveRecord::Schema.define(:version => 20130527192430) do
     t.string   "starts_at"
     t.date     "date"
     t.integer  "team_id"
-    t.string   "activity"
     t.string   "created_by"
+<<<<<<< .merge_file_yGNCBy
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "display_text"
+=======
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "display_activity"
+    t.string   "activity_type"
+>>>>>>> .merge_file_b516Xy
   end
 
   create_table "staff_members", :force => true do |t|

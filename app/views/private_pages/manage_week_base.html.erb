@@ -170,7 +170,7 @@
 			var resses = [];
 			
 			$(".reservable[select='true']").each(function() {			
-				resses.push({activity: "Jääaika", day: $(this).attr("week-day"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")});
+				resses.push({activity_type: "icetime", day: $(this).attr("week-day"), team_id: $(this).attr("team-id"), starts_at: $(this).attr("time")});
 			});
 			
 			$.post("/save_week_base", JSON.stringify(resses), function (response) {
@@ -224,11 +224,11 @@
 						if (response == "success") {
 							show_feedback("Varaukset poistettu onnistuneesti", "success", false, "main-cal-wrapper")
 							clear_table();
-							get_table_markings("all");
+							load_table_markings("all");
 						} else {
 							show_feedback("Jotain meni pieleen.", "error", false, "main-cal-wrapper")
 							clear_table();
-							get_table_markings("all");
+							load_table_markings("all");
 						}
 					}
 				);	

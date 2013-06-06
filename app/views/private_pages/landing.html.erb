@@ -1,18 +1,3 @@
-<% case current_user.role %>
-<% when "admin" then %>
-<div>
-	<h3>Uusimmat uutiset</h3>
-	<br />
-	<% @latest_news.each do |news| %>
-		<div>
-			<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
-			<h4><%= news.title %></h4>
-			<p><%= truncate(news.body, :length => 80) %></p>	
-		</div>
-	<% end%>
-	<a class="btn btn-medium"><i class="icon-edit"></i> Hallinnoi uutisia</a>
-</div>
-<% when "head_coach" then %>
 <div>
 	<h3>Uusimmat uutiset</h3>
 	<br />
@@ -24,53 +9,22 @@
 			<p><%= truncate(news.body, :length => 80) %></p>	
 		</div>
 	<% end%>
-	 
-	<a class="btn btn-medium"><i class="icon-edit"></i> Hallinnoi uutisia</a>
-</div>
 
-<% when "team_leader" then %>
-<div>
-	<h3>Team Info</h3>
+	<% case current_user.role %>	
+	<% when "admin" then %>
+		<a class="btn btn-large"><i class="icon-edit"></i> Hallinnoi uutisia</a>
+		
+	<% when "head_coach" then %>	 
+		<a class="btn btn-large"><i class="icon-edit"></i> Hallinnoi uutisia</a>
 	
-	<br />
+	<% when "team_leader" then %>
+		<a class="btn btn-large"><i class="icon-edit"></i> Hallinnoi tiimikalenteria.</a>
 	
-	<table class="table">
-	  		<tr>
-		  		<th>Pos</th>
-		  		<th>Number</th>
-		  		<th>Name</th> 
-		  		<th>Pos</th>
-		  		<th>Number</th>
-		  		<th>Name</th> 
-	  		</tr>
-	  		<tr>
-		  		<td>mv</td>
-		  		<td>11</td>
-		  		<td>Jari Nieminen</td>
-		  		<td></td>
-		  		<td>1</td>
-		  		<td>Teemu Vainio</td>
-	  		</tr>
-  		</table>
-  	
-  	
-  	  		<h4>Staff Info</h4>
-	 	<table class="table">
-		  	<tr>
-		  		<th>Staff</th>
-		  		<th>Name</th>
-		  		<th>Phone</th>  
-		  		<th>email</th>
-		   	</tr>
-		   	<tr>
-		  		<td>Team Leader</td>
-		  		<td>Mika Huopio</td>
-		  		<td>044521524</td>
-		   		<td>hupoi_Mika@gmail.com</td>
-		  	</tr> 	
-	  	</table>
-  	</div>
-<% end %>
+	<% when "coach" then %>
+		<a class="btn btn-large"><i class="icon-edit"></i> Hallinnoi tiimikalenteria.</a>
+	
+	<% end %>
+</div>
 
 <script>
 	set_private_nav("landing");
