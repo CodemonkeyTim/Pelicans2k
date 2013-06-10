@@ -65,18 +65,17 @@
 	<div class="row">
 		<div class="span12">
 			<div class="section">
-				<h5 class="centered">&copy; HMS Vuoto <a href="/kirjaudu_sisaan">KS</a></h5>
+				<h5 class="centered">
+					&copy; HMS Vuoto 
+					<% if user_signed_in? then %>
+						<a href="/landing">Hallintosivut</a>
+					<% else %>
+						<a href="/kirjaudu_sisaan">KS</a>
+					<% end %>
+					</h5>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-<script>
-	
-	
-	
-</script>
-
 </body>
 </html>
