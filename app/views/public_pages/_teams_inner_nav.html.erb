@@ -1,4 +1,6 @@
 <ul id="teams-list" class="nav nav-list">
+	<li><a href="/valmennus">Valmennustoiminta</a></li>
+	<li class="divider"></li>
 	<li class="nav-header">Valitse joukkue</li>
 	<% Team.order("name ASC").each do |team| %>
 		<li id="team_<%= team.id %>"><a href="/joukkue/<%= team.id %>"><%= team.name %></a></li>
@@ -7,6 +9,4 @@
 	<li id="tyttokiekko"><a href="/tyttokiekko">Tyttökiekkokoulu</a></li>
 	<li id="kiekkokoulu"><a href="/kiekkokoulu">Luistelukoulu</a></li>
 	<li><a href="/leijonakiekkokoulu">Leijonakiekkokoulu</a></li>
-	<li class="divider"></li>
-	<li><a href="/valmennus">Valmennustoiminta</a></li>
 </ul>
