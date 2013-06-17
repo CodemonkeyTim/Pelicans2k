@@ -5,26 +5,75 @@
 		Sisältö<br />
 		<textarea id="body" class="news-textarea"><%= @po_news.body %></textarea>
 		<br/>
+		Liitteet
+		<br />
+		<div>
+		<select class="att-selector">
+			<% if Attachment.first.nil? %>
+				<option value="0">Ei liitteit&auml;</option>
+			<% else %>
+				<option value="0">Valitse liite</option>
+			<% end %>
+			
+			<% Attachment.all.each do |att| %>
+				<option value="<%= att.id %>"><%= att.filename %></option>
+			<% end %>
+		</select>
+		<br />
 		
-		<a class="btn btn-medium" onclick="save()">Tallenna muokkaus</a>
-		<a class="btn btn-medium" onclick="reset()">Resetoi</a>
-		<a class="btn btn-medium" onclick="window.location = '/uutisten_hallinta'">Peruuta</a>
+		
+		<% unless Attachment.first.nil? %>
+			<a class="btn btn-medium" style="margin-bottom: 9px" id="add-attachment-btn">Lis&auml;&auml; liitevalinta</a>
+			<a class="btn btn-medium" style="margin-bottom: 9px" id="del-attachment-btn">Poista liitevalinta</a>
+		<% end %>
+		</div>
+		
+		<a class="btn btn-large pull-right" style="margin-left: 10px" onclick="save()">Tallenna muokkaus</a>
+		<a class="btn btn-large pull-right" style="margin-left: 10px" onclick="reset()">Resetoi</a>
+		<a class="btn btn-large pull-right" onclick="window.location = '/uutisten_hallinta'">Peruuta</a>
+		<div class="clearfix"></div>
 </div>
 
 <script>
+	var att_vals = [];
+
+	$(document).ready(function () {
+		<% if @po_news.attachments.length == 1 %>
+			set_att(<%= @po_news.attachments.first.id %>);
+		<% else  %>
+			<% if @po_news.attachments.length != 0 %>
+				<% @po_news.attachments.each do |att| %>
+					add_att_chooser_with_id(<%= att.id %>);
+					att_vals.push(<%= att.id %>);
+				<% end %>
+				del_initial_chooser();
+			<% end %>
+		<% end %>
+	});
+	
 	function reset () {
 		var title = "<%= escape_javascript @po_news.title %>";
 		var body = "<%= escape_javascript @po_news.body %>";
 		
 		$("#title").val(title);
 		$("#body").val(body);
+		
+		$.each(att_vals, function (ind, val) {
+			$($(".att-selector")[ind]).val(val);
+		});
+		
 	}
 	
 	function save () {
 		var title = $("#title").val();
 		var body = $("#body").val();
+		var attachment_ids = [];
 		
-		var po_news = {id: "<%= @po_news.id %>", title: title, body: body};
+		$(".att-selector").each(function() {
+			attachment_ids.push($(this).val());
+		});
+		
+		var po_news = {id: "<%= @po_news.id %>", title: title, body: body, attachment_ids: attachment_ids};
 		
 		$.post("/update_news", JSON.stringify(po_news), function (response) {
 			if (response == "success") {
@@ -34,6 +83,43 @@
 			}
 		});
 	}
+	
+	$("#add-attachment-btn").click(function () {
+		var node = $(".att-selector").first().clone();
 		
+		$(".att-selector").last().after(node);
+		
+		if ($(".att-selector").lenght == 1) {
+			$(".att-selector").first().after("<br />");
+		} else {
+			$(".att-selector").last().before("<br />");
+		}
+	});
+	
+	$("#del-attachment-btn").click(function () {
+		if ($(".att-selector").length == 1) {
+			return;
+		} 
+		$(".att-selector").last().next().remove();
+		$(".att-selector").last().remove();
+	});
+	
+	function add_att_chooser_with_id(id) {
+		var node = $(".att-selector").first().clone();
+		$(".att-selector").last().after(node);
+		
+		$(".att-selector").last().before("<br />");
+		
+		$(".att-selector").last().val(id);
+	}
+	
+	function set_att(id) {
+		$(".att-selector").first().val(id);
+	}
+	
+	function del_initial_chooser() {
+		$(".att-selector").first().remove();
+	}
+	
 	set_private_nav("news");
 </script>
