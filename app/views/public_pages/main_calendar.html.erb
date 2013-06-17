@@ -41,7 +41,6 @@
 			url: url,
 			cache: false,
 			success: function (resses) {
-				clear_table();
 				$.each(resses, function(i, res) {
 					var res_el = $(".reservable[date-data='" + res.date +  "'][time='" + res.starts_at + "']");
 					res_el.addClass("reserved");
