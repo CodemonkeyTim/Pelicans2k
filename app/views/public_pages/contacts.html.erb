@@ -1,13 +1,4 @@
-<div class="span2">
-	<div class="section">
-		<ul class="nav nav-stacked nav-pills">
-			<li class="active"><a href="#">Yhteystiedot</a></li>
-			<li><a href="#">Yhteistyökumppanit</a></li>
-			<li><a href="#">Strategia</a></li>
-			<li><a href="#">Edut / maksut pelaajille</a></li>
-		</ul>
-	</div>
-</div>
+<%= render :partial => "club_inner_nav" %>
 
 <div class="span8">
 	<div class="section">
@@ -57,5 +48,6 @@
 -->
 
 <script>
+	set_navbar("contacts");
 	set_navbar("club");
 </script>
