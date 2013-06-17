@@ -29,13 +29,7 @@
 	});
 	
 	function get_table_markings(id) {
-		var url = "";
-			
-		if (id == "all") {
-			url = "/get_cal_for_all?diff=<%= @diff %>";
-		} else {
-			url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
-		}
+		var url = "/get_cal_for_team?team_id=" + id + "&diff=<%= @diff %>";
 		
 		$.ajax({
 			url: url,
@@ -46,7 +40,6 @@
 					res_el.addClass("reserved");
 					res_el.attr("data-id", res.id);
 					res_el.attr("has-res", "true");
-					
 					if (res.activity_type == "game") {
 						res_el.html(res.display_activity);
 					} else {
