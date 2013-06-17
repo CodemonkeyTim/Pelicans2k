@@ -16,21 +16,55 @@
 
 <br />
 
-<table class="table">
+<table class="table" id="attachments-table">
 	<thead>
 		<tr>
 			<th>Nimi</th>
+			<th></th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<% @atts.each do |att| %>
-			<tr>
+			<tr id="att-<%= att.id %>">
 				<td><%= att.filename %></td>
 				<td>
 					<a class="btn btn-medium" onclick="del_att(<%= att.id %>)">Poista</a>
+				</td>
+				<td>
+					<% if att.news.length != 0 %>
+						<span class="label label-warning">Käytössä</span>
+					<% else %>
+						<span class="label">Ei käytössä</span>
+					<% end %>
 				</td>
 			</tr>
 		<% end %>
 	</tbody>
 </table>
+
+<script>
+	function del_att(id) {
+		if (confirm("Oletko varma että haluat poistaa tämän liitteen?")) {
+			$.ajax({
+				url: "/delete_attachment/" + id,
+				cache: false,
+				success: function (response) {
+					if (response == "success") {
+						remove_att(id);
+						show_feedback("Liite poistettu.", "success", false, "attachments-table");
+					} else {
+						show_feedback("Jotain meni pieleen", "error", false, "attachments-table");
+					}
+				}
+			});
+		}
+	}
+	
+	function remove_att(id) {
+		$("#att-" + id).fadeOut();
+		setTimeout(function () {
+			$("#att-" + id).remove();
+		}, 600)
+	}
+</script>

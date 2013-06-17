@@ -466,4 +466,18 @@ class AjaxController < ApplicationController
       render :text => "error"
     end
   end
+  
+  def delete_attachment
+    att = Attachment.find(params[:id])
+    
+    unless att
+      render :text => "error"
+    else
+      if att.delete
+        render :text => "success"
+      else
+        render :text => "error"
+      end
+    end
+  end
 end
