@@ -141,6 +141,14 @@ class AjaxController < ApplicationController
     old_po_news.edited_at = DateTime.now
     old_po_news.edited_by_id = current_user.id
     
+    old_po_news.attachments.clear
+    
+    po_news["attachment_ids"].to_a.uniq.each do |att|
+      unless att.to_i == 0
+        old_po_news.attachments.push(Attachment.find(att.to_i))
+      end
+    end
+    
     if old_po_news.save
       session[:news_update_success] = true
       render :text => "success"
