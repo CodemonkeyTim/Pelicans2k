@@ -85,4 +85,5 @@ Pelicans2k::Application.routes.draw do
   
   match "/hallitse_liitteita" => "private_pages#manage_attachments"
   match "/add_attachment" => "forms#add_attachment"
+  match "/delete_attachment" => "ajax#delete_attachment"
 end
