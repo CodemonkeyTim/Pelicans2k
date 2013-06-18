@@ -14,6 +14,10 @@
 
 /*require jquery.ui.all*/
 
+img.file-icon {
+	width: 16px !important;
+	height: 16px !important;
+}
 
 html {
 	overflow-y: scroll;
@@ -147,6 +151,3 @@ img {
 #header-th {
 
 }
-
-
-
