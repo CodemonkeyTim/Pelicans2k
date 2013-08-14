@@ -29,7 +29,7 @@
 				<div>
 					<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
 					<h4><%= news.title %></h4>
-					<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+					<p><%= truncate(news.body, :length => 360)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
 				</div>
 			<% end %>
 		</div>
