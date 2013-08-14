@@ -23,7 +23,6 @@ body {
 	padding-top: 50px;
 }
 
-
 .section {
 	border-radius: 5px;
 	padding: 10px;
@@ -58,8 +57,8 @@ body {
 }
 
 .file-icon {
-height: 16px;
-width: 16px;
+	height: 16px;
+	width: 16px;
 } 
 
 .reserved {
@@ -115,11 +114,6 @@ width: 16px;
 	padding-left: 25px;
 }
 
-.wb-table-header-row-item {
-	padding-bottom: 15px;
-	font-size: 150%;
-}
-
 #main-cal-wrapper table {
 	margin-left: 5%;
 	margin-right: 8%;
@@ -131,8 +125,9 @@ width: 16px;
 	word-wrap: break-word;
 }
 
-#main-cal-wrapper {
-	
+.wb-table-header-row-item {
+	padding-bottom: 15px;
+	font-size: 150%;	
 }
 
 #calendar-img-link:hover {

@@ -2,8 +2,14 @@
 	<thead>
 		<tr>
 			<th class="wb-table-header-row-item">Klo</th>
-			<% th_date_strs.each_with_index do |date, i| %>
-				<th class="wb-table-header-row-item"><%= "#{days[i][0..1].downcase} #{date}" %></th>
+			<% unless weekbase %>
+				<% th_date_strs.each_with_index do |date, i| %>
+					<th class="wb-table-header-row-item"><%= "#{days[i][0..1].downcase} #{date}" %></th>
+				<% end %>
+			<% else %>
+				<% th_date_strs.each_with_index do |date, i| %>
+					<th class="wb-table-header-row-item"><%= "#{days[i][0..1].downcase}" %></th>
+				<% end %>
 			<% end %>
 		</tr>
 	</thead>
