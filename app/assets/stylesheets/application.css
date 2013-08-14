@@ -23,9 +23,6 @@ body {
 	padding-top: 50px;
 }
 
-img {
-	width: 100%;
-}
 
 .section {
 	border-radius: 5px;
@@ -60,6 +57,11 @@ img {
 	margin-bottom: 10px;
 }
 
+.file-icon {
+height: 16px;
+width: 16px;
+} 
+
 .reserved {
   background-color: #FAFAFA !important;
 }
@@ -72,8 +74,8 @@ img {
   background-color: lime !important;
 }
 
-.E102 {
-	background-color: #0F0 !important;
+.E1-02 {
+	background-color: #0F0;
 }
 
 .C2-98 {
@@ -144,4 +146,20 @@ img {
 .file-icon {
 	width: 16px !important;
 	height: 16px !important;
+}
+
+#attachments-th {
+}
+
+#header-th {
+
+}
+
+.partners {
+	height: auto;
+	width: 50px;
+}
+.img {
+	height: auto;
+	width: 250px;
 }

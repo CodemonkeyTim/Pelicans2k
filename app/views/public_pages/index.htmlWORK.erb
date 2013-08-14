@@ -1,0 +1,55 @@
+<div class="span2">
+	<div class="section">
+		<h3>Tapah&shy;tumia</h3>	
+		
+		<br />
+		
+		<% @semi_latest.each do |news| %>
+			<div>
+				<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
+				<h4><%= news.title %></h4>
+				<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+			</div>
+		<% end %>
+		
+		<br />
+		
+		<a class="btn btn-medium"  href="/uutisarkisto"><i class="icon-folder-open"></i> Lisää tapahtumia</a>
+	</div>
+</div>
+
+<div class="span8">	
+	<div class="section">
+		<div class="well" id="news_wrapper">
+			<h3>Uusimmat tapahtumat</h3>
+			
+			<br />
+			
+			<% @latest_news.each do |news| %>
+				<div>
+					<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
+					<h4><%= news.title %></h4>
+					<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<div class="span2">
+	<div class="section">
+		<h3>Seuran jää&shy;kalenteri</h3>
+		
+		<img src="assets/cal_logo.png" alt="Icetime calendar link logo" id="calendar-img-link" onclick="window.location='/paakalenteri'" />
+		
+		<h3>Yhteis&shy;työssä</h3>
+      <p><img src="pics/lamminOP.png" alt="Sponsored by Lammin OP" /></p>
+      <p><br />
+        <img src="assets/if.gif" alt="Sponsored by IF" width="32" height="32" id="sponsor-img-if" /><br />
+      </p>
+</div>
+</div>
+
+<script>	
+	set_navbar("index");
+</script>
