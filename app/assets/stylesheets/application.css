@@ -141,16 +141,7 @@ img {
 	cursor: pointer;
 }
 
-#attachments-th {
-}
-
-#header-th {
-
-}
-
-/* Custom tyylejä tähän alle */
-
-img.file-icon {
+.file-icon {
 	width: 16px !important;
 	height: 16px !important;
 }
