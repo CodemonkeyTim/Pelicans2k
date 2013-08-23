@@ -59,7 +59,8 @@ class AjaxController < ApplicationController
     
     resses.each do |res|
       if res.activity_type == "icetime" || res.activity_type == "game"
-        existing_res = Reservation.find_by_date_and_starts_at(res.date, res.starts_at)
+        existing_res = Reservation.find_by_date_and_starts_at_and_activity_type(res.date, res.starts_at, "icetime")
+        existing_res = Reservation.find_by_date_and_starts_at_and_activity_type(res.date, res.starts_at, "game")
       else
         existing_res = Reservation.find_by_date_and_starts_at_and_team_id(res.date, res.starts_at, res.team_id)
       end
@@ -441,7 +442,7 @@ class AjaxController < ApplicationController
   end
   
   def clear_week_base
-    #Where clause was left in case teams could make their weekbases, too.
+    #Where clause was left in case teams could make their own weekbases, too.
     resses = BaseReservation.where(:activity_type => "icetime")
     
     resses.each do |res|
