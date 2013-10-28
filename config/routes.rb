@@ -21,6 +21,7 @@ Pelicans2k::Application.routes.draw do
   match "/kumppanit" => "public_pages#partners"
   match "/edutmaksut" => "public_pages#feesnbenefits"
   match "/strategia" => "public_pages#strategy"
+  match "/materials" => "public_pages#materials"
   
   #Routing for the private pages
   match "/kirjaudu_sisaan" => "private_pages#login"

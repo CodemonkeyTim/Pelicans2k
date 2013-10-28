@@ -1,3 +1,4 @@
+<link href="../assets/application.css" rel="stylesheet" type="text/css" />
 <div class="span12">
 	<div class="section">
 		<h2 class="centered-text">P&auml;&auml;kalenteri</h2>
@@ -17,7 +18,7 @@
 		<br />
 		
 		<div id="main-cal-wrapper">
-			<%= render :partial => "private_pages/cal_table", :locals => {:th_date_strs => @th_date_strs, :date_strs => @date_strs, :days => @days}%>
+			<%= render :partial => "private_pages/cal_table", :locals => {:th_date_strs => @th_date_strs, :date_strs => @date_strs, :days => @days, :weekbase => false}%>
 		</div>
 	</div>
 </div>

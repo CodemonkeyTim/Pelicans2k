@@ -14,6 +14,11 @@
 
 /*require jquery.ui.all*/
 
+@media (max-width: 710px) {
+  .span1, .span2, .span3, .span4, .span5, .span6, .span7, .span8, .span9, .span10, .span11, .span12 {
+    margin-bottom: 10px !important;
+  } 
+}
 
 html {
 	overflow-y: scroll;
@@ -21,10 +26,6 @@ html {
 
 body {
 	padding-top: 50px;
-}
-
-img {
-	width: 100%;
 }
 
 .section {
@@ -60,6 +61,11 @@ img {
 	margin-bottom: 10px;
 }
 
+.file-icon {
+	height: 16px;
+	width: 16px;
+} 
+
 .reserved {
   background-color: #FAFAFA !important;
 }
@@ -70,6 +76,10 @@ img {
 
 .BJunnut {
   background-color: lime !important;
+}
+
+.E1-02 {
+	background-color: #0F0;
 }
 
 .C2-98 {
@@ -109,10 +119,7 @@ img {
 	padding-left: 25px;
 }
 
-.wb-table-header-row-item {
-	padding-bottom: 15px;
-	font-size: 150%;
-}
+/* Lol */
 
 #main-cal-wrapper table {
 	margin-left: 5%;
@@ -125,8 +132,9 @@ img {
 	word-wrap: break-word;
 }
 
-#main-cal-wrapper {
-	
+.wb-table-header-row-item {
+	padding-bottom: 15px;
+	font-size: 150%;	
 }
 
 #calendar-img-link:hover {
@@ -137,6 +145,11 @@ img {
 	cursor: pointer;
 }
 
+.file-icon {
+	width: 16px !important;
+	height: 16px !important;
+}
+
 #attachments-th {
 }
 
@@ -144,5 +157,17 @@ img {
 
 }
 
+.partners {
+	height: auto;
+	width: 50px;
+}
+.img {
+	height: auto;
+	width: 250px;
+}
 
-
+@media all and (max-width: 960px) {
+	.date-pointer {
+		display: none;
+	}
+}

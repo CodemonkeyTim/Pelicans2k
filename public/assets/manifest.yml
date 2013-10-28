@@ -3,12 +3,10 @@ LUISTELU_JA_KIEKKOKOULUN_SYKSYN_LOPPUOHJELMA.pdf: LUISTELU_JA_KIEKKOKOULUN_SYKSY
 banneri.png: banneri-371e58cf73085c2f07d308804ece52f5.png
 cal_logo.png: cal_logo-8d881d9019ea43fb4981edb3424576c6.png
 ice.jpg: ice-2044e833d8c73b66125005baa9dc3f17.jpg
-if.gif: if-6406480e70ad6d6e13d0f587d7fcf85f.gif
 rails.png: rails-be8732dac73d845ac5b142c8fb5f9fb0.png
-sponssit.gif: sponssit-65a04f0c1dc474f9a7bd0092dd4aa45b.gif
 yla.jpg: yla-a86488ea4ac16900cacbb013683f7e03.jpg
 application.js: application-ec945da264fd50b04f83bfa534f82eb8.js
-application.css: application-a15ab205b92afd8c1e71b70ce9032352.css
+application.css: application-bf6ca144467796c19d23668177cae186.css
 jquery-ui/animated-overlay.gif: jquery-ui/animated-overlay-691b2d4343303de8d214ad5395fd895d.gif
 jquery-ui/ui-bg_flat_0_aaaaaa_40x100.png: jquery-ui/ui-bg_flat_0_aaaaaa_40x100-a1eb3e0764573ed4b261ca742ed96ac3.png
 jquery-ui/ui-bg_flat_75_ffffff_40x100.png: jquery-ui/ui-bg_flat_75_ffffff_40x100-841636c8f8d33987bb8d2f31e8ef92ca.png
