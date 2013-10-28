@@ -48,3 +48,4 @@ gem 'capistrano'
 # gem 'debugger'
 
 gem 'rb-readline', '~> 0.4.2'
+gem 'devise-encryptable'
