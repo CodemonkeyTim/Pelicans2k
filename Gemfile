@@ -47,4 +47,4 @@ gem 'capistrano'
 # To use debugger
 # gem 'debugger'
 
-gem 'rb-readline'
+gem 'rb-readline', '~> 0.4.2'

@@ -14,7 +14,7 @@
 		</p>
 		
 		<p>
-			<%= @news.body %>
+			<%= raw @news.formatted_body %>
 		</p>
 		
 		<% unless @news.attachments.length == 0 %>
