@@ -14,6 +14,10 @@ class PublicPagesController < ApplicationController
     
   end
   
+  def equipment_market
+    
+  end
+  
   def lion_skating_school
     
   end
