@@ -9,9 +9,6 @@ Devise.setup do |config|
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
 
-  # Automatically apply schema changes in tableless databases
-  config.apply_schema = false
-
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
@@ -101,6 +98,8 @@ Devise.setup do |config|
   # unconfirmed email column, and copied to email column on successful confirmation.
   config.reconfirmable = true
 
+  config.secret_key = 'e78750446192f7e0f3c7769154264cffd65700939f0e582965d8aeede8652aba28f4ed1663c92dfb8c1cf2b5ba793aa61da94d02adb3a79aada0d01670751f7d'
+
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [ :email ]
 
@@ -110,10 +109,6 @@ Devise.setup do |config|
 
   # If true, extends the user's remember period when remembered via cookie.
   # config.extend_remember_period = false
-
-  # If true, uses the password salt as remember token. This should be turned
-  # to false if you are not using database authenticatable.
-  config.use_salt_as_remember_token = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # :secure => true in order to force SSL only cookies.
