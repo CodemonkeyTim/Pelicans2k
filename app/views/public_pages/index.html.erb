@@ -29,7 +29,7 @@
 				<div>
 					<span class="news-date"><%= news.published_at.strftime("%d.%m.%Y") %></span>
 					<h4><%= news.title %></h4>
-					<p><%= truncate(news.body, :length => 360)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
+					<p><%= truncate(news.body, :length => 80)%> <br /> <a href="/uutinen/<%= news.id %>">Lue lisää</a></p>
 				</div>
 			<% end %>
 		</div>
@@ -45,7 +45,7 @@
 		<h3>Yhteis&shy;työssä	</h3>
       <p><img src="pics/lamminOP.png" alt="Sponsored by Lammin OP" /></p>
       <p><img src="pics/bauer.jpg" alt="Sponsored by Bauer" /></p>
-      </p><img src="assets/if.gif" alt="Sponsored by IF" width="32" height="32" id="sponsor-img-if" /></p>
+      </p><img src="pics/if.gif" alt="Sponsored by IF" width="32" height="32" id="sponsor-img-if" /></p>
 </div>
 </div>
 
