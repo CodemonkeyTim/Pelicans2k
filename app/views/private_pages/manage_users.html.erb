@@ -24,7 +24,7 @@
 				<td><%= translate_role(user.role) %></td>
 				<td><%= user.f_name %></td>
 				<td><%= user.l_name %></td>
-				<td><%= unless user.team_id == 0 then if (team = Team.find(user.team_id)).nil? then "-" else team.name end else "-" end %></td>
+				<td><%= unless user.team_id == 0 then if (team = Team.find_by_id(user.team_id)).nil? then "-" else team.name end else "-" end %></td>
 				<td>
 					<a class="btn btn-medium" href="/muokkaa_kayttajaa/<%= user.id %>">Muokkaa</a>
 					<a class="btn btn-medium" href="/uusi_salasana/<%= user.id %>">Uusi salasana</a>

@@ -165,7 +165,7 @@ class PrivatePagesController < ApplicationController
   end
   
   def manage_users
-    
+    @all_teams = Team.all
   end
   
   def edit_user
