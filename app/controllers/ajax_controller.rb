@@ -38,14 +38,7 @@ class AjaxController < ApplicationController
       if res.activity_type == "game"
         resses_json.push({id: res.id, display_activity: res.display_activity, starts_at: res.starts_at, date: res.date, activity_type: res.activity_type})
       else
-        team = Team.where(:id => res.team_id)
-        teamName = ""
-        
-        unless team.nil
-          teamName = team.first.name
-        end
-        
-        resses_json.push({id: res.id, display_activity: res.display_activity, starts_at: res.starts_at, date: res.date, team_name: teamName, activity_type: res.activity_type})  
+        resses_json.push({id: res.id, display_activity: res.display_activity, starts_at: res.starts_at, date: res.date, team_name: Team.find(res.team_id).name, activity_type: res.activity_type})  
       end
       
     end
