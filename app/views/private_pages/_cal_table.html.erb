@@ -27,6 +27,14 @@
 					<td class="reservable" date-data="<%= date %>" week-day="<%= days[j][0..1].downcase %>" has-res="false" select="false" time="<%= i %>:30"></td>	
 				<% end %>
 			</tr>
+			
+			<% if i == 16 %>
+				</tbody>
+				
+				<div class="page-break"></div>
+				
+				<tbody>
+			<% end %>
 		<% end %>
 	</tbody>
 </table>

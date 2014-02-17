@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130606204311) do
+ActiveRecord::Schema.define(:version => 20131028042735) do
 
   create_table "attachments", :force => true do |t|
     t.string   "path"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(:version => 20130606204311) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.string   "activity_type"
+  end
+
+  create_table "craigslist_items", :force => true do |t|
+    t.string   "date"
+    t.string   "contactName"
+    t.string   "number"
+    t.text     "textBody"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "news", :force => true do |t|
