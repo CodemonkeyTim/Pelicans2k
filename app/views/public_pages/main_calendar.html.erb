@@ -1,4 +1,33 @@
 <link href="../assets/application.css" rel="stylesheet" type="text/css" />
+
+<style>
+	@media print {
+		div {
+			float: none !important;
+		}
+		
+		.header-container, .footer-row, .btn-row {
+			display: none;
+		}
+		
+		br.no-print {
+			display: none;
+		}
+		
+		tbody {
+			page-break-after: always !important;
+		}
+		
+		td {
+			background: gray !important;
+		}
+		
+		td.reserved {
+			background: white !important;
+		}
+	}
+</style>
+
 <div class="span12">
 	<div class="section">
 		
@@ -8,15 +37,15 @@
 		<br />
 		<br />
 		
-		<div>
+		<div class="btn-row">
 			<a class="btn btn-medium pull-left" onclick="prev();"><i class="icon-arrow-left"></i> Edellinen viikko</a>
 			<a class="btn btn-medium center-button" onclick="curr();">Nykyinen</a>
 			<a class="btn btn-medium pull-right" onclick="next();">Seuraava viikko <i class="icon-arrow-right"></i></a>
 		</div>
 		
-		<br />
-		<br />
-		<br />
+		<br class="no-print" />
+		<br class="no-print" />
+		<br class="no-print" />
 		
 		<div id="main-cal-wrapper">
 			<%= render :partial => "private_pages/cal_table", :locals => {:th_date_strs => @th_date_strs, :date_strs => @date_strs, :days => @days, :weekbase => false}%>
