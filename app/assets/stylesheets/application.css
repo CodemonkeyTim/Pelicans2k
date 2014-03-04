@@ -14,6 +14,14 @@
 
 /*require jquery.ui.all*/
 
+@media all {
+	.page-break	{ display: none; }
+}
+
+@media print {
+	.page-break	{ display: block; page-break-before: always; }
+}
+
 @media (max-width: 710px) {
   .span1, .span2, .span3, .span4, .span5, .span6, .span7, .span8, .span9, .span10, .span11, .span12 {
     margin-bottom: 10px !important;
