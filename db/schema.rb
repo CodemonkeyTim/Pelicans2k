@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131028042735) do
+ActiveRecord::Schema.define(:version => 20140303234356) do
 
   create_table "attachments", :force => true do |t|
     t.string   "path"
@@ -90,9 +90,10 @@ ActiveRecord::Schema.define(:version => 20131028042735) do
   create_table "teams", :force => true do |t|
     t.string   "name"
     t.string   "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "homepage"
+    t.string   "picture_url"
   end
 
   create_table "users", :force => true do |t|

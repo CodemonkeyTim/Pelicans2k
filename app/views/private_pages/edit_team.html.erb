@@ -5,6 +5,7 @@
 		<th>Nimi</th>
 		<th>Koodi</th>
 		<th>Kotisivu</th>
+		<th>Joukkuekuva</th>
 		<td></td>
 	</tr>
 	
@@ -12,6 +13,7 @@
 		<td><input type="text" class="input-small" value="<%= @team.name %>" /></td>
 		<td><input type="text" class="input-medium" value="<%= @team.code %>" /></td>
 		<td><input type="text" class="input-medium" value="<%= @team.homepage %>" /></td>
+		<td><input type="text" class="input-medium" value="<%= @team.picture_url %>" /></td>
 	</tr>
 </table>
 
@@ -22,7 +24,7 @@
 
 <script>
 	function reset () {
-		var values = ["<%= @team.name %>", "<%= @team.code %>"];
+		var values = ["<%= @team.name %>", "<%= @team.code %>", "<%= @team.homepage %>", "<%= @team.picture_url %>"];
 		var i = 0;
 		
 		$("#data-row").find("input").each(function() {
@@ -38,7 +40,7 @@
 			values.push($(this).val());
 		});
 		
-		var player = {id: "<%= @team.id %>", name: values[0], code: values[1], homepage: values[2]};
+		var player = {id: "<%= @team.id %>", name: values[0], code: values[1], homepage: values[2], picture_url: values[3]};
 		
 		$.post("/update_team", JSON.stringify(player), function (response) {
 			if (response == "success") {
