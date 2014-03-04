@@ -6,6 +6,8 @@
 			<th>Nimi</th>
 			<th>Koodi</th>
 			<th>Kotisivu</th>
+			<th>Joukkuekuva</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -14,6 +16,7 @@
 				<td><%= team.name %></td>
 				<td><%= team.code %></td>
 				<td><%= team.homepage %></td>
+				<td><%= team.picture_url %></td>
 				<td>
 					<a class="btn btn-medium" href="/muokkaa_joukkuetta/<%= team.id %>" >Muokkaa</a>
 					<a class="btn btn-medium" onclick="del_team('<%= team.id %>')">Poista</a>
@@ -31,6 +34,8 @@
 				<th>Nimi</th>
 				<th>Koodi</th>
 				<th>Kotisivu</th>
+				<th>Joukkuekuva</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -38,6 +43,7 @@
 				<td><input type="text" id="new-team-name" class="input-medium" placeholder="nimi"/></td>
 				<td><input type="text" id="new-team-code" class="input-medium" placeholder="koodi"/></td>
 				<td><input type="text" id="new-team-homepage" class="input-medium" placeholder="kotisivu"/></td>
+				<td><input type="text" id="new-team-picture-url" class="input-medium" placeholder="joukkuekuvan url"/></td>
 				<td><a class="btn btn-medium" onclick="create_team()">Tallenna</a></td>
 			</tr>
 		</tbody>
@@ -73,7 +79,8 @@
 		var name = $("#new-team-name").val();
 		var code = $("#new-team-code").val();
 		var homepage = $("#new-team-homepage").val();
-		var team = {name: name, code: code, homepage: homepage}
+		var picture_url = $("#new-team-picture-url").val();
+		window.team = {name: name, code: code, homepage: homepage, picture_url: picture_url}
 		
 		if (name != "" && code != "") {
 			$.post("/create_team", JSON.stringify(team), function (response) {
@@ -85,6 +92,7 @@
 									<td>" + response.name + "</td>\
 									<td>" + response.code + "</td>\
 									<td>" + response.homepage + "</td>\
+									<td>" + response.picture_url + "</td>\
 									<td>\
 										<a class='btn btn-medium' href='/muokkaa_joukkuetta/" + response.id + "' >Muokkaa</a>\
 										<a class='btn btn-medium' onclick='del_team(" + response.id + ")'>Poista</a>\
